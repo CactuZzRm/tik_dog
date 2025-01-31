@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../auth_views_page/auth_views_page.dart';
+import '../auth_information_page/auth_information_page.dart';
 import '../rating_page/rating_page.dart';
 
 class FriendsPage extends StatelessWidget {
@@ -55,7 +55,7 @@ class FriendsPage extends StatelessWidget {
               Spacer(),
               Text(
                 'Invite friends',
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: 27,
                   fontWeight: FontWeight.bold,
                   height: 1.23,
@@ -108,7 +108,7 @@ class InviteFriendsDescription extends StatelessWidget {
               ),
               child: Text(
                 '10%',
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.w500,

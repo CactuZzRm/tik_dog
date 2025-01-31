@@ -8,8 +8,9 @@ import 'package:tik_dog/themes.dart';
 import 'pages/accept_offer_details_page/accept_offer_details_page.dart';
 import 'pages/accept_offer_details_page/denied_offer_details_page.dart';
 import 'pages/auth_page/auth_page.dart';
-import 'pages/auth_views_page/auth_views_page.dart';
+import 'pages/auth_information_page/auth_information_page.dart';
 import 'pages/friends_page/friends_page.dart';
+import 'pages/init_loading_page/init_loading_page.dart';
 import 'pages/offers_page/offers_page.dart';
 import 'pages/rating_page/rating_page.dart';
 import 'pages/tabs_page/tabs_page.dart';
@@ -45,26 +46,40 @@ final _router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => AuthPage(),
+      builder: (context, state) => InitLoadingPage(),
       routes: [
         GoRoute(
-          path: '/loading',
-          name: 'loading',
-          builder: (context, state) => AuthLoadingPage(isTikTok: state.extra as bool? ?? false),
+          path: '/auth',
+          name: 'Auth',
+          builder: (context, state) => AuthPage(),
           routes: [
             GoRoute(
-              path: '/auth_staatistic_page',
-              name: 'AuthStatisticPage',
-              builder: (context, state) => AuthStatisticPage(),
-            ),
-            GoRoute(
-              path: '/auth_views_page',
-              name: 'AuthViewsPage',
-              builder: (context, state) => AuthViewsPage(),
+              path: '/loading',
+              name: 'Loading',
+              builder: (context, state) {
+                print(state.extra);
+                return AuthLoadingPage(isTikTok: state.extra as bool? ?? false);
+              },
             ),
           ],
         ),
       ],
+    ),
+    GoRoute(
+        path: '/auth_staatistic_page',
+        name: 'AuthStatisticPage',
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+
+          return AuthStatisticPage(
+            buttonRedirectPageName: extra['buttonRedirectPageName'] as String?,
+            buttonText: extra['buttonText'] as String,
+          );
+        }),
+    GoRoute(
+      path: '/auth_information_page',
+      name: 'AuthInformationPage',
+      builder: (context, state) => AuthInformationPage(),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, child) => TabsPage(navigationShell: child),

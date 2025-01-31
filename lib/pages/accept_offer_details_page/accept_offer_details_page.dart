@@ -11,10 +11,10 @@ import 'dart:math' as math;
 
 import '../../constants.dart';
 import '../auth_statistic_page/auth_statistic_page.dart';
-import '../auth_views_page/auth_views_page.dart';
+import '../auth_information_page/auth_information_page.dart';
 
 class AcceptOfferDetailsPage extends StatefulWidget {
-  AcceptOfferDetailsPage({super.key});
+  const AcceptOfferDetailsPage({super.key});
 
   @override
   State<AcceptOfferDetailsPage> createState() => _AcceptOfferDetailsPageState();
@@ -60,16 +60,19 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                   const SizedBox(height: 24),
                   Text(
                     'Fill in your details to receive the briffrom Amazon sellers',
-                    style: TextStyle(
-                      fontSize: 27,
-                      fontWeight: FontWeight.bold,
-                      height: 1.36,
-                    ),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontSize: 27,
+                          fontWeight: FontWeight.bold,
+                          height: 1.36,
+                        ),
                   ),
                   const SizedBox(height: 36),
                   Text(
                     '🏳️ Country',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
                   DropdownButtonHideUnderline(
@@ -80,11 +83,16 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                           Expanded(
                             child: Text(
                               'Not selected',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).extension<CustomThemeData>()!.offersAcceptEmailHintColor!,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Theme.of(context)
+                                        .extension<CustomThemeData>()!
+                                        .offersAcceptEmailHintColor!,
+                                  ),
                             ),
                           ),
                         ],
@@ -94,10 +102,13 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                                 value: item,
                                 child: Text(
                                   item,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                 ),
                               ))
                           .toList(),
@@ -117,7 +128,9 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: Theme.of(context).extension<CustomThemeData>()!.offersAcceptEmailHintColor!,
+                            color: Theme.of(context)
+                                .extension<CustomThemeData>()!
+                                .offersAcceptEmailHintColor!,
                           ),
                           color: Colors.transparent,
                         ),
@@ -153,15 +166,23 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                   SizedBox(height: 36),
                   Text(
                     '😎 Email',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 15),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 17,
+                      horizontal: 15,
+                    ),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Theme.of(context).extension<CustomThemeData>()!.offersAcceptEmailHintColor!,
+                        color: Theme.of(context)
+                            .extension<CustomThemeData>()!
+                            .offersAcceptEmailHintColor!,
                       ),
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -175,6 +196,9 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                         hintStyle: TextStyle(
                           fontSize: 14,
                           height: 1,
+                          color: Theme.of(context)
+                              .extension<CustomThemeData>()!
+                              .offersAcceptEmailHintColor!,
                         ),
                         border: InputBorder.none,
                       ),
@@ -221,9 +245,6 @@ class CongratulationsBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Container(
-        //   color: Colors.red,
-        // ),
         BackdropFilter(
           filter: ImageFilter.blur(
             sigmaX: 7.0,
@@ -237,10 +258,8 @@ class CongratulationsBottomSheet extends StatelessWidget {
           child: Container(
             width: double.infinity,
             height: MediaQuery.of(context).size.height * 0.6,
-            // height: 100,
             decoration: BoxDecoration(
               color: Theme.of(context).splashColor,
-              // color: Colors.red,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
@@ -266,31 +285,34 @@ class CongratulationsBottomSheet extends StatelessWidget {
                 Expanded(
                   child: Stack(
                     children: [
-                      Positioned(
-                        right: -30,
-                        bottom: 49,
-                        child: Image.asset(
-                          fit: BoxFit.cover,
-                          AdaptiveTheme.of(context).mode.isDark
-                              ? 'assets/images/BlueTorch.png'
-                              : 'assets/images/RedTorch.png',
+                      ...[
+                        Positioned(
+                          right: -30,
+                          bottom: 49,
+                          child: Image.asset(
+                            fit: BoxFit.cover,
+                            AdaptiveTheme.of(context).mode.isDark
+                                ? 'assets/images/BlueTorch.png'
+                                : 'assets/images/RedTorch.png',
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        bottom: 66,
-                        child: Image.asset(
-                          height: 358,
-                          fit: BoxFit.cover,
-                          // 'assets/images/TikTokSymbolCongr.png',
-                          '${selectedSymbol}Congr.png',
+                        Positioned(
+                          right: 0,
+                          bottom: 66,
+                          child: Image.asset(
+                            height: 358,
+                            fit: BoxFit.cover,
+                            // 'assets/images/TikTokSymbolCongr.png',
+                            '${selectedSymbol}Congr.png',
+                          ),
                         ),
-                      ),
-                      Positioned(
-                        bottom: 240,
-                        right: 120,
-                        child: Image.asset('${selectedSymbol}AcceptOfferCongrLogo.png'),
-                      ),
+                        Positioned(
+                          bottom: 240,
+                          right: 120,
+                          child: Image.asset(
+                              '${selectedSymbol}AcceptOfferCongrLogo.png'),
+                        ),
+                      ],
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Container(
@@ -301,8 +323,12 @@ class CongratulationsBottomSheet extends StatelessWidget {
                               end: Alignment.topCenter,
                               tileMode: TileMode.decal,
                               colors: [
-                                Theme.of(context).extension<CustomThemeData>()!.offersAcceptGradientFirstColor!,
-                                Theme.of(context).extension<CustomThemeData>()!.offersAcceptGradientSecondColor!,
+                                Theme.of(context)
+                                    .extension<CustomThemeData>()!
+                                    .offersAcceptGradientFirstColor!,
+                                Theme.of(context)
+                                    .extension<CustomThemeData>()!
+                                    .offersAcceptGradientSecondColor!,
                               ],
                             ),
                           ),
@@ -319,19 +345,27 @@ class CongratulationsBottomSheet extends StatelessWidget {
                             AdaptiveTheme.of(context).mode.isDark
                                 ? Text(
                                     'Congratulations',
-                                    style: TextStyle(
-                                      fontSize: 27,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromRGBO(255, 29, 101, 1),
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontSize: 27,
+                                          fontWeight: FontWeight.bold,
+                                          color:
+                                              Color.fromRGBO(255, 29, 101, 1),
+                                        ),
                                   )
                                 : GradientedText(
                                     text: 'Congratulations',
-                                    textStyle: TextStyle(
-                                      fontSize: 27,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color.fromRGBO(255, 29, 101, 1),
-                                    ),
+                                    textStyle: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontSize: 27,
+                                          fontWeight: FontWeight.bold,
+                                          color:
+                                              Color.fromRGBO(255, 29, 101, 1),
+                                        ),
                                   ),
                             const SizedBox(height: 25),
                             Row(
@@ -340,25 +374,30 @@ class CongratulationsBottomSheet extends StatelessWidget {
                                   angle: -24.87 * math.pi / 180,
                                   child: Text(
                                     '🥳',
-                                    style: TextStyle(
-                                      fontSize: 36,
-                                      fontWeight: FontWeight.w600,
-                                      height: 1.2,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontSize: 36,
+                                          fontWeight: FontWeight.w600,
+                                          height: 1.2,
+                                        ),
                                   ),
                                 ),
                                 const SizedBox(width: 10),
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.6,
-                                  child: Expanded(
-                                    child: Text(
-                                      'Wait for the brief from the advertiser',
-                                      style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w400,
-                                        height: 1.21,
-                                      ),
-                                    ),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
+                                  child: Text(
+                                    'Wait for the brief from the advertiser',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          height: 1.21,
+                                        ),
                                   ),
                                 ),
                               ],
@@ -368,11 +407,14 @@ class CongratulationsBottomSheet extends StatelessWidget {
                               width: MediaQuery.of(context).size.width * 0.6,
                               child: Text(
                                 'You will receive a notification by email',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  height: 1.28,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.28,
+                                    ),
                               ),
                             ),
                             const SizedBox(height: 22),
@@ -385,16 +427,20 @@ class CongratulationsBottomSheet extends StatelessWidget {
                                 color: Theme.of(context).highlightColor,
                                 borderRadius: BorderRadius.circular(10),
                                 border: AdaptiveTheme.of(context).mode.isLight
-                                    ? Border.all(color: Color.fromRGBO(225, 225, 225, 1))
+                                    ? Border.all(
+                                        color: Color.fromRGBO(225, 225, 225, 1))
                                     : null,
                               ),
                               child: Text(
                                 '11111111@1111.11',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.2,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.2,
+                                    ),
                               ),
                             ),
                             const SizedBox(height: 35),
@@ -403,7 +449,8 @@ class CongratulationsBottomSheet extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: ActionButton(
-                                onPressed: () => debugPrint('PLACEHOLDER: CLICK'),
+                                onPressed: () =>
+                                    debugPrint('PLACEHOLDER: CLICK'),
                                 text: 'Ok',
                                 backgroundColor: Colors.transparent,
                               ),

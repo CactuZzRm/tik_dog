@@ -79,7 +79,7 @@ class UserRating extends StatelessWidget {
                         child: Text(
                           name[0] + name[1],
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                           ),
@@ -95,12 +95,12 @@ class UserRating extends StatelessWidget {
             children: [
               Text(
                 name,
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 15, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 14),
               Text(
                 desc,
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: descFontSize ?? 15,
                   fontWeight: FontWeight.w400,
                   color: Color.fromRGBO(122, 122, 122, 1),
@@ -111,7 +111,7 @@ class UserRating extends StatelessWidget {
           Spacer(),
           Text(
             rating,
-            style: TextStyle(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               fontSize: ratingFontSize ?? 32,
               fontWeight: FontWeight.bold,
             ),
@@ -136,7 +136,7 @@ class TopRatingTitle extends StatelessWidget {
         children: [
           Text(
             '14.4M creators',
-            style: TextStyle(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               fontSize: 17,
               fontWeight: FontWeight.bold,
               height: 1.28,
@@ -144,7 +144,7 @@ class TopRatingTitle extends StatelessWidget {
           ),
           Text(
             'Updating 1 time a day',
-            style: TextStyle(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               fontSize: 17,
               fontWeight: FontWeight.w400,
               height: 1.28,
@@ -200,7 +200,7 @@ class ProfileRating extends StatelessWidget {
                         child: Text(
                           'You',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 15,
                             fontWeight: FontWeight.w500,
                             color: Colors.white,
@@ -217,7 +217,7 @@ class ProfileRating extends StatelessWidget {
             children: [
               Text(
                 'You',
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
                   color: Colors.white,
@@ -226,7 +226,7 @@ class ProfileRating extends StatelessWidget {
               const SizedBox(height: 14),
               Text(
                 desc,
-                style: TextStyle(
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
                   color: Theme.of(context).textTheme.bodySmall!.color,
@@ -237,7 +237,7 @@ class ProfileRating extends StatelessWidget {
           Spacer(),
           Text(
             rating,
-            style: TextStyle(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               fontSize: 15,
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -259,7 +259,7 @@ class EmptyCreators extends StatelessWidget {
     return Center(
       child: Text(
         'Ждите обновления участников 1 марта',
-        style: TextStyle(
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
           fontSize: 17,
           fontWeight: FontWeight.bold,
           height: 1.28,

@@ -2,14 +2,19 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tik_dog/pages/auth_views_page/auth_views_page.dart';
+import 'package:tik_dog/pages/auth_information_page/auth_information_page.dart';
 import 'package:tik_dog/themes.dart';
 
 import '../../constants.dart';
 
 class TabsPage extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
-  final List<String> headerTitle = ['Offers', 'Top Creators', 'Invite friends', 'Wallet'];
+  final List<String> headerTitle = [
+    'Offers',
+    'Top Creators',
+    'Invite friends',
+    'Wallet'
+  ];
 
   TabsPage({super.key, required this.navigationShell});
 
@@ -30,6 +35,7 @@ class TabsPage extends StatelessWidget {
             ),
           Expanded(child: navigationShell),
           BottomNavBar(navigationShell: navigationShell),
+          SizedBox(height: MediaQuery.of(context).padding.bottom),
         ],
       ),
     );
@@ -143,10 +149,14 @@ class _TabsHeaderState extends State<TabsHeader> {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
             decoration: BoxDecoration(
-              color: Theme.of(context).extension<CustomThemeData>()!.tabsHeaderSocialNetworkBackgroundColor!,
+              color: Theme.of(context)
+                  .extension<CustomThemeData>()!
+                  .tabsHeaderSocialNetworkBackgroundColor!,
               borderRadius: BorderRadius.circular(145),
               border: Border.all(
-                color: Theme.of(context).extension<CustomThemeData>()!.tabsHeaderSocialNetworkBorderColor!,
+                color: Theme.of(context)
+                    .extension<CustomThemeData>()!
+                    .tabsHeaderSocialNetworkBorderColor!,
               ),
             ),
             child: Row(
@@ -172,7 +182,9 @@ class _TabsHeaderState extends State<TabsHeader> {
                       height: 13,
                       color: isTikTokSelect
                           ? Colors.white
-                          : Theme.of(context).extension<CustomThemeData>()!.tabsHeaderSocialNetworkUnselectedIconColor!,
+                          : Theme.of(context)
+                              .extension<CustomThemeData>()!
+                              .tabsHeaderSocialNetworkUnselectedIconColor!,
                     ),
                   ),
                 ),
@@ -197,7 +209,9 @@ class _TabsHeaderState extends State<TabsHeader> {
                       height: 13,
                       color: !isTikTokSelect
                           ? Colors.white
-                          : Theme.of(context).extension<CustomThemeData>()!.tabsHeaderSocialNetworkUnselectedIconColor!,
+                          : Theme.of(context)
+                              .extension<CustomThemeData>()!
+                              .tabsHeaderSocialNetworkUnselectedIconColor!,
                     ),
                   ),
                 ),
@@ -240,7 +254,8 @@ class _BotttomNavBarItemState extends State<BotttomNavBarItem> {
             widget.navigationShell.currentIndex != widget.index
                 ? 'assets/icons/${widget.iconUrl}'
                 : 'assets/icons/Insta${widget.iconUrl}',
-            color: AdaptiveTheme.of(context).mode.isDark && widget.navigationShell.currentIndex == widget.index
+            color: AdaptiveTheme.of(context).mode.isDark &&
+                    widget.navigationShell.currentIndex == widget.index
                 ? Color.fromRGBO(255, 29, 101, 1)
                 : null,
           ),

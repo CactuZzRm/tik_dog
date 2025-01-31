@@ -1,4 +1,3 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -9,94 +8,84 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 34),
-            Text(
-              'Chose your App\nCheck your Star',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.225,
-              ),
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: MediaQuery.of(context).padding.top + 27),
+          SvgPicture.asset(
+            'assets/icons/BIGpie.svg',
+            width: 171,
+            height: 70,
+          ),
+          const SizedBox(height: 22),
+          Text(
+            'Chose your App\nCheck your Star',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.134,
+                ),
+          ),
+          Expanded(
+            child: Stack(
+              children: [
+                SizedBox(width: double.infinity),
+                Positioned(
+                  left: 0,
+                  bottom: 190,
+                  child: Image.asset('assets/images/InstagramLogo.png'),
+                ),
+                Positioned(
+                  right: 26,
+                  left: 26,
+                  bottom: -50,
+                  child: Image.asset('assets/images/BlueTorchFull.png'),
+                ),
+                Positioned(
+                  left: 0,
+                  bottom: 0,
+                  child: Image.asset(
+                    'assets/images/InstagramSymbol.png',
+                    width: 254,
+                    height: 275,
+                  ),
+                ),
+                Positioned(
+                  right: -150,
+                  bottom: 0,
+                  child: Image.asset(
+                    'assets/images/TikTokSymbol.png',
+                  ),
+                ),
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: Image.asset('assets/images/TikTokLogo.png'),
+                ),
+              ],
             ),
-            const SizedBox(height: 16),
-            // SvgPicture.asset('assets/icons/Steps.svg'),
-            // Spacer(),
-            Expanded(
-              // width: double.infinity,
-              child: Stack(
-                children: [
-                  SizedBox(width: double.infinity),
-                  Positioned(
-                    left: 0,
-                    bottom: 190,
-                    child: Image.asset('assets/images/InstagramLogo.png'),
-                  ),
-                  Positioned(
-                    top: 0,
-                    right: MediaQuery.of(context).size.width * 0.5 - 45,
-                    child: Image.asset('assets/images/Steps.png'),
-                  ),
-                  Positioned(
-                    right: 26,
-                    left: 26,
-                    bottom: -130,
-                    child: Image.asset('assets/images/RedTorchLogin.png'),
-                  ),
-                  Positioned(
-                    left: 0,
-                    bottom: 0,
-                    child: Image.asset(
-                      'assets/images/InstagramSymbol.png',
-                      width: 254,
-                      height: 275,
-                    ),
-                  ),
-                  Positioned(
-                    right: -20,
-                    bottom: 0,
-                    child: Image.asset(
-                      'assets/images/TikTokSymbol.png',
-                      width: 290,
-                      height: 333,
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Image.asset('assets/images/TikTokLogo.png'),
-                  ),
-                ],
-              ),
-            ),
-            AuthButton(
-              text: 'Continue with Instagram',
-              iconSource: 'assets/icons/InstagramLogo.svg',
-              // onPressed: () => debugPrint('PLACEHOLDER: Auth instagram'),
-              onPressed: () {
-                // AdaptiveTheme.of(context).setLight();
-                selectedSymbol = 'assets/images/InstagramSymbol';
-                context.go('/loading', extra: false);
-              },
-            ),
-            const SizedBox(height: 24),
-            AuthButton(
-              text: 'Continue with TikTok',
-              iconSource: 'assets/icons/TikTokLogo.svg',
-              // onPressed: () => debugPrint('PLACEHOLDER: Auth tiktok'),
-              onPressed: () {
-                selectedSymbol = 'assets/images/TikTokSymbol';
-                context.go('/loading', extra: true);
-              },
-            ),
-            const SizedBox(height: 21),
-          ],
-        ),
+          ),
+          AuthButton(
+            text: 'Continue with Instagram',
+            iconSource: 'assets/icons/InstagramLogo.svg',
+            onPressed: () {
+              selectedSymbol = 'assets/images/InstagramSymbol';
+              context.replaceNamed('Loading', extra: false);
+            },
+          ),
+          const SizedBox(height: 24),
+          AuthButton(
+            text: 'Continue with TikTok',
+            iconSource: 'assets/icons/TikTokLogo.svg',
+            onPressed: () {
+              selectedSymbol = 'assets/images/TikTokSymbol';
+              context.replaceNamed('Loading', extra: true);
+            },
+          ),
+          const SizedBox(height: 21),
+        ],
       ),
     );
   }
@@ -121,9 +110,10 @@ class AuthButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.black,
-          padding: EdgeInsets.symmetric(horizontal: 22, vertical: 22),
+          padding: EdgeInsets.symmetric(horizontal: 22, vertical: 14),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
             side: BorderSide(color: Color.fromRGBO(77, 77, 77, 1)),
           ),
         ),
@@ -137,11 +127,11 @@ class AuthButton extends StatelessWidget {
             ),
             Text(
               text,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-                fontSize: 15,
-              ),
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
             ),
             Spacer(),
           ],

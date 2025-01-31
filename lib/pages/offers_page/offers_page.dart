@@ -7,7 +7,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../constants.dart';
 import '../../themes.dart';
-import '../auth_views_page/auth_views_page.dart';
+import '../auth_information_page/auth_information_page.dart';
 
 class OffersPage extends StatefulWidget {
   const OffersPage({super.key});
@@ -118,7 +118,7 @@ class OfferSelectedBottomSheet extends StatelessWidget {
             child: Image.asset('assets/images/RedTorchSelectOffer.png'),
           ),
         Positioned(
-          bottom: MediaQuery.of(context).size.height * 0.6, //TODO: Для темной темы отступы
+          bottom: MediaQuery.of(context).size.height * 0.6,
           left: 31,
           right: AdaptiveTheme.of(context).mode.isDark ? 36 : 38,
           child: Align(
@@ -156,10 +156,10 @@ class OfferSelectedBottomSheet extends StatelessWidget {
                   ),
                 ),
                 // SizedBox(height: 76),
-                Spacer(), //TODO: Решить вопрос с отступами
+                Spacer(),
                 Text(
                   'This offer is just for you',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 27,
                     fontWeight: FontWeight.bold,
                     height: 1.33,
@@ -168,7 +168,7 @@ class OfferSelectedBottomSheet extends StatelessWidget {
                 SizedBox(height: 51),
                 Text(
                   '\$1000',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Color.fromRGBO(42, 255, 173, 1),
                     fontSize: 60,
                     fontWeight: FontWeight.bold,
@@ -177,7 +177,7 @@ class OfferSelectedBottomSheet extends StatelessWidget {
                 SizedBox(height: 51),
                 Text(
                   'Will you accept this offer?',
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                     height: 1.2,
@@ -218,7 +218,7 @@ class OfferSelectedBottomSheet extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Theme.of(context).hintColor,
+              color: Theme.of(context).highlightColor,
             ),
             child: Text('🥳', style: TextStyle(fontSize: 40)),
           ),
@@ -258,7 +258,7 @@ class OfferTypeContainer extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: TextStyle(
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
           fontSize: 15,
           fontWeight: FontWeight.w600,
           color: currentIndex == index
@@ -307,7 +307,7 @@ class OfferCard extends StatelessWidget {
                     ),
                     child: Text(
                       price,
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 24,
                         color: Color.fromRGBO(42, 255, 173, 1),
                         fontWeight: FontWeight.bold,
@@ -321,7 +321,7 @@ class OfferCard extends StatelessWidget {
             const SizedBox(height: 20),
             Text(
               text,
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 height: 1.33,

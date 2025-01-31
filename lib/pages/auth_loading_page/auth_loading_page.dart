@@ -1,6 +1,6 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class AuthLoadingPage extends StatefulWidget {
@@ -12,12 +12,36 @@ class AuthLoadingPage extends StatefulWidget {
 }
 
 class _AuthLoadingPageState extends State<AuthLoadingPage> {
+  // @override
+  // void initState() {
+  //   WidgetsBinding.instance.addPostFrameCallback((e) {
+  //     Future.delayed(Duration(seconds: 2)).then((value) {
+  //       if (mounted) {
+  //         !widget.isTikTok ? AdaptiveTheme.of(context).setLight() : () {};
+  //         print('qweqweqwe');
+  //         context.replaceNamed('AuthStatisticPage', extra: {
+  //           'buttonText': 'Next',
+  //           'buttonRedirectPageName': 'AuthInformationPage',
+  //         });
+  //       }
+  //     });
+  //   });
+  // }
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 2)).then((value) {
-      !widget.isTikTok ? AdaptiveTheme.of(context).setLight() : () {};
-      context.replaceNamed('AuthStatisticPage');
+    Future.delayed(Duration(seconds: 2), () {
+      if (mounted) {
+        !widget.isTikTok ? AdaptiveTheme.of(context).setLight() : () {};
+        context.goNamed('AuthStatisticPage', extra: {
+          'buttonText': 'Next',
+          'buttonRedirectPageName': 'AuthInformationPage',
+        });
+      }
     });
+    // WidgetsBinding.instance.addPostFrameCallback((e) {
+
+    // });
+    super.initState();
   }
 
   @override
@@ -26,60 +50,38 @@ class _AuthLoadingPageState extends State<AuthLoadingPage> {
       body: Stack(
         children: [
           Positioned(
-            bottom: 40,
-            // left: 204 / 2 - 93 - 93,
-            child: Image.asset('assets/images/BlueTorchFull.png'),
+            left: 2,
+            top: 170,
+            child: Image.asset(
+              'assets/images/BlueTorchInitLoadingPage.png',
+            ),
           ),
           Positioned(
-            bottom: -6,
-            // left: -5,
-            width: 205,
-            height: 221,
-            child: Image.asset('assets/images/LoadingPageInstaSymbol.png'),
-          ),
-          Positioned(
+            left: 0,
             bottom: 0,
-            right: 0,
-            child: Image.asset('assets/images/LoadingPageTikTokSymbol.png'),
+            child: Image.asset(
+              'assets/images/InstagramSymbol.png',
+              width: 254,
+              height: 275,
+            ),
           ),
           Positioned(
-            bottom: 266,
-            right: 2,
-            child: Image.asset('assets/images/LoadingPageInstaLogo.png'),
-          ),
-          Positioned(
-            bottom: 247,
-            left: 15,
-            child: Image.asset('assets/images/LoadingPageTikTokLogo.png'),
+            right: -150,
+            bottom: 0,
+            child: Image.asset(
+              'assets/images/TikTokSymbol.png',
+            ),
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 69),
-              Image.asset('assets/images/Steps.png'),
-              const SizedBox(height: 68),
-              Padding(
-                padding: const EdgeInsets.only(left: 45, right: 35),
-                child: Text(
-                  'Give us time, we’re working through your incredible stats!!!',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                      height: 1.58,
-                      color: Theme.of(context).textTheme.bodyMedium!.color),
+              Center(
+                child: Image.asset(
+                  'assets/images/StepsHorizontalInitLoadingPage.png',
                 ),
               ),
-              const SizedBox(height: 66),
-              Padding(
-                padding: const EdgeInsets.only(left: 45, right: 35),
-                child: FAProgressBar(
-                  size: 11,
-                  currentValue: 60,
-                  borderRadius: BorderRadius.circular(31),
-                  backgroundColor: Colors.white,
-                  progressColor: Color.fromRGBO(255, 29, 101, 1),
-                ),
-              )
+              const SizedBox(height: 58),
+              SvgPicture.asset('assets/icons/BIGpie.svg'),
             ],
           ),
         ],

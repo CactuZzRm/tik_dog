@@ -7,9 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'dart:math' as math;
 
 import '../../themes.dart';
-import '../auth_views_page/auth_views_page.dart';
+import '../auth_information_page/auth_information_page.dart';
 
-int? selectedReason = null;
+int? selectedReason;
 
 class DeniedOfferDetailsPage extends StatefulWidget {
   const DeniedOfferDetailsPage({super.key});
@@ -22,7 +22,9 @@ class _DeniedOfferDetailsPageState extends State<DeniedOfferDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).extension<CustomThemeData>()!.offerDeniedReasonScaffoldBackgroundColor!,
+      backgroundColor: Theme.of(context)
+          .extension<CustomThemeData>()!
+          .offerDeniedReasonScaffoldBackgroundColor!,
       body: Column(
         children: [
           Spacer(),
@@ -53,7 +55,9 @@ class _DeniedOfferDetailsPageState extends State<DeniedOfferDetailsPage> {
                     bottom: 42,
                   ),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).extension<CustomThemeData>()!.offerDeniedReasonSelectBackgroundColor!,
+                    color: Theme.of(context)
+                        .extension<CustomThemeData>()!
+                        .offerDeniedReasonSelectBackgroundColor!,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
@@ -88,7 +92,8 @@ class _DeniedOfferDetailsPageState extends State<DeniedOfferDetailsPage> {
                       if (selectedReason != null && selectedReason == 0) ...[
                         const SizedBox(height: 16),
                         ReasonTextField(
-                          hintText: 'Are you ready to promote sellers in your region?: yes/no',
+                          hintText:
+                              'Are you ready to promote sellers in your region?: yes/no',
                         ),
                       ],
                       const SizedBox(height: 35),
@@ -124,7 +129,8 @@ class _DeniedOfferDetailsPageState extends State<DeniedOfferDetailsPage> {
                       if (selectedReason != null && selectedReason == 2) ...[
                         const SizedBox(height: 16),
                         ReasonTextField(
-                          hintText: 'Ready to receive an offer that includes payment: yes/no',
+                          hintText:
+                              'Ready to receive an offer that includes payment: yes/no',
                         ),
                       ],
                       const SizedBox(height: 35),
@@ -165,13 +171,15 @@ class _DeniedOfferDetailsPageState extends State<DeniedOfferDetailsPage> {
                       ],
                       const SizedBox(height: 28),
                       GradientContainer(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                        isActive: selectedReason != null,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)),
                         child: ActionButton(
-                          // TODO: Фон выключенной кнопки
-                          onPressed: () => debugPrint('PLACEHOLDER: Click'),
+                          onPressed: selectedReason != null
+                              ? () => debugPrint('PLACEHOLDER: Click')
+                              : null,
                           text: 'Send',
                           backgroundColor: Colors.transparent,
-                          isActive: selectedReason != null,
                         ),
                       ),
                     ],
@@ -209,7 +217,9 @@ class ReasonTextField extends StatelessWidget {
         ),
         hintText: hintText,
         hintStyle: TextStyle(
-          color: Theme.of(context).extension<CustomThemeData>()!.offerDeniedReasonTextFieldHintColor!,
+          color: Theme.of(context)
+              .extension<CustomThemeData>()!
+              .offerDeniedReasonTextFieldHintColor!,
         ),
         border: OutlineInputBorder(
           borderSide: BorderSide(
@@ -235,7 +245,10 @@ class ReasonBlock extends StatelessWidget {
         Expanded(
           child: Text(
             text,
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(fontSize: 15, fontWeight: FontWeight.w500),
           ),
         ),
         Container(
