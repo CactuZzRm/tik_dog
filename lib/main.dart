@@ -1,14 +1,18 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 import 'package:tik_dog/pages/auth_statistic_page/auth_statistic_page.dart';
 import 'package:tik_dog/themes.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
+import 'injection_container.dart';
 import 'pages/accept_offer_details_page/accept_offer_details_page.dart';
 import 'pages/accept_offer_details_page/denied_offer_details_page.dart';
 import 'pages/auth_page/auth_page.dart';
 import 'pages/auth_information_page/auth_information_page.dart';
+import 'pages/auth_page/bloc/auth_bloc.dart';
 import 'pages/friends_page/friends_page.dart';
 import 'pages/init_loading_page/init_loading_page.dart';
 import 'pages/offers_page/offers_page.dart';
@@ -18,7 +22,7 @@ import 'pages/wallet_page/wallet_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  setup();
   runApp(const MyApp());
 }
 
@@ -33,10 +37,17 @@ class MyApp extends StatelessWidget {
       light: instaTheme,
       initial: AdaptiveThemeMode.dark,
       overrideMode: AdaptiveThemeMode.dark,
-      builder: (light, dark) => MaterialApp.router(
-        routerConfig: _router,
-        title: 'Flutter Demo',
-        theme: dark,
+      builder: (light, dark) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => getIt<AuthBloc>(),
+          ),
+        ],
+        child: MaterialApp.router(
+          routerConfig: _router,
+          title: 'Flutter Demo',
+          theme: dark,
+        ),
       ),
     );
   }
@@ -44,6 +55,23 @@ class MyApp extends StatelessWidget {
 
 final _router = GoRouter(
   routes: [
+    GoRoute(
+      path: '/socialNetworkAuth',
+      name: 'SocialNetworkAuthPage',
+      builder: (context, state) => Center(),
+      // builder: (context, state) => WillPopScope(
+      //   onWillPop: () async {
+      //     print('momogus');
+      //     return true;
+      //   },
+      //   child: Padding(
+      //     padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+      //     child: WebViewWidget(
+      //       // controller: context.read<AuthBloc>().controller,
+      //     ),
+      //   ),
+      // ),
+    ),
     GoRoute(
       path: '/',
       builder: (context, state) => InitLoadingPage(),
@@ -57,7 +85,6 @@ final _router = GoRouter(
               path: '/loading',
               name: 'Loading',
               builder: (context, state) {
-                print(state.extra);
                 return AuthLoadingPage(isTikTok: state.extra as bool? ?? false);
               },
             ),
