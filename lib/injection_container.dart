@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_links/app_links.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:get_it/get_it.dart';
@@ -14,6 +15,7 @@ final getIt = GetIt.instance;
 
 void setup() {
   final dio = Dio();
+  final appLinks = AppLinks();
 
   dio.interceptors.add(PrettyDioLogger(
     requestHeader: true,
@@ -39,6 +41,7 @@ void setup() {
   getIt.registerSingleton<AuthRepositoryImpl>(
     AuthRepositoryImpl(apiService: getIt<ApiService>()),
   );
+  getIt.registerSingleton<AppLinks>(AppLinks());
   // getIt.registerSingleton<GetCarts>(GetCarts(
   //   repository: getIt<CartRepository>(),
   // ));

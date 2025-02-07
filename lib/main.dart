@@ -1,7 +1,10 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tik_dog/data/api/models/exchange_temp_token_model.dart';
 import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 import 'package:tik_dog/pages/auth_statistic_page/auth_statistic_page.dart';
 import 'package:tik_dog/themes.dart';
@@ -26,8 +29,62 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late AppLinks _appLinks;
+
+  @override
+  void initState() {
+    _appLinks = getIt<AppLinks>();
+    super.initState();
+
+    Future<void> checkInitialUri() async {
+      print('q');
+      final Uri? initialUri = await _appLinks.getInitialLink();
+      if (initialUri != null) {
+        print('a');
+        print('---> Получили initialUri: $initialUri');
+        _handleDeepLink(initialUri.toString());
+      } else {
+        print('b');
+      }
+    }
+
+    checkInitialUri();
+    _initDeepLinkListener();
+  }
+
+  void _initDeepLinkListener() async {
+    // print('init app links');
+    // _appLinks = AppLinks();
+
+    // final String? initialLink = await _appLinks.getInitialLinkString();
+    // print(initialLink);
+    // if (initialLink != null) {
+    //   _handleDeepLink(initialLink);
+    // }
+
+    _appLinks.uriLinkStream.listen((Uri? uri) {
+      if (uri != null) {
+        _handleDeepLink(uri.toString());
+      }
+    }, onError: (err) {
+      debugPrint('Ошибка при обработке ссылки: $err');
+    });
+  }
+
+  void _handleDeepLink(String link) {
+    print("Получен deep link: $link");
+    print(
+        'ПРОВЕРКА УСЛОВИЯ: ${link.startsWith('https://app.bigpie.ai/api/callback')}');
+    if (link.startsWith("https://app.bigpie.ai/api/callback")) {}
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,24 +111,19 @@ class MyApp extends StatelessWidget {
 }
 
 final _router = GoRouter(
+  redirect: (context, state) {
+    final link = state.uri.toString();
+
+    if (link.contains('callback')) {
+      final body = ExchangeTempTokenModel(
+        tempToken: context.read<AuthBloc>().tempToken,
+      );
+      context.read<AuthBloc>().exchangeTempToken(body);
+      return '/auth/loading';
+    }
+    return null;
+  },
   routes: [
-    GoRoute(
-      path: '/socialNetworkAuth',
-      name: 'SocialNetworkAuthPage',
-      builder: (context, state) => Center(),
-      // builder: (context, state) => WillPopScope(
-      //   onWillPop: () async {
-      //     print('momogus');
-      //     return true;
-      //   },
-      //   child: Padding(
-      //     padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-      //     child: WebViewWidget(
-      //       // controller: context.read<AuthBloc>().controller,
-      //     ),
-      //   ),
-      // ),
-    ),
     GoRoute(
       path: '/',
       builder: (context, state) => InitLoadingPage(),
@@ -84,16 +136,14 @@ final _router = GoRouter(
             GoRoute(
               path: '/loading',
               name: 'Loading',
-              builder: (context, state) {
-                return AuthLoadingPage(isTikTok: state.extra as bool? ?? false);
-              },
+              builder: (context, state) => AuthLoadingPage(),
             ),
           ],
         ),
       ],
     ),
     GoRoute(
-        path: '/auth_staatistic_page',
+        path: '/auth_statistic_page',
         name: 'AuthStatisticPage',
         builder: (context, state) {
           final extra = state.extra as Map<String, dynamic>;

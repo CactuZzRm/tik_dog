@@ -1,37 +1,25 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
+import '../auth_page/bloc/auth_bloc.dart';
+
 class AuthLoadingPage extends StatefulWidget {
-  final bool isTikTok;
-  const AuthLoadingPage({required this.isTikTok, super.key});
+  const AuthLoadingPage({super.key});
 
   @override
   State<AuthLoadingPage> createState() => _AuthLoadingPageState();
 }
 
 class _AuthLoadingPageState extends State<AuthLoadingPage> {
-  // @override
-  // void initState() {
-  //   WidgetsBinding.instance.addPostFrameCallback((e) {
-  //     Future.delayed(Duration(seconds: 2)).then((value) {
-  //       if (mounted) {
-  //         !widget.isTikTok ? AdaptiveTheme.of(context).setLight() : () {};
-  //         print('qweqweqwe');
-  //         context.replaceNamed('AuthStatisticPage', extra: {
-  //           'buttonText': 'Next',
-  //           'buttonRedirectPageName': 'AuthInformationPage',
-  //         });
-  //       }
-  //     });
-  //   });
-  // }
   @override
   void initState() {
     Future.delayed(Duration(seconds: 2), () {
       if (mounted) {
-        !widget.isTikTok ? AdaptiveTheme.of(context).setLight() : () {};
+        final isTikTok = context.read<AuthBloc>().isTikTok;
+        !isTikTok ? AdaptiveTheme.of(context).setLight() : () {};
         context.goNamed('AuthStatisticPage', extra: {
           'buttonText': 'Next',
           'buttonRedirectPageName': 'AuthInformationPage',

@@ -84,7 +84,7 @@ class AuthPage extends StatelessWidget {
                   text: 'Continue with Instagram',
                   iconSource: 'assets/icons/InstagramLogo.svg',
                   onPressed: () {
-                    // selectedSymbol = 'assets/images/InstagramSymbol';
+                    selectedSymbol = 'assets/images/InstagramSymbol';
                     // context.replaceNamed('Loading', extra: false);
                   },
                 ),
@@ -93,11 +93,10 @@ class AuthPage extends StatelessWidget {
                   text: 'Continue with TikTok',
                   iconSource: 'assets/icons/TikTokLogo.svg',
                   onPressed: () {
-                    selectedSymbol = 'assets/images/TikTokSymbol';
+                    selectedSymbol = 'assets/images/TikTokSymbol';                    
                     model.add(
                       AuthLoginEvent(socialNetwork: SocialNetworks.tiktok),
                     );
-                    // context.pushNamed('SocialNetworkAuthPage');
                   },
                 ),
                 const SizedBox(height: 21),
