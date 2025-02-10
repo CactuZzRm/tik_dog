@@ -1,5 +1,6 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tik_dog/pages/auth_information_page/auth_information_page.dart';
@@ -9,29 +10,24 @@ import '../../constants.dart';
 
 class TabsPage extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
-  final List<String> headerTitle = [
-    'Offers',
-    'Top Creators',
-    'Invite friends',
-    'Wallet'
-  ];
 
-  TabsPage({super.key, required this.navigationShell});
+  const TabsPage({required this.navigationShell, super.key});
 
   @override
   Widget build(BuildContext context) {
+    final currentPage = navigationShell.currentIndex;
+
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Column(
         children: [
           SizedBox(
-              height: navigationShell.currentIndex == 3
+              height: currentPage == 3
                   ? 18 + MediaQuery.of(context).padding.top
                   : 38 + MediaQuery.of(context).padding.top),
-          if (navigationShell.currentIndex != 3)
+          if (currentPage != 3)
             TabsHeader(
-              text: headerTitle[navigationShell.currentIndex],
-              currentIndex: navigationShell.currentIndex,
+              currentIndex: currentPage,
             ),
           Expanded(child: navigationShell),
           BottomNavBar(navigationShell: navigationShell),
@@ -88,13 +84,11 @@ class BottomNavBar extends StatelessWidget {
 }
 
 class TabsHeader extends StatefulWidget {
-  final String text;
   final int currentIndex;
   final String? imageUrl;
 
   const TabsHeader({
     super.key,
-    required this.text,
     required this.currentIndex,
     this.imageUrl,
   });
@@ -105,6 +99,13 @@ class TabsHeader extends StatefulWidget {
 
 class _TabsHeaderState extends State<TabsHeader> {
   final String name = 'Al';
+
+  final List<String> headerTitle = [
+    'Offers',
+    'Top Creators',
+    'Invite friends',
+    'Wallet'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +139,7 @@ class _TabsHeaderState extends State<TabsHeader> {
                   ),
                 )
               : Text(
-                  widget.text,
+                  headerTitle[widget.currentIndex],
                   style: TextStyle(
                     fontSize: 27,
                     fontWeight: FontWeight.bold,
@@ -244,18 +245,20 @@ class BotttomNavBarItem extends StatefulWidget {
 class _BotttomNavBarItemState extends State<BotttomNavBarItem> {
   @override
   Widget build(BuildContext context) {
+    final currentPage = widget.navigationShell.currentIndex;
+
     return InkWell(
-      onTap: () => setState(() {
+      onTap: () {
         widget.navigationShell.goBranch(widget.index);
-      }),
+      },
       child: Column(
         children: [
           SvgPicture.asset(
-            widget.navigationShell.currentIndex != widget.index
+            currentPage != widget.index
                 ? 'assets/icons/${widget.iconUrl}'
                 : 'assets/icons/Insta${widget.iconUrl}',
             color: AdaptiveTheme.of(context).mode.isDark &&
-                    widget.navigationShell.currentIndex == widget.index
+                    currentPage == widget.index
                 ? Color.fromRGBO(255, 29, 101, 1)
                 : null,
           ),
@@ -266,7 +269,7 @@ class _BotttomNavBarItemState extends State<BotttomNavBarItem> {
               fontSize: 13,
               fontWeight: FontWeight.w500,
               height: 1.7,
-              color: widget.navigationShell.currentIndex != widget.index
+              color: currentPage != widget.index
                   ? Theme.of(context).textTheme.titleSmall!.color
                   : Theme.of(context).textTheme.titleMedium!.color,
             ),

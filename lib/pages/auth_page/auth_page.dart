@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:tik_dog/constants.dart';
 import 'package:tik_dog/pages/auth_page/bloc/auth_bloc.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:tik_dog/pages/init_loading_page/init_loading_page.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({
@@ -19,7 +18,7 @@ class AuthPage extends StatelessWidget {
       builder: (context, state) {
         if (state is AuthLoading) {
           model.add(AuthLoadingEvent());
-          return Center(child: CircularProgressIndicator());
+          return InitLoadingPage();
         } else if (state is AuthInitial) {
           return Scaffold(
             body: Column(

@@ -6,10 +6,12 @@ import 'package:dio/io.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:tik_dog/data/repositories/auth_repository_impl.dart';
+import 'package:tik_dog/data/repositories/offers_repository_impl.dart';
 import 'package:tik_dog/domain/repositories/auth_repository.dart';
 
 import 'data/api/api_service.dart';
 import 'pages/auth_page/bloc/auth_bloc.dart';
+import 'pages/offers_page/bloc/offers_bloc.dart';
 
 final getIt = GetIt.instance;
 
@@ -31,21 +33,24 @@ void setup() {
     return client;
   };
 
-  // dio.request('https://bigpie.ai/api/login?provider=tiktok');
+  getIt.registerSingleton<AppLinks>(appLinks);
 
   getIt.registerSingleton<Dio>(dio);
   getIt.registerSingleton<ApiService>(ApiService(getIt<Dio>()));
-  getIt.registerSingleton<AuthRepository>(
-    AuthRepositoryImpl(apiService: getIt<ApiService>()),
-  );
+
+  // Репозитории
   getIt.registerSingleton<AuthRepositoryImpl>(
     AuthRepositoryImpl(apiService: getIt<ApiService>()),
   );
-  getIt.registerSingleton<AppLinks>(AppLinks());
-  // getIt.registerSingleton<GetCarts>(GetCarts(
-  //   repository: getIt<CartRepository>(),
-  // ));
+  getIt.registerSingleton<OffersRepositoryImpl>(
+    OffersRepositoryImpl(apiService: getIt<ApiService>()),
+  );
+
+  // BLoC's
   getIt.registerFactory<AuthBloc>(
     () => AuthBloc(authRepositoryImpl: getIt<AuthRepositoryImpl>()),
+  );
+  getIt.registerFactory<OffersBloc>(
+    () => OffersBloc(offersRepositoryImpl: getIt<OffersRepositoryImpl>()),
   );
 }

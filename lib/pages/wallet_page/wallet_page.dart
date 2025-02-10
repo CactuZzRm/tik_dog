@@ -32,7 +32,6 @@ class WalletPage extends StatelessWidget {
         Column(
           children: [
             TabsHeader(
-              text: '',
               currentIndex: 3,
             ),
             Expanded(

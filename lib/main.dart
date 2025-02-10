@@ -11,13 +11,14 @@ import 'package:tik_dog/themes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'injection_container.dart';
-import 'pages/accept_offer_details_page/accept_offer_details_page.dart';
-import 'pages/accept_offer_details_page/denied_offer_details_page.dart';
+import 'pages/accept_denied_offer_details_page/accept_offer_details_page.dart';
+import 'pages/accept_denied_offer_details_page/denied_offer_details_page.dart';
 import 'pages/auth_page/auth_page.dart';
 import 'pages/auth_information_page/auth_information_page.dart';
 import 'pages/auth_page/bloc/auth_bloc.dart';
 import 'pages/friends_page/friends_page.dart';
 import 'pages/init_loading_page/init_loading_page.dart';
+import 'pages/offers_page/bloc/offers_bloc.dart';
 import 'pages/offers_page/offers_page.dart';
 import 'pages/rating_page/rating_page.dart';
 import 'pages/tabs_page/tabs_page.dart';
@@ -99,6 +100,9 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(
             create: (context) => getIt<AuthBloc>(),
           ),
+          BlocProvider(
+            create: (context) => getIt<OffersBloc>(),
+          ),
         ],
         child: MaterialApp.router(
           routerConfig: _router,
@@ -118,27 +122,21 @@ final _router = GoRouter(
       final body = ExchangeTempTokenModel(
         tempToken: context.read<AuthBloc>().tempToken,
       );
+      // TODO: Обработка в случае не авторизации
       context.read<AuthBloc>().exchangeTempToken(body);
-      return '/auth/loading';
+      return '/authLoadingPage';
     }
     return null;
   },
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => InitLoadingPage(),
+      builder: (context, state) => AuthPage(),
       routes: [
         GoRoute(
-          path: '/auth',
-          name: 'Auth',
-          builder: (context, state) => AuthPage(),
-          routes: [
-            GoRoute(
-              path: '/loading',
-              name: 'Loading',
-              builder: (context, state) => AuthLoadingPage(),
-            ),
-          ],
+          path: '/authLoadingPage',
+          name: 'AuthLoadingPage',
+          builder: (context, state) => AuthLoadingPage(),
         ),
       ],
     ),

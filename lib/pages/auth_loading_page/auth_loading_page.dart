@@ -16,6 +16,7 @@ class AuthLoadingPage extends StatefulWidget {
 class _AuthLoadingPageState extends State<AuthLoadingPage> {
   @override
   void initState() {
+    //TODO: Адаптировать под блок
     Future.delayed(Duration(seconds: 2), () {
       if (mounted) {
         final isTikTok = context.read<AuthBloc>().isTikTok;
@@ -26,9 +27,6 @@ class _AuthLoadingPageState extends State<AuthLoadingPage> {
         });
       }
     });
-    // WidgetsBinding.instance.addPostFrameCallback((e) {
-
-    // });
     super.initState();
   }
 
