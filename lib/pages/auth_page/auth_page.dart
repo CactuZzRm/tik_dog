@@ -5,6 +5,8 @@ import 'package:tik_dog/constants.dart';
 import 'package:tik_dog/pages/auth_page/bloc/auth_bloc.dart';
 import 'package:tik_dog/pages/init_loading_page/init_loading_page.dart';
 
+import '../../injection_container.dart';
+
 class AuthPage extends StatelessWidget {
   const AuthPage({
     super.key,

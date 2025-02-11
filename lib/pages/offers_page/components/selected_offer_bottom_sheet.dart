@@ -110,15 +110,29 @@ class SelectedOfferBottomSheet extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: ActionButton(
-                    onPressed: () =>
-                        context.pushNamed('AcceptOfferDetailsPage'),
+                    onPressed: () {
+                      context.pushNamed('AcceptOfferDetailsPage');
+                      context.pop();
+                    },
                     text: 'Accept',
                     backgroundColor: Colors.transparent,
                   ),
                 ),
                 SizedBox(height: 16),
                 ActionButton(
-                  onPressed: () => context.pushNamed('DeniedOfferDetailsPage'),
+                  onPressed: () async {
+                    try {
+                      await model.fetchDeniedOfferReasons().then((value) {
+                        if (context.mounted) {
+                          context.pop();
+                          context.pushNamed('DeniedOfferDetailsPage');
+                        }
+                      });
+                    } catch (e) {
+                      debugPrint(e.toString());
+                      throw Exception(e);
+                    }
+                  },
                   text: 'Not now',
                   backgroundColor: Theme.of(context).cardColor,
                   margin: const EdgeInsets.symmetric(horizontal: 17),
@@ -130,9 +144,7 @@ class SelectedOfferBottomSheet extends StatelessWidget {
         ),
         ...[
           Positioned(
-            bottom: MediaQuery.of(context).size.height * 0.6 -
-                81 / 2 -
-                MediaQuery.of(context).padding.top,
+            bottom: MediaQuery.of(context).size.height * 0.6 - 81 / 2 - MediaQuery.of(context).padding.top,
             left: MediaQuery.of(context).size.width / 2 - 81 / 2,
             child: Container(
               padding: const EdgeInsets.symmetric(
@@ -147,9 +159,7 @@ class SelectedOfferBottomSheet extends StatelessWidget {
             ),
           ),
           Positioned(
-            bottom: MediaQuery.of(context).size.height * 0.6 -
-                50 / 2 -
-                MediaQuery.of(context).padding.top,
+            bottom: MediaQuery.of(context).size.height * 0.6 - 50 / 2 - MediaQuery.of(context).padding.top,
             left: MediaQuery.of(context).size.width / 2 - 50 / 2 - 80,
             child: Image.asset(
               '${selectedSymbol}LogoRightNotFilter.png',

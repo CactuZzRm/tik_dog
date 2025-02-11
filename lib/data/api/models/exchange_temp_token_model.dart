@@ -9,7 +9,6 @@ class ExchangeTempTokenModel {
 
   ExchangeTempTokenModel({required this.tempToken});
 
-  factory ExchangeTempTokenModel.fromJson(Map<String, dynamic> json) =>
-      _$ExchangeTempTokenModelFromJson(json);
+  factory ExchangeTempTokenModel.fromJson(Map<String, dynamic> json) => _$ExchangeTempTokenModelFromJson(json);
   Map<String, dynamic> toJson() => _$ExchangeTempTokenModelToJson(this);
 }

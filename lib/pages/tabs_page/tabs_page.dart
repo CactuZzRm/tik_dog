@@ -7,6 +7,7 @@ import 'package:tik_dog/pages/auth_information_page/auth_information_page.dart';
 import 'package:tik_dog/themes.dart';
 
 import '../../constants.dart';
+import '../wallet_page/bloc/wallet_bloc.dart';
 
 class TabsPage extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
@@ -22,9 +23,8 @@ class TabsPage extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(
-              height: currentPage == 3
-                  ? 18 + MediaQuery.of(context).padding.top
-                  : 38 + MediaQuery.of(context).padding.top),
+              height:
+                  currentPage == 3 ? 18 + MediaQuery.of(context).padding.top : 38 + MediaQuery.of(context).padding.top),
           if (currentPage != 3)
             TabsHeader(
               currentIndex: currentPage,
@@ -98,129 +98,127 @@ class TabsHeader extends StatefulWidget {
 }
 
 class _TabsHeaderState extends State<TabsHeader> {
-  final String name = 'Al';
-
-  final List<String> headerTitle = [
-    'Offers',
-    'Top Creators',
-    'Invite friends',
-    'Wallet'
-  ];
+  final List<String> headerTitle = ['Offers', 'Top Creators', 'Invite friends', 'Wallet'];
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          widget.currentIndex == 3
-              ? SizedBox(
-                  height: 70,
-                  width: 70,
-                  child: ClipOval(
-                    child: widget.imageUrl != null
-                        ? Image.network(widget.imageUrl!, fit: BoxFit.cover)
-                        : DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(43, 43, 43, 1),
-                            ),
-                            child: Center(
-                              child: Text(
-                                name[0] + name[1],
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                  ),
-                )
-              : Text(
-                  headerTitle[widget.currentIndex],
-                  style: TextStyle(
-                    fontSize: 27,
-                    fontWeight: FontWeight.bold,
-                    height: 1.27,
-                  ),
-                ),
-          Spacer(),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
-            decoration: BoxDecoration(
-              color: Theme.of(context)
-                  .extension<CustomThemeData>()!
-                  .tabsHeaderSocialNetworkBackgroundColor!,
-              borderRadius: BorderRadius.circular(145),
-              border: Border.all(
-                color: Theme.of(context)
-                    .extension<CustomThemeData>()!
-                    .tabsHeaderSocialNetworkBorderColor!,
-              ),
-            ),
+    return BlocBuilder<WalletBloc, WalletState>(
+      builder: (context, state) {
+        if (state is WalletCurrentState) {
+          final name = state.user.name;
+
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isTikTokSelect = true;
-                      AdaptiveTheme.of(context).setDark();
-                      selectedSymbol = 'assets/images/TikTokSymbol';
-                    });
-                  },
-                  child: GradientContainer(
-                    padding: const EdgeInsets.all(9),
-                    needBackground: isTikTokSelect,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: SvgPicture.asset(
-                      'assets/icons/TikTokLogo.svg',
-                      width: 13,
-                      height: 13,
-                      color: isTikTokSelect
-                          ? Colors.white
-                          : Theme.of(context)
-                              .extension<CustomThemeData>()!
-                              .tabsHeaderSocialNetworkUnselectedIconColor!,
+                widget.currentIndex == 3
+                    ? SizedBox(
+                        height: 70,
+                        width: 70,
+                        child: ClipOval(
+                          child: state.user.avatar != ''
+                              ? Image.network(state.user.avatar, fit: BoxFit.cover)
+                              : DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(43, 43, 43, 1),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      name[0] + name[1],
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                        ),
+                      )
+                    : Text(
+                        headerTitle[widget.currentIndex],
+                        style: TextStyle(
+                          fontSize: 27,
+                          fontWeight: FontWeight.bold,
+                          height: 1.27,
+                        ),
+                      ),
+                Spacer(),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).extension<CustomThemeData>()!.tabsHeaderSocialNetworkBackgroundColor!,
+                    borderRadius: BorderRadius.circular(145),
+                    border: Border.all(
+                      color: Theme.of(context).extension<CustomThemeData>()!.tabsHeaderSocialNetworkBorderColor!,
                     ),
                   ),
-                ),
-                const SizedBox(width: 8),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isTikTokSelect = false;
-                      selectedSymbol = 'assets/images/InstagramSymbol';
-                      AdaptiveTheme.of(context).setLight();
-                    });
-                  },
-                  child: GradientContainer(
-                    padding: const EdgeInsets.all(9),
-                    needBackground: !isTikTokSelect,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: SvgPicture.asset(
-                      'assets/icons/InstagramLogo.svg',
-                      width: 13,
-                      height: 13,
-                      color: !isTikTokSelect
-                          ? Colors.white
-                          : Theme.of(context)
-                              .extension<CustomThemeData>()!
-                              .tabsHeaderSocialNetworkUnselectedIconColor!,
-                    ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isTikTokSelect = true;
+                            AdaptiveTheme.of(context).setDark();
+                            selectedSymbol = 'assets/images/TikTokSymbol';
+                          });
+                        },
+                        child: GradientContainer(
+                          padding: const EdgeInsets.all(9),
+                          needBackground: isTikTokSelect,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/icons/TikTokLogo.svg',
+                            width: 13,
+                            height: 13,
+                            color: isTikTokSelect
+                                ? Colors.white
+                                : Theme.of(context)
+                                    .extension<CustomThemeData>()!
+                                    .tabsHeaderSocialNetworkUnselectedIconColor!,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isTikTokSelect = false;
+                            selectedSymbol = 'assets/images/InstagramSymbol';
+                            AdaptiveTheme.of(context).setLight();
+                          });
+                        },
+                        child: GradientContainer(
+                          padding: const EdgeInsets.all(9),
+                          needBackground: !isTikTokSelect,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/icons/InstagramLogo.svg',
+                            width: 13,
+                            height: 13,
+                            color: !isTikTokSelect
+                                ? Colors.white
+                                : Theme.of(context)
+                                    .extension<CustomThemeData>()!
+                                    .tabsHeaderSocialNetworkUnselectedIconColor!,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-          ),
-        ],
-      ),
+          );
+        }
+        return Center(child: Text('error'));
+      },
     );
   }
 }
@@ -254,11 +252,8 @@ class _BotttomNavBarItemState extends State<BotttomNavBarItem> {
       child: Column(
         children: [
           SvgPicture.asset(
-            currentPage != widget.index
-                ? 'assets/icons/${widget.iconUrl}'
-                : 'assets/icons/Insta${widget.iconUrl}',
-            color: AdaptiveTheme.of(context).mode.isDark &&
-                    currentPage == widget.index
+            currentPage != widget.index ? 'assets/icons/${widget.iconUrl}' : 'assets/icons/Insta${widget.iconUrl}',
+            color: AdaptiveTheme.of(context).mode.isDark && currentPage == widget.index
                 ? Color.fromRGBO(255, 29, 101, 1)
                 : null,
           ),

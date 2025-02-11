@@ -7,6 +7,7 @@ import 'package:tik_dog/data/api/models/exchange_temp_token_model.dart';
 import 'package:tik_dog/data/repositories/auth_repository_impl.dart';
 
 import '../../../constants.dart';
+import '../../../data/api/models/user_model.dart';
 import '../../../injection_container.dart';
 
 part 'auth_event.dart';
@@ -26,8 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       });
     });
     on<AuthLoginEvent>((event, emit) async {
-      final selectedSocialNetwork =
-          event.socialNetwork == SocialNetworks.tiktok ? 'tiktok' : 'instagram';
+      final selectedSocialNetwork = event.socialNetwork == SocialNetworks.tiktok ? 'tiktok' : 'instagram';
       isTikTok = event.socialNetwork == SocialNetworks.tiktok ? true : false;
       await getTempToken(selectedSocialNetwork);
     });
@@ -50,28 +50,37 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  Future<void> exchangeTempToken(ExchangeTempTokenModel body) async {
+  Future<UserModel?> exchangeTempToken(ExchangeTempTokenModel body) async {
+    UserModel? user;
     //TODO: Токен не успевает улавить, что пользователь авторизован
+
     await Future.delayed(Duration(seconds: 2));
     try {
-      await authRepositoryImpl.exhangeTempToken(body).then((response) {
-        token = response.token;
+      await authRepositoryImpl.exhangeTempToken(body).then(
+        (response) {
+          token = response.token;
+          user = response.user;
 
-        getIt<Dio>().interceptors.add(InterceptorsWrapper(
-              onRequest: (options, handler) async {
-                final token = this.token; // Получаем токен
-                if (token != null) {
-                  options.headers['Authorization'] = 'Bearer $token';
-                }
-                handler.next(options);
-              },
-              onResponse: (response, handler) {
-                handler.next(response);
-              },
-            ));
-      });
+          getIt<Dio>().interceptors.add(
+                InterceptorsWrapper(
+                  onRequest: (options, handler) async {
+                    final token = this.token; // Получаем токен
+                    if (token != null) {
+                      options.headers['Authorization'] = 'Bearer $token';
+                    }
+                    handler.next(options);
+                  },
+                  onResponse: (response, handler) {
+                    handler.next(response);
+                  },
+                ),
+              );
+        },
+      );
     } catch (e) {
       debugPrint(e.toString());
+      throw Exception(e);
     }
+    return user;
   }
 }

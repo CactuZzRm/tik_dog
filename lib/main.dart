@@ -2,13 +2,11 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tik_dog/data/api/models/exchange_temp_token_model.dart';
 import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 import 'package:tik_dog/pages/auth_statistic_page/auth_statistic_page.dart';
 import 'package:tik_dog/themes.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 import 'injection_container.dart';
 import 'pages/accept_denied_offer_details_page/accept_offer_details_page.dart';
@@ -17,11 +15,11 @@ import 'pages/auth_page/auth_page.dart';
 import 'pages/auth_information_page/auth_information_page.dart';
 import 'pages/auth_page/bloc/auth_bloc.dart';
 import 'pages/friends_page/friends_page.dart';
-import 'pages/init_loading_page/init_loading_page.dart';
 import 'pages/offers_page/bloc/offers_bloc.dart';
 import 'pages/offers_page/offers_page.dart';
 import 'pages/rating_page/rating_page.dart';
 import 'pages/tabs_page/tabs_page.dart';
+import 'pages/wallet_page/bloc/wallet_bloc.dart';
 import 'pages/wallet_page/wallet_page.dart';
 
 void main() async {
@@ -46,14 +44,9 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     Future<void> checkInitialUri() async {
-      print('q');
       final Uri? initialUri = await _appLinks.getInitialLink();
       if (initialUri != null) {
-        print('a');
-        print('---> Получили initialUri: $initialUri');
         _handleDeepLink(initialUri.toString());
-      } else {
-        print('b');
       }
     }
 
@@ -62,15 +55,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _initDeepLinkListener() async {
-    // print('init app links');
-    // _appLinks = AppLinks();
-
-    // final String? initialLink = await _appLinks.getInitialLinkString();
-    // print(initialLink);
-    // if (initialLink != null) {
-    //   _handleDeepLink(initialLink);
-    // }
-
     _appLinks.uriLinkStream.listen((Uri? uri) {
       if (uri != null) {
         _handleDeepLink(uri.toString());
@@ -82,8 +66,7 @@ class _MyAppState extends State<MyApp> {
 
   void _handleDeepLink(String link) {
     print("Получен deep link: $link");
-    print(
-        'ПРОВЕРКА УСЛОВИЯ: ${link.startsWith('https://app.bigpie.ai/api/callback')}');
+    print('ПРОВЕРКА УСЛОВИЯ: ${link.startsWith('https://app.bigpie.ai/api/callback')}');
     if (link.startsWith("https://app.bigpie.ai/api/callback")) {}
   }
 
@@ -97,12 +80,9 @@ class _MyAppState extends State<MyApp> {
       overrideMode: AdaptiveThemeMode.dark,
       builder: (light, dark) => MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) => getIt<AuthBloc>(),
-          ),
-          BlocProvider(
-            create: (context) => getIt<OffersBloc>(),
-          ),
+          BlocProvider(create: (context) => getIt<AuthBloc>()),
+          BlocProvider(create: (context) => getIt<OffersBloc>()),
+          BlocProvider(create: (context) => WalletBloc()),
         ],
         child: MaterialApp.router(
           routerConfig: _router,
@@ -115,7 +95,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 final _router = GoRouter(
-  redirect: (context, state) {
+  redirect: (context, state) async {
     final link = state.uri.toString();
 
     if (link.contains('callback')) {
@@ -123,7 +103,17 @@ final _router = GoRouter(
         tempToken: context.read<AuthBloc>().tempToken,
       );
       // TODO: Обработка в случае не авторизации
-      context.read<AuthBloc>().exchangeTempToken(body);
+      try {
+        await context.read<AuthBloc>().exchangeTempToken(body).then((user) {
+          if (context.mounted) {
+            context.read<WalletBloc>().add(WalletInitEvent(userModel: user!));
+          }
+        });
+      } catch (e) {
+        debugPrint(e.toString());
+        throw Exception(e);
+      }
+
       return '/authLoadingPage';
     }
     return null;

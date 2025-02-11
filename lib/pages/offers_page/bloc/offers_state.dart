@@ -10,14 +10,14 @@ final class OffersCurrentOffersState extends OffersState {
   List<OfferModel>? offers = [];
   String? selectedCountry;
   String? email;
-  String? selectedReason;
+  String? selectedTextReason;
 
   OffersCurrentOffersState({
     this.selectedOffersStatus,
     this.offers,
     this.selectedCountry,
     this.email,
-    this.selectedReason,
+    this.selectedTextReason,
   });
 
   OffersCurrentOffersState copyWith({
@@ -25,14 +25,13 @@ final class OffersCurrentOffersState extends OffersState {
     int? selectedOffersStatus,
     String? selectedCountry,
     String? email,
-    String? selectedReason,
+    String? selectedTextReason,
   }) {
     return OffersCurrentOffersState(
-      offers: offers ?? this.offers,
-      selectedOffersStatus: selectedOffersStatus ?? this.selectedOffersStatus,
-      selectedCountry: selectedCountry ?? this.selectedCountry,
-      email: email ?? this.email,
-      selectedReason: selectedReason ?? this.selectedReason
-    );
+        offers: offers ?? this.offers,
+        selectedOffersStatus: selectedOffersStatus ?? this.selectedOffersStatus,
+        selectedCountry: selectedCountry ?? this.selectedCountry,
+        email: email ?? this.email,
+        selectedTextReason: selectedTextReason ?? this.selectedTextReason);
   }
 }

@@ -17,8 +17,14 @@ class SelectCountryEvent extends OffersEvent {
   SelectCountryEvent({required this.country});
 }
 
-class EditReasonEvent extends OffersEvent {
-  final String reason;
+class EditTextReasonEvent extends OffersEvent {
+  final String textReason;
 
-  EditReasonEvent({required this.reason});
+  EditTextReasonEvent({required this.textReason});
+}
+
+class SelectCountReasonEvent extends OffersEvent {
+  final int index;
+
+  SelectCountReasonEvent({required this.index});
 }

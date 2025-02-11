@@ -14,8 +14,8 @@ class OffersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<OffersBloc, OffersState>(
       builder: (context, state) {
-        final model = context.read<OffersBloc>();
-      
+        final model = context.watch<OffersBloc>();
+
         if (state is OffersInitial) {
           model.add(OffersInitEvent());
         } else if (state is OffersCurrentOffersState) {

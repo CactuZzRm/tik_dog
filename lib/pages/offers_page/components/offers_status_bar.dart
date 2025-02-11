@@ -48,18 +48,15 @@ class OfferTypeContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.watch<OffersBloc>();
-    
+
     return GestureDetector(
       onTap: () => model.add(OffersChangeSelectedStatusEvent(index: index)),
       child: GradientContainer(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        needBackground: model.selectedOffersStatus == index,
+        needBackground: model.selectedOffersTypeStatus == index,
         decoration: BoxDecoration(
-          border: index != model.selectedOffersStatus
-              ? Border.all(
-                  color: Theme.of(context)
-                      .extension<CustomThemeData>()!
-                      .offersPageCategoryBorderColor!)
+          border: index != model.selectedOffersTypeStatus
+              ? Border.all(color: Theme.of(context).extension<CustomThemeData>()!.offersPageCategoryBorderColor!)
               : Border.all(color: Colors.transparent),
           borderRadius: BorderRadius.circular(8),
         ),
@@ -68,11 +65,9 @@ class OfferTypeContainer extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
-                color: model.selectedOffersStatus == index
+                color: model.selectedOffersTypeStatus == index
                     ? Colors.white
-                    : Theme.of(context)
-                        .extension<CustomThemeData>()!
-                        .offersPageHeaderUnselectedCategoryColor!,
+                    : Theme.of(context).extension<CustomThemeData>()!.offersPageHeaderUnselectedCategoryColor!,
               ),
         ),
       ),

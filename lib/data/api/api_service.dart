@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:tik_dog/data/api/models/exchange_temp_token_model.dart';
-import 'package:tik_dog/data/api/response_models/accept_denied_offer_response.dart';
 
 import 'models/accept_offer_model.dart';
 import 'models/denied_offer_model.dart';
@@ -29,14 +28,17 @@ abstract class ApiService {
   Future<List<OfferModel>> getOffers();
 
   @POST('/api/offer/{id}/accept')
-  Future<AcceptDeniedOfferResponse> acceptOffer(
+  Future<void> acceptOffer(
     @Path('id') String id,
     @Body() AcceptOfferModel body,
   );
 
   @POST('/api/offer/{id}/decline')
-  Future<AcceptDeniedOfferResponse> deniedOffer(
+  Future<void> deniedOffer(
     @Path('id') String id,
     @Body() DeniedOfferModel body,
   );
+
+  @GET('/api/static?key=decline_offer_reasons')
+  Future<List<String>> fetchDeniedOfferReasons();
 }

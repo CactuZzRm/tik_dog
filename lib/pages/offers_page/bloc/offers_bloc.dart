@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:tik_dog/data/repositories/offers_repository_impl.dart';
 
-import '../../../data/api/models/accept_offer_model.dart';
 import '../../../data/api/models/offer_model.dart';
 
 part 'offers_event.dart';
@@ -11,7 +10,7 @@ part 'offers_state.dart';
 
 class OffersBloc extends Bloc<OffersEvent, OffersState> {
   OffersRepositoryImpl offersRepositoryImpl;
-  int selectedOffersStatus = 0;
+  int selectedOffersTypeStatus = 0;
 
   final List<String> items = [
     'Item1',
@@ -23,17 +22,19 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
     'Item7',
     'Item8',
   ];
+
   String? selectedCountry;
-  String? selectedReason;
+  String? selectedTextReason;
+  int? selectedReasonIndex;
+  List<String>? reasons;
 
   OffersBloc({required this.offersRepositoryImpl}) : super(OffersInitial()) {
     on<OffersInitEvent>((event, emit) async {
-      print('>>>>>>>>>>>>>>>>>>>>>>>>>>>amoga');
       await fetchOffers();
       emit(OffersCurrentOffersState(offers: offers));
     });
     on<OffersChangeSelectedStatusEvent>((event, emit) {
-      changeOffersStatus(event.index);
+      changeOffersTypeStatus(event.index);
       emit(OffersCurrentOffersState().copyWith(
         selectedOffersStatus: event.index,
       ));
@@ -44,11 +45,15 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
         selectedCountry: selectedCountry,
       ));
     });
-    on<EditReasonEvent>((event, emit) {
-      selectedReason = event.reason;
+    on<EditTextReasonEvent>((event, emit) {
+      selectedTextReason = event.textReason;
       emit(OffersCurrentOffersState().copyWith(
-        selectedReason: selectedReason,
+        selectedTextReason: selectedTextReason,
       ));
+    });
+    on<SelectCountReasonEvent>((event, emit) {
+      selectedReasonIndex = event.index;
+      emit(OffersCurrentOffersState().copyWith());
     });
   }
 
@@ -64,8 +69,8 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
     }
   }
 
-  void changeOffersStatus(int index) {
-    selectedOffersStatus = index;
+  void changeOffersTypeStatus(int index) {
+    selectedOffersTypeStatus = index;
   }
 
   Future<void> acceptOffer({
@@ -74,11 +79,9 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
     required String country,
   }) async {
     try {
-      await offersRepositoryImpl
-          .acceptOffer(id: id, email: email, country: country)
-          .then((response) async {});
-      OffersBloc(offersRepositoryImpl: offersRepositoryImpl)
-          .add(OffersInitEvent());
+      await offersRepositoryImpl.acceptOffer(id: id, email: email, country: country).then((response) async {
+        Future.microtask(() => add(OffersInitEvent()));
+      });
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -89,13 +92,21 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
     required String reason,
   }) async {
     try {
-      await offersRepositoryImpl
-          .deniedOffer(id: id, reason: reason)
-          .then((response) async {});
-      OffersBloc(offersRepositoryImpl: offersRepositoryImpl)
-          .add(OffersInitEvent());
+      await offersRepositoryImpl.deniedOffer(id: id, reason: reason).then((response) async {
+        Future.microtask(() => add(OffersInitEvent()));
+      });
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+  Future<void> fetchDeniedOfferReasons() async {
+    try {
+      final response = await offersRepositoryImpl.fetchDeniedOfferReasons();
+      reasons = response;
+    } catch (e) {
+      debugPrint(e.toString());
+      throw Exception(e);
     }
   }
 }
