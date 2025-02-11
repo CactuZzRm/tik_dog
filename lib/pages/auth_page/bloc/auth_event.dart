@@ -3,9 +3,7 @@ part of 'auth_bloc.dart';
 @immutable
 sealed class AuthEvent {}
 
-class AuthLoadingEvent extends AuthEvent {
-
-}
+class AuthLoadingEvent extends AuthEvent {}
 
 class InitEvent extends AuthEvent {
   final String provider;
@@ -17,4 +15,11 @@ class AuthLoginEvent extends AuthEvent {
   final SocialNetworks socialNetwork;
 
   AuthLoginEvent({required this.socialNetwork});
+}
+
+class SocialNetworkChangeEvent extends AuthEvent {
+  final BuildContext themeContext;
+  final bool isTikTok;
+
+  SocialNetworkChangeEvent({required this.themeContext, required this.isTikTok});
 }

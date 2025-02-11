@@ -5,8 +5,6 @@ import 'package:tik_dog/constants.dart';
 import 'package:tik_dog/pages/auth_page/bloc/auth_bloc.dart';
 import 'package:tik_dog/pages/init_loading_page/init_loading_page.dart';
 
-import '../../injection_container.dart';
-
 class AuthPage extends StatelessWidget {
   const AuthPage({
     super.key,
@@ -94,7 +92,7 @@ class AuthPage extends StatelessWidget {
                   text: 'Continue with TikTok',
                   iconSource: 'assets/icons/TikTokLogo.svg',
                   onPressed: () {
-                    selectedSymbol = 'assets/images/TikTokSymbol';                    
+                    selectedSymbol = 'assets/images/TikTokSymbol';
                     model.add(
                       AuthLoginEvent(socialNetwork: SocialNetworks.tiktok),
                     );

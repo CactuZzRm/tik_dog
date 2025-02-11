@@ -7,7 +7,6 @@ import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:tik_dog/data/repositories/auth_repository_impl.dart';
 import 'package:tik_dog/data/repositories/offers_repository_impl.dart';
-import 'package:tik_dog/domain/repositories/auth_repository.dart';
 
 import 'data/api/api_service.dart';
 import 'pages/auth_page/bloc/auth_bloc.dart';

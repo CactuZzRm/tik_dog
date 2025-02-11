@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,10 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tik_dog/themes.dart';
 
-import 'dart:math' as math;
-
-import '../../constants.dart';
-import '../auth_statistic_page/auth_statistic_page.dart';
 import '../auth_information_page/auth_information_page.dart';
 import '../offers_page/bloc/offers_bloc.dart';
 import 'components/congratulations_bottom_sheet.dart';
@@ -62,10 +55,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                   const SizedBox(height: 36),
                   Text(
                     '🏳️ Country',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
                   DropdownButtonHideUnderline(
@@ -76,15 +66,10 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                           Expanded(
                             child: Text(
                               'Not selected',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
-                                    color: Theme.of(context)
-                                        .extension<CustomThemeData>()!
-                                        .offersAcceptEmailHintColor!,
+                                    color: Theme.of(context).extension<CustomThemeData>()!.offersAcceptEmailHintColor!,
                                   ),
                             ),
                           ),
@@ -95,10 +80,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                                 value: item,
                                 child: Text(
                                   item,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
+                                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -119,9 +101,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: Theme.of(context)
-                                .extension<CustomThemeData>()!
-                                .offersAcceptEmailHintColor!,
+                            color: Theme.of(context).extension<CustomThemeData>()!.offersAcceptEmailHintColor!,
                           ),
                           color: Colors.transparent,
                         ),
@@ -157,10 +137,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                   SizedBox(height: 36),
                   Text(
                     '😎 Email',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 12),
                   Container(
@@ -171,9 +148,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                     ),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Theme.of(context)
-                            .extension<CustomThemeData>()!
-                            .offersAcceptEmailHintColor!,
+                        color: Theme.of(context).extension<CustomThemeData>()!.offersAcceptEmailHintColor!,
                       ),
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -190,9 +165,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                         hintStyle: TextStyle(
                           fontSize: 14,
                           height: 1,
-                          color: Theme.of(context)
-                              .extension<CustomThemeData>()!
-                              .offersAcceptEmailHintColor!,
+                          color: Theme.of(context).extension<CustomThemeData>()!.offersAcceptEmailHintColor!,
                         ),
                         border: InputBorder.none,
                       ),

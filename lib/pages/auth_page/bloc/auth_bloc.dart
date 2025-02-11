@@ -1,8 +1,8 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
-import 'package:get_it/get_it.dart';
 import 'package:tik_dog/data/api/models/exchange_temp_token_model.dart';
 import 'package:tik_dog/data/repositories/auth_repository_impl.dart';
 
@@ -30,6 +30,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final selectedSocialNetwork = event.socialNetwork == SocialNetworks.tiktok ? 'tiktok' : 'instagram';
       isTikTok = event.socialNetwork == SocialNetworks.tiktok ? true : false;
       await getTempToken(selectedSocialNetwork);
+    });
+    on<SocialNetworkChangeEvent>((event, emit) {
+      isTikTok = event.isTikTok;
+      isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
+      selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
     });
   }
 

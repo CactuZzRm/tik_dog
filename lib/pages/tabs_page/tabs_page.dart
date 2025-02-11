@@ -7,6 +7,7 @@ import 'package:tik_dog/pages/auth_information_page/auth_information_page.dart';
 import 'package:tik_dog/themes.dart';
 
 import '../../constants.dart';
+import '../auth_page/bloc/auth_bloc.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
 class TabsPage extends StatelessWidget {
@@ -102,6 +103,7 @@ class _TabsHeaderState extends State<TabsHeader> {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.read<AuthBloc>();
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
         if (state is WalletCurrentState) {
@@ -159,15 +161,16 @@ class _TabsHeaderState extends State<TabsHeader> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          setState(() {
-                            isTikTokSelect = true;
-                            AdaptiveTheme.of(context).setDark();
-                            selectedSymbol = 'assets/images/TikTokSymbol';
-                          });
+                          // setState(() {
+                          // isTikTokSelect = true;
+                          // AdaptiveTheme.of(context).setDark();
+                          // selectedSymbol = 'assets/images/TikTokSymbol';
+                          // });
+                          model.add(SocialNetworkChangeEvent(themeContext: context, isTikTok: true));
                         },
                         child: GradientContainer(
                           padding: const EdgeInsets.all(9),
-                          needBackground: isTikTokSelect,
+                          needBackground: model.isTikTok,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                           ),
@@ -175,7 +178,7 @@ class _TabsHeaderState extends State<TabsHeader> {
                             'assets/icons/TikTokLogo.svg',
                             width: 13,
                             height: 13,
-                            color: isTikTokSelect
+                            color: model.isTikTok
                                 ? Colors.white
                                 : Theme.of(context)
                                     .extension<CustomThemeData>()!
@@ -186,15 +189,16 @@ class _TabsHeaderState extends State<TabsHeader> {
                       const SizedBox(width: 8),
                       GestureDetector(
                         onTap: () {
-                          setState(() {
-                            isTikTokSelect = false;
-                            selectedSymbol = 'assets/images/InstagramSymbol';
-                            AdaptiveTheme.of(context).setLight();
-                          });
+                          // setState(() {
+                          //   isTikTokSelect = false;
+                          //   selectedSymbol = 'assets/images/InstagramSymbol';
+                          //   AdaptiveTheme.of(context).setLight();
+                          // });
+                          model.add(SocialNetworkChangeEvent(themeContext: context, isTikTok: false));
                         },
                         child: GradientContainer(
                           padding: const EdgeInsets.all(9),
-                          needBackground: !isTikTokSelect,
+                          needBackground: !model.isTikTok,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                           ),
@@ -202,7 +206,7 @@ class _TabsHeaderState extends State<TabsHeader> {
                             'assets/icons/InstagramLogo.svg',
                             width: 13,
                             height: 13,
-                            color: !isTikTokSelect
+                            color: !model.isTikTok
                                 ? Colors.white
                                 : Theme.of(context)
                                     .extension<CustomThemeData>()!
