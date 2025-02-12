@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tik_dog/constants.dart';
 import 'package:tik_dog/pages/auth_page/bloc/auth_bloc.dart';
 import 'package:tik_dog/pages/init_loading_page/init_loading_page.dart';
@@ -93,9 +94,8 @@ class AuthPage extends StatelessWidget {
                   iconSource: 'assets/icons/TikTokLogo.svg',
                   onPressed: () {
                     selectedSymbol = 'assets/images/TikTokSymbol';
-                    model.add(
-                      AuthLoginEvent(socialNetwork: SocialNetworks.tiktok),
-                    );
+                    context.pushNamed('AuthLoadingPage');
+                    model.add(AuthLoginEvent(socialNetwork: SocialNetworks.tiktok));
                   },
                 ),
                 const SizedBox(height: 21),
@@ -104,7 +104,7 @@ class AuthPage extends StatelessWidget {
           );
         } else {
           return Center(
-            child: Text('error'),
+            child: Text('errorus'),
           );
         }
       },

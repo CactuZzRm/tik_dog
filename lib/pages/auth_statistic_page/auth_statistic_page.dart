@@ -10,13 +10,13 @@ import '../auth_information_page/auth_information_page.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
 class AuthStatisticPage extends StatelessWidget {
-  final String? buttonRedirectPageName;
-  final String buttonText;
+  // final String? buttonRedirectPageName;
+  // final String buttonText;
 
   const AuthStatisticPage({
     super.key,
-    this.buttonRedirectPageName,
-    required this.buttonText,
+    // this.buttonRedirectPageName,
+    // required this.buttonText,
   });
 
   @override
@@ -24,102 +24,98 @@ class AuthStatisticPage extends StatelessWidget {
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
         if (state is WalletCurrentState) {
-          return SafeArea(
-            child: Scaffold(
-              body: Stack(
-                children: [
-                  ...[
-                    if (AdaptiveTheme.of(context).mode.isDark)
-                      Positioned(
-                        bottom: 120,
-                        right: 0,
-                        child: Image.asset('assets/images/BlueTorch.png'),
-                      ),
+          return Scaffold(
+            body: Stack(
+              children: [
+                ...[
+                  if (AdaptiveTheme.of(context).mode.isDark)
                     Positioned(
-                      bottom: 200,
+                      bottom: 172,
                       right: 0,
-                      child: Image.asset(AdaptiveTheme.of(context).mode.isDark
-                          ? 'assets/images/DarkSteps.png'
-                          : 'assets/images/LightSteps.png'),
+                      child: Image.asset('assets/images/BlueTorch.png'),
                     ),
-                    Positioned(
-                      bottom: 180,
-                      left: MediaQuery.of(context).size.width * 0.5 - 117,
-                      child: Image.asset('${selectedSymbol}Full.png'),
-                    ),
-                  ],
-                  Column(
-                    children: [
-                      const SizedBox(height: 26),
-                      StatisticContainer(title: 'Subscribers', value: state.user.numberOfFollowers.toString()),
-                      const SizedBox(height: 4),
-                      StatisticContainer(title: 'Videos', value: state.user.numberOfMedia.toString()),
-                      const SizedBox(height: 45),
-                      StatisticDetails(),
-                      Spacer(),
-                      GradientContainer(
-                        margin: const EdgeInsets.symmetric(horizontal: 15),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: ActionButton(
-                          onPressed: () => buttonRedirectPageName != null
-                              ? context.replaceNamed('AuthInformationPage')
-                              : context.pop(),
-                          text: buttonText,
-                          backgroundColor: Colors.transparent,
-                        ),
-                      ),
-                      const SizedBox(height: 18),
-                      ActionButton(
-                        onPressed: () {
-                          debugPrint('PLACEHOLDER: SHARE');
-                        },
-                        text: 'Share',
-                        backgroundColor: Theme.of(context).cardColor,
-                        margin: const EdgeInsets.symmetric(horizontal: 15),
-                      ),
-                      const SizedBox(height: 22),
-                      Text(
-                        'Wow! You have an amazing profile!',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              height: 1,
-                            ),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
+                  Positioned(
+                    bottom: 220 + MediaQuery.of(context).padding.bottom,
+                    right: 0,
+                    child: Image.asset(AdaptiveTheme.of(context).mode.isDark
+                        ? 'assets/images/DarkSteps.png'
+                        : 'assets/images/LightSteps.png'),
                   ),
-                  ...[
-                    Positioned(
-                      top: 112,
-                      left: -40,
-                      child: Text('🔥', style: TextStyle(fontSize: 64)),
-                    ),
-                    Positioned(
-                      top: 152,
-                      right: 5,
-                      child: Text('🔥', style: TextStyle(fontSize: 32)),
-                    ),
-                    Positioned(
-                      top: 420,
-                      left: 20,
-                      child: Text('🔥', style: TextStyle(fontSize: 32)),
-                    ),
-                    Positioned(
-                      top: 420,
-                      right: 22,
-                      child: Text('🔥', style: TextStyle(fontSize: 20)),
-                    ),
-                    Positioned(
-                      bottom: 120,
-                      left: 0,
-                      child: Image.asset('${selectedSymbol}LogoReversed.png'),
-                    ),
-                  ]
+                  Positioned(
+                    bottom: 200,
+                    left: MediaQuery.of(context).size.width * 0.5 - 117,
+                    child: Image.asset('${selectedSymbol}Full.png'),
+                  ),
                 ],
-              ),
+                Column(
+                  children: [
+                    SizedBox(height: 26 + MediaQuery.of(context).padding.top),
+                    StatisticContainer(title: 'Subscribers', value: state.user.numberOfFollowers.toString()),
+                    const SizedBox(height: 4),
+                    StatisticContainer(title: 'Videos', value: state.user.numberOfMedia.toString()),
+                    const SizedBox(height: 45),
+                    StatisticDetails(),
+                    Spacer(),
+                    GradientContainer(
+                      margin: const EdgeInsets.symmetric(horizontal: 15),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: ActionButton(
+                        onPressed: () => context.replaceNamed('AuthInformationPage'),
+                        text: 'Next',
+                        backgroundColor: Colors.transparent,
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    ActionButton(
+                      onPressed: () {
+                        debugPrint('PLACEHOLDER: SHARE');
+                      },
+                      text: 'Share',
+                      backgroundColor: Theme.of(context).cardColor,
+                      margin: const EdgeInsets.symmetric(horizontal: 15),
+                    ),
+                    const SizedBox(height: 22),
+                    Text(
+                      'Wow! You have an amazing profile!',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            height: 1,
+                          ),
+                    ),
+                    SizedBox(height: 20 + MediaQuery.of(context).padding.bottom),
+                  ],
+                ),
+                ...[
+                  Positioned(
+                    top: 164,
+                    left: -31,
+                    child: Text('🔥', style: TextStyle(fontSize: 64)),
+                  ),
+                  Positioned(
+                    top: 183,
+                    right: 5,
+                    child: Text('🔥', style: TextStyle(fontSize: 32)),
+                  ),
+                  Positioned(
+                    top: 480,
+                    left: 20,
+                    child: Text('🔥', style: TextStyle(fontSize: 32)),
+                  ),
+                  Positioned(
+                    top: 490,
+                    right: 22,
+                    child: Text('🔥', style: TextStyle(fontSize: 20)),
+                  ),
+                  Positioned(
+                    bottom: 141,
+                    left: 0,
+                    child: Image.asset('${selectedSymbol}LogoReversed.png'),
+                  ),
+                ]
+              ],
             ),
           );
         }
@@ -177,7 +173,7 @@ class StatisticDetails extends StatelessWidget {
             ],
           );
         }
-        return Center(child: Text('error'));
+        return Center(child: Text('errorus'));
       },
     );
   }

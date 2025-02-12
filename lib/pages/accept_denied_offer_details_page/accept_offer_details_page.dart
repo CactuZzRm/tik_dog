@@ -173,6 +173,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                   ),
                   Spacer(),
                   GradientContainer(
+                    isActive: model.selectedCountry != null && email != '',
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -183,6 +184,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                           country: model.selectedCountry!,
                           email: email,
                         );
+                        model.add(RemoveSelectedValuesEvent());
                         showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
@@ -194,6 +196,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                         );
                       },
                       text: 'Get an offer',
+                      isActive: model.selectedCountry != null && email != '',
                       backgroundColor: Colors.transparent,
                     ),
                   ),

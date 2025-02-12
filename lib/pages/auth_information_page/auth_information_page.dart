@@ -1,8 +1,12 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'dart:math' as math;
+
 import '../../constants.dart';
+import '../auth_page/bloc/auth_bloc.dart';
 import '../auth_statistic_page/auth_statistic_page.dart';
 
 class AuthInformationPage extends StatelessWidget {
@@ -10,53 +14,59 @@ class AuthInformationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Stack(
-          children: [
-            Positioned(
-              bottom: 122,
-              left: 0,
-              child: Image.asset('${selectedSymbol}LogoReversed.png'),
-            ),
-            ...[
-              if (AdaptiveTheme.of(context).mode.isDark)
-                Positioned(
-                  bottom: 120,
-                  right: 0,
-                  child: Image.asset('assets/images/BlueTorch.png'),
-                ),
+    final model = context.read<AuthBloc>();
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          Positioned(
+            bottom: 122,
+            left: 0,
+            child: Image.asset('${selectedSymbol}LogoReversed.png'),
+          ),
+          ...[
+            if (AdaptiveTheme.of(context).mode.isDark)
               Positioned(
-                bottom: 200,
+                bottom: 120,
                 right: 0,
-                child: Image.asset(AdaptiveTheme.of(context).mode.isDark
-                    ? 'assets/images/DarkSteps.png'
-                    : 'assets/images/LightSteps.png'),
+                child: Image.asset('assets/images/BlueTorch.png'),
               ),
-            ],
-            Column(
+            Positioned(
+              bottom: 200,
+              right: 0,
+              child: Image.asset(AdaptiveTheme.of(context).mode.isDark
+                  ? 'assets/images/DarkSteps.png'
+                  : 'assets/images/LightSteps.png'),
+            ),
+          ],
+          Container(
+            margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            child: Column(
               children: [
                 SizedBox(
-                  height: 247,
+                  height: 247 + MediaQuery.of(context).padding.top,
                   child: Stack(
                     children: [
+                      if (model.isTikTok)
+                        Positioned(
+                          top: -20,
+                          child: Image.asset('assets/images/AuthInformationPageTopMoney.png'),
+                        ),
                       Positioned(
-                        top: -17,
-                        child: Image.asset(
-                            'assets/images/AuthInformationPageTopMoney.png'),
-                      ),
-                      Positioned(
-                        top: -18,
+                        top: model.isTikTok ? -11 : 0,
                         left: 78,
                         right: 78,
-                        child: Image.asset(
-                            '${selectedSymbol}AuthInformationPageTopImage.png'),
+                        child: Image.asset('${selectedSymbol}AuthInformationPageTopImage.png'),
                       ),
+                      if (!model.isTikTok)
+                        Positioned(
+                          top: -50,
+                          child: Image.asset('assets/images/AuthInformationPageTopMoney.png'),
+                        ),
                     ],
                   ),
                 ),
                 Spacer(),
-                // SizedBox(height: 50),
                 Text(
                   'Wow!',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -82,10 +92,7 @@ class AuthInformationPage extends StatelessWidget {
                             top: 2,
                             child: Text(
                               '\$15k',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     color: Color.fromRGBO(254, 44, 85, 1),
                                     fontSize: 85,
                                     fontWeight: FontWeight.bold,
@@ -97,10 +104,7 @@ class AuthInformationPage extends StatelessWidget {
                             right: 3,
                             child: Text(
                               '\$15k',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
+                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     color: Color.fromRGBO(4, 211, 237, 1),
                                     fontSize: 85,
                                     fontWeight: FontWeight.bold,
@@ -109,10 +113,7 @@ class AuthInformationPage extends StatelessWidget {
                           ),
                           Text(
                             '\$15k',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                   color: Color.fromRGBO(255, 255, 255, 1),
                                   fontSize: 85,
                                   fontWeight: FontWeight.bold,
@@ -122,16 +123,15 @@ class AuthInformationPage extends StatelessWidget {
                       )
                     : GradientedText(
                         text: '\$15k',
-                        textStyle:
-                            Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                  fontSize: 85,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize: 85,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
                 Spacer(),
                 const SizedBox(height: 35),
                 GradientContainer(
-                  color: Color.fromRGBO(255, 29, 101, 1),
+                  color: Theme.of(context).primaryColor,
                   margin: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -144,7 +144,7 @@ class AuthInformationPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 27),
                 Text(
-                  'Wow! You have an amazing profile!',
+                  model.isTikTok ? 'Wow! You have an amazing profile!' : 'Legendary status!',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
@@ -154,85 +154,94 @@ class AuthInformationPage extends StatelessWidget {
                 const SizedBox(height: 21),
               ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class AchivmentBlock extends StatelessWidget {
-  final String text;
-  const AchivmentBlock({super.key, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 32, right: 29, bottom: 28, left: 22),
-      margin: const EdgeInsets.symmetric(horizontal: 15),
-      decoration: BoxDecoration(
-        color: Theme.of(context).hintColor,
-        borderRadius: BorderRadius.circular(19),
-      ),
-      child: Row(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              AdaptiveTheme.of(context).mode.isDark
-                  ? TripleText(value: '12')
-                  : GradientedText(text: '12'),
-              Text(
-                'Years on TikTok',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              )
-            ],
           ),
-          SizedBox(width: 19),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w500,
-                height: 1.24,
+          if (model.isTikTok) ...[
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.47,
+              left: 19,
+              child: Text('🤑'),
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.40,
+              right: 16,
+              child: Transform.rotate(
+                angle: math.pi * -15 / 180,
+                child: Text(
+                  '🤑',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 32),
+                ),
               ),
             ),
-          ),
+            Positioned(
+              bottom: 140 + MediaQuery.of(context).padding.bottom,
+              right: 20,
+              child: Transform.rotate(
+                angle: math.pi * -30 / 180,
+                child: Text(
+                  '😱',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 20),
+                ),
+              ),
+            ),
+          ] else ...[
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.47,
+              left: 70,
+              child: Transform.rotate(
+                angle: math.pi * -15 / 180,
+                child: Text(
+                  '🤑',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 16),
+                ),
+              ),
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.40,
+              right: 37,
+              child: Transform.rotate(
+                angle: math.pi * 30 / 180,
+                child: Text(
+                  '🤑',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 32),
+                ),
+              ),
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.6,
+              left: -34,
+              child: Transform.rotate(
+                angle: math.pi * 15 / 180,
+                child: Text(
+                  '😱',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 64),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 150 + MediaQuery.of(context).padding.bottom,
+              right: 26,
+              child: Transform.rotate(
+                angle: math.pi * -30 / 180,
+                child: Text(
+                  '😱',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 20),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 150 - 27 + MediaQuery.of(context).padding.bottom,
+              right: 26 + 8,
+              child: Transform.rotate(
+                angle: math.pi * -30 / 180,
+                child: Text(
+                  '😱',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 20),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
-    );
-  }
-}
-
-class StatisticCountContainer extends StatelessWidget {
-  const StatisticCountContainer({
-    super.key,
-    required this.text,
-    required this.value,
-  });
-  final String text;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        AdaptiveTheme.of(context).mode.isDark
-            ? TripleText(value: value)
-            : GradientedText(text: value),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
     );
   }
 }
@@ -307,13 +316,13 @@ class GradientContainer extends StatelessWidget {
     this.isActive = true,
     this.child,
     this.gradient,
-    this.color = const Color.fromRGBO(219, 29, 101, 1),
+    this.color = const Color.fromRGBO(255, 29, 101, 1),
     this.needBackground = true,
   }) {
     gradient = isActive
         ? const LinearGradient(colors: [
             Color.fromRGBO(108, 34, 193, 1),
-            Color.fromRGBO(229, 36, 69, 1),
+            Color.fromRGBO(255, 36, 69, 1),
           ])
         : const LinearGradient(colors: [
             Color.fromRGBO(108, 34, 193, 0.2),
@@ -325,17 +334,14 @@ class GradientContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeMode = AdaptiveTheme.of(context).mode;
-    final decorationBox = themeMode.isLight
-        ? decoration!.copyWith(gradient: gradient)
-        : decoration!.copyWith(color: color);
+    final decorationBox =
+        themeMode.isLight ? decoration!.copyWith(gradient: gradient) : decoration!.copyWith(color: color);
 
     return Container(
       width: width,
       padding: padding,
       margin: margin,
-      decoration: needBackground
-          ? decorationBox
-          : decoration?.copyWith(color: Colors.transparent),
+      decoration: needBackground ? decorationBox : decoration?.copyWith(color: Colors.transparent),
       child: child,
     );
   }
@@ -348,6 +354,7 @@ class ActionButton extends StatelessWidget {
   final EdgeInsets? margin;
   final bool isActive;
   final Color? disabledBackgroundColor;
+  final bool? isActivate;
 
   const ActionButton({
     super.key,
@@ -357,6 +364,7 @@ class ActionButton extends StatelessWidget {
     this.margin,
     this.isActive = true,
     this.disabledBackgroundColor,
+    this.isActivate,
   });
 
   @override
@@ -382,7 +390,7 @@ class ActionButton extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: Colors.white.withOpacity(isActive ? 1 : 0.2),
               ),
         ),
       ),

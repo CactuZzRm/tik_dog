@@ -46,20 +46,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           loginUrl = response.url;
 
           await launchUrl(Uri.parse(loginUrl)).catchError(
-            (error) => debugPrint('Url_launcher error: $error'),
+            (error) {
+              debugPrint('Url_launcher error: $error');
+              throw Exception(error);
+            },
           );
         },
       );
     } catch (e) {
       debugPrint(e.toString());
+      throw Exception(e);
     }
   }
 
   Future<UserModel?> exchangeTempToken(ExchangeTempTokenModel body) async {
     UserModel? user;
-    //TODO: Токен не успевает улавить, что пользователь авторизован
 
-    await Future.delayed(Duration(seconds: 2));
     try {
       await authRepositoryImpl.exhangeTempToken(body).then(
         (response) {

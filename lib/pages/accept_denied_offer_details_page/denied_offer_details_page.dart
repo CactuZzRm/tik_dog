@@ -100,9 +100,11 @@ class _DeniedOfferDetailsPageState extends State<DeniedOfferDetailsPage> {
                                         id: model.offers[0].id,
                                         reason: model.selectedTextReason!,
                                       );
+                                      model.add(RemoveSelectedValuesEvent());
                                       context.pop();
                                     }
                                   : null,
+                              isActive: model.selectedTextReason != null && model.selectedTextReason != '',
                               text: 'Send',
                               backgroundColor: Colors.transparent,
                             ),

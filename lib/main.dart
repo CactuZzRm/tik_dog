@@ -14,10 +14,12 @@ import 'pages/accept_denied_offer_details_page/denied_offer_details_page.dart';
 import 'pages/auth_page/auth_page.dart';
 import 'pages/auth_information_page/auth_information_page.dart';
 import 'pages/auth_page/bloc/auth_bloc.dart';
+import 'pages/friends_page/cubit/friends_cubit.dart';
 import 'pages/friends_page/friends_page.dart';
 import 'pages/offers_page/bloc/offers_bloc.dart';
 import 'pages/offers_page/offers_page.dart';
 import 'pages/rating_page/rating_page.dart';
+import 'pages/statistic_page/statistic_page.dart';
 import 'pages/tabs_page/tabs_page.dart';
 import 'pages/wallet_page/bloc/wallet_bloc.dart';
 import 'pages/wallet_page/wallet_page.dart';
@@ -65,8 +67,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _handleDeepLink(String link) {
-    print("Получен deep link: $link");
-    print('ПРОВЕРКА УСЛОВИЯ: ${link.startsWith('https://app.bigpie.ai/api/callback')}');
+    debugPrint("Получен deep link: $link");
     if (link.startsWith("https://app.bigpie.ai/api/callback")) {}
   }
 
@@ -83,6 +84,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (context) => getIt<AuthBloc>()),
           BlocProvider(create: (context) => getIt<OffersBloc>()),
           BlocProvider(create: (context) => WalletBloc()),
+          BlocProvider(create: (context) => FriendsCubit()),
         ],
         child: MaterialApp.router(
           routerConfig: _router,
@@ -102,19 +104,20 @@ final _router = GoRouter(
       final body = ExchangeTempTokenModel(
         tempToken: context.read<AuthBloc>().tempToken,
       );
-      // TODO: Обработка в случае не авторизации
       try {
-        await context.read<AuthBloc>().exchangeTempToken(body).then((user) {
-          if (context.mounted) {
-            context.read<WalletBloc>().add(WalletInitEvent(userModel: user!));
-          }
-        });
+        await Future.delayed(Duration(seconds: 5));
+        if (context.mounted) {
+          await context.read<AuthBloc>().exchangeTempToken(body).then((user) {
+            if (context.mounted) {
+              context.read<WalletBloc>().add(WalletInitEvent(userModel: user!));
+            }
+          });
+        }
       } catch (e) {
-        debugPrint(e.toString());
-        throw Exception(e);
+        debugPrint('ERROR: ${e.toString()}');
+        return '/';
       }
-
-      return '/authLoadingPage';
+      return '/auth_statistic_page';
     }
     return null;
   },
@@ -131,16 +134,10 @@ final _router = GoRouter(
       ],
     ),
     GoRoute(
-        path: '/auth_statistic_page',
-        name: 'AuthStatisticPage',
-        builder: (context, state) {
-          final extra = state.extra as Map<String, dynamic>;
-
-          return AuthStatisticPage(
-            buttonRedirectPageName: extra['buttonRedirectPageName'] as String?,
-            buttonText: extra['buttonText'] as String,
-          );
-        }),
+      path: '/auth_statistic_page',
+      name: 'AuthStatisticPage',
+      builder: (context, state) => AuthStatisticPage(),
+    ),
     GoRoute(
       path: '/auth_information_page',
       name: 'AuthInformationPage',
@@ -196,6 +193,11 @@ final _router = GoRouter(
       path: '/denied_offer_details',
       name: 'DeniedOfferDetailsPage',
       builder: (context, state) => DeniedOfferDetailsPage(),
+    ),
+    GoRoute(
+      path: '/statistic',
+      name: 'StatisticPage',
+      builder: (context, state) => StatisticPage(),
     ),
   ],
 );

@@ -257,9 +257,7 @@ class WalletPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     GestureDetector(
-                      onTap: () => context.pushNamed('AuthStatisticPage', extra: {
-                        'buttonText': 'Ok',
-                      }),
+                      onTap: () => context.pushNamed('StatisticPage'),
                       child: Container(
                         height: 108,
                         padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 17),

@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:tik_dog/pages/auth_information_page/auth_information_page.dart';
 import 'package:tik_dog/themes.dart';
 
-import '../../constants.dart';
 import '../auth_page/bloc/auth_bloc.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
@@ -189,11 +188,6 @@ class _TabsHeaderState extends State<TabsHeader> {
                       const SizedBox(width: 8),
                       GestureDetector(
                         onTap: () {
-                          // setState(() {
-                          //   isTikTokSelect = false;
-                          //   selectedSymbol = 'assets/images/InstagramSymbol';
-                          //   AdaptiveTheme.of(context).setLight();
-                          // });
                           model.add(SocialNetworkChangeEvent(themeContext: context, isTikTok: false));
                         },
                         child: GradientContainer(

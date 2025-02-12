@@ -28,3 +28,5 @@ class SelectCountReasonEvent extends OffersEvent {
 
   SelectCountReasonEvent({required this.index});
 }
+
+class RemoveSelectedValuesEvent extends OffersEvent {}

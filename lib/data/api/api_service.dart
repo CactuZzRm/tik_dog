@@ -4,6 +4,7 @@ import 'package:tik_dog/data/api/models/exchange_temp_token_model.dart';
 
 import 'models/accept_offer_model.dart';
 import 'models/denied_offer_model.dart';
+import 'models/friend_model.dart';
 import 'models/offer_model.dart';
 import 'response_models/exchange_temp_token_response.dart';
 import 'response_models/get_redirect_url_response.dart';
@@ -41,4 +42,7 @@ abstract class ApiService {
 
   @GET('/api/static?key=decline_offer_reasons')
   Future<List<String>> fetchDeniedOfferReasons();
+
+  @GET('/api/user/referrals')
+  Future<List<FriendModel>> fetchFriends();
 }

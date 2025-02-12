@@ -44,8 +44,7 @@ class CustomThemeData extends ThemeExtension<CustomThemeData> {
   }
 
   @override
-  ThemeExtension<CustomThemeData> lerp(
-      covariant ThemeExtension<CustomThemeData>? other, double t) {
+  ThemeExtension<CustomThemeData> lerp(covariant ThemeExtension<CustomThemeData>? other, double t) {
     if (other is! CustomThemeData) {
       return this;
     }
@@ -55,8 +54,7 @@ class CustomThemeData extends ThemeExtension<CustomThemeData> {
         other.ratingProfileCardBackgroundColor,
         t,
       ),
-      offersPageCategoryBorderColor: Color.lerp(offersPageCategoryBorderColor,
-          other.offersPageCategoryBorderColor, t),
+      offersPageCategoryBorderColor: Color.lerp(offersPageCategoryBorderColor, other.offersPageCategoryBorderColor, t),
       tabsHeaderSocialNetworkBackgroundColor: Color.lerp(
         tabsHeaderSocialNetworkBackgroundColor,
         other.tabsHeaderSocialNetworkBackgroundColor,
@@ -136,13 +134,10 @@ final tiktokTheme = ThemeData(
     CustomThemeData(
       ratingProfileCardBackgroundColor: Color.fromRGBO(36, 36, 36, 1),
       offersPageCategoryBorderColor: Color.fromRGBO(55, 55, 62, 1),
-      tabsHeaderSocialNetworkBackgroundColor:
-          Color.fromRGBO(255, 255, 255, 0.2),
+      tabsHeaderSocialNetworkBackgroundColor: Color.fromRGBO(255, 255, 255, 0.2),
       tabsHeaderSocialNetworkBorderColor: Color.fromRGBO(255, 255, 255, 0.15),
-      tabsHeaderSocialNetworkUnselectedIconColor:
-          Color.fromRGBO(255, 255, 255, 1),
-      offersPageHeaderUnselectedCategoryColor:
-          Color.fromRGBO(255, 255, 255, 0.8),
+      tabsHeaderSocialNetworkUnselectedIconColor: Color.fromRGBO(255, 255, 255, 1),
+      offersPageHeaderUnselectedCategoryColor: Color.fromRGBO(255, 255, 255, 0.8),
       offersAcceptGradientFirstColor: Color.fromRGBO(28, 28, 30, 1),
       offersAcceptGradientSecondColor: Color.fromRGBO(0, 0, 0, 0),
       offerDeniedReasonSelectBackgroundColor: Color.fromRGBO(28, 28, 30, 0.9),
@@ -152,8 +147,7 @@ final tiktokTheme = ThemeData(
       walletAccountActionButtonBackgroundColor: Colors.transparent,
       walletAccountActionButtonBorderColor: Color.fromRGBO(86, 86, 86, 1),
       offersAcceptEmailHintColor: Color.fromRGBO(255, 255, 255, 0.5),
-      authStatisticsPagestatisticContainerTextColor:
-          Color.fromRGBO(255, 29, 101, 1),
+      authStatisticsPagestatisticContainerTextColor: Color.fromRGBO(255, 29, 101, 1),
     ),
   ],
   brightness: Brightness.dark,
@@ -168,8 +162,7 @@ final tiktokTheme = ThemeData(
   textTheme: const TextTheme(
     titleSmall: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.5)),
     titleMedium: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
-    bodySmall: TextStyle(
-        fontSize: 13, color: Color.fromRGBO(157, 157, 157, 1), height: 1),
+    bodySmall: TextStyle(fontSize: 13, color: Color.fromRGBO(157, 157, 157, 1), height: 1),
     bodyMedium: TextStyle(fontSize: 15, color: Colors.white),
     bodyLarge: TextStyle(fontSize: 32, color: Colors.white, height: 1),
   ),
@@ -187,22 +180,20 @@ final instaTheme = ThemeData(
       offersAcceptGradientFirstColor: Color.fromRGBO(255, 255, 255, 1),
       offersAcceptGradientSecondColor: Color.fromRGBO(255, 255, 255, 0),
       offerDeniedReasonSelectBackgroundColor: Color.fromRGBO(255, 255, 255, 1),
-      offerDeniedReasonScaffoldBackgroundColor:
-          Color.fromRGBO(235, 235, 235, 1),
+      offerDeniedReasonScaffoldBackgroundColor: Color.fromRGBO(235, 235, 235, 1),
       offerDeniedReasonTextFieldHintColor: Color.fromRGBO(0, 0, 0, 0.5),
       walletTikTokButtonBackgroundColor: Color.fromRGBO(0, 0, 0, 1),
       walletAccountActionButtonBackgroundColor: Colors.transparent,
       walletAccountActionButtonBorderColor: Color.fromRGBO(190, 190, 190, 1),
       offersAcceptEmailHintColor: Color.fromRGBO(176, 176, 176, 1),
-      authStatisticsPagestatisticContainerTextColor:
-          Color.fromRGBO(0, 0, 0, 1),
+      authStatisticsPagestatisticContainerTextColor: Color.fromRGBO(0, 0, 0, 1),
     )
   ],
   brightness: Brightness.light,
   scaffoldBackgroundColor: Colors.white,
   primaryColor: Color.fromRGBO(255, 29, 101, 1),
   cardColor: Color.fromRGBO(24, 24, 24, 1),
-  hintColor: Color.fromRGBO(255, 255, 255, 1),
+  hintColor: Color.fromRGBO(243, 243, 243, 1),
   highlightColor: Color.fromRGBO(255, 255, 255, 1),
   canvasColor: Colors.black,
   splashColor: Color.fromRGBO(255, 255, 255, 1),
@@ -210,8 +201,7 @@ final instaTheme = ThemeData(
   textTheme: const TextTheme(
     titleSmall: TextStyle(color: Color.fromRGBO(157, 157, 157, 1)),
     titleMedium: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
-    bodySmall: TextStyle(
-        fontSize: 13, color: Color.fromRGBO(255, 255, 255, 1), height: 1),
+    bodySmall: TextStyle(fontSize: 13, color: Color.fromRGBO(255, 255, 255, 1), height: 1),
     bodyMedium: TextStyle(fontSize: 15, color: Colors.black),
     bodyLarge: TextStyle(fontSize: 32, color: Colors.black, height: 1),
   ),

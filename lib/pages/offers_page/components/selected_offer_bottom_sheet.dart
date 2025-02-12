@@ -86,7 +86,7 @@ class SelectedOfferBottomSheet extends StatelessWidget {
                 ),
                 SizedBox(height: 51),
                 Text(
-                  //TODO: Какая нужна цена и нужен ли символ валюты
+                  //
                   model.offers[0].formattedPrice,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: Color.fromRGBO(42, 255, 173, 1),

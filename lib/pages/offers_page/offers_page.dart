@@ -35,7 +35,7 @@ class OffersPage extends StatelessWidget {
                   OfferCard(
                     text: offer.title,
                     image: 'assets/images/Offer.png',
-                    price: offer.price.toString(),
+                    price: offer.formattedPrice.toString(),
                     onTap: () => showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
@@ -48,7 +48,7 @@ class OffersPage extends StatelessWidget {
             ),
           );
         }
-        return Scaffold(body: Text('error'));
+        return Center(child: Text('Загрузка'));
       },
     );
   }

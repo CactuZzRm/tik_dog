@@ -1,0 +1,14 @@
+[
+    {
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "com.example.tik_dog",
+            "sha256_cert_fingerprints": [
+                "D9:8B:C5:F4:51:AC:35:33:F7:D2:C1:5B:3F:F1:4E:30:19:EB:CB:E0:F0:35:14:71:DB:D7:B6:C0:44:0D:7D:53"
+            ]
+        }
+    }
+]

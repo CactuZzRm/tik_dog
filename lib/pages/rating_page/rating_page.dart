@@ -29,8 +29,7 @@ class RatingPage extends StatelessWidget {
                       desc: '123 456 789',
                       rating: '🥇',
                       descFontSize: 13,
-                      imageUrl:
-                          'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
+                      imageUrl: 'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg',
                     ),
                   ],
                 ),
@@ -43,7 +42,7 @@ class RatingPage extends StatelessWidget {
 
 class UserRating extends StatelessWidget {
   final String name;
-  final String desc; //TODO: изменить название на корректное
+  final String desc;
   final String rating;
   final String? imageUrl;
   final double? descFontSize;
@@ -70,7 +69,13 @@ class UserRating extends StatelessWidget {
             width: 44,
             child: ClipOval(
               child: imageUrl != null
-                  ? Image.network(imageUrl!, fit: BoxFit.cover)
+                  ? Image.network(
+                      imageUrl!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Text('error');
+                      },
+                    )
                   : DecoratedBox(
                       decoration: BoxDecoration(
                         color: Color.fromRGBO(43, 43, 43, 1),
@@ -80,41 +85,44 @@ class UserRating extends StatelessWidget {
                           name[0] + name[1],
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
                         ),
                       ),
                     ),
             ),
           ),
           const SizedBox(width: 12),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 15, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(height: 14),
-              Text(
-                desc,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: descFontSize ?? 15,
-                  fontWeight: FontWeight.w400,
-                  color: Color.fromRGBO(122, 122, 122, 1),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 4),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 15, fontWeight: FontWeight.w500),
                 ),
-              ),
-            ],
+                SizedBox(height: 8),
+                Text(
+                  desc,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: descFontSize ?? 15,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(122, 122, 122, 1),
+                      ),
+                ),
+              ],
+            ),
           ),
           Spacer(),
           Text(
             rating,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontSize: ratingFontSize ?? 32,
-              fontWeight: FontWeight.bold,
-            ),
+                  fontSize: ratingFontSize ?? 32,
+                  fontWeight: FontWeight.bold,
+                ),
           ),
         ],
       ),
@@ -137,18 +145,18 @@ class TopRatingTitle extends StatelessWidget {
           Text(
             '14.4M creators',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-              height: 1.28,
-            ),
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  height: 1.28,
+                ),
           ),
           Text(
             'Updating 1 time a day',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontSize: 17,
-              fontWeight: FontWeight.w400,
-              height: 1.28,
-            ),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w400,
+                  height: 1.28,
+                ),
           ),
         ],
       ),
@@ -178,9 +186,7 @@ class ProfileRating extends StatelessWidget {
         vertical: 12,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context)
-            .extension<CustomThemeData>()!
-            .ratingProfileCardBackgroundColor,
+        color: Theme.of(context).extension<CustomThemeData>()!.ratingProfileCardBackgroundColor,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -201,10 +207,10 @@ class ProfileRating extends StatelessWidget {
                           'You',
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                          ),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
                         ),
                       ),
                     ),
@@ -218,19 +224,19 @@ class ProfileRating extends StatelessWidget {
               Text(
                 'You',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                ),
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: 8),
               Text(
                 desc,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w400,
-                  color: Theme.of(context).textTheme.bodySmall!.color,
-                ),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                      color: Theme.of(context).textTheme.bodySmall!.color,
+                    ),
               ),
             ],
           ),
@@ -238,10 +244,10 @@ class ProfileRating extends StatelessWidget {
           Text(
             rating,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
           ),
         ],
       ),
@@ -260,10 +266,10 @@ class EmptyCreators extends StatelessWidget {
       child: Text(
         'Ждите обновления участников 1 марта',
         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-          fontSize: 17,
-          fontWeight: FontWeight.bold,
-          height: 1.28,
-        ),
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+              height: 1.28,
+            ),
       ),
     );
   }

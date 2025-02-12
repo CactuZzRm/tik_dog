@@ -6,6 +6,7 @@ import 'package:dio/io.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:tik_dog/data/repositories/auth_repository_impl.dart';
+import 'package:tik_dog/data/repositories/friends_repository_impl.dart';
 import 'package:tik_dog/data/repositories/offers_repository_impl.dart';
 
 import 'data/api/api_service.dart';
@@ -38,18 +39,11 @@ void setup() {
   getIt.registerSingleton<ApiService>(ApiService(getIt<Dio>()));
 
   // Репозитории
-  getIt.registerSingleton<AuthRepositoryImpl>(
-    AuthRepositoryImpl(apiService: getIt<ApiService>()),
-  );
-  getIt.registerSingleton<OffersRepositoryImpl>(
-    OffersRepositoryImpl(apiService: getIt<ApiService>()),
-  );
+  getIt.registerSingleton<AuthRepositoryImpl>(AuthRepositoryImpl());
+  getIt.registerSingleton<OffersRepositoryImpl>(OffersRepositoryImpl());
+  getIt.registerSingleton<FriendsRepositoryImpl>(FriendsRepositoryImpl());
 
   // BLoC's
-  getIt.registerFactory<AuthBloc>(
-    () => AuthBloc(authRepositoryImpl: getIt<AuthRepositoryImpl>()),
-  );
-  getIt.registerFactory<OffersBloc>(
-    () => OffersBloc(offersRepositoryImpl: getIt<OffersRepositoryImpl>()),
-  );
+  getIt.registerFactory<AuthBloc>(() => AuthBloc(authRepositoryImpl: getIt<AuthRepositoryImpl>()));
+  getIt.registerFactory<OffersBloc>(() => OffersBloc(offersRepositoryImpl: getIt<OffersRepositoryImpl>()));
 }

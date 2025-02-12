@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 import 'package:tik_dog/data/repositories/offers_repository_impl.dart';
 
 import '../../../data/api/models/offer_model.dart';
@@ -24,9 +23,10 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
   ];
 
   String? selectedCountry;
+
+  List<String>? reasons;
   String? selectedTextReason;
   int? selectedReasonIndex;
-  List<String>? reasons;
 
   OffersBloc({required this.offersRepositoryImpl}) : super(OffersInitial()) {
     on<OffersInitEvent>((event, emit) async {
@@ -53,6 +53,12 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
     });
     on<SelectCountReasonEvent>((event, emit) {
       selectedReasonIndex = event.index;
+      emit(OffersCurrentOffersState().copyWith());
+    });
+    on<RemoveSelectedValuesEvent>((event, emit) {
+      selectedCountry = null;
+      selectedTextReason = null;
+      selectedReasonIndex = null;
       emit(OffersCurrentOffersState().copyWith());
     });
   }
