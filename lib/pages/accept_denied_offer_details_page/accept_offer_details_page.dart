@@ -179,11 +179,16 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                     ),
                     child: ActionButton(
                       onPressed: () {
-                        model.acceptOffer(
+                        // model.acceptOffer(
+                        //   id: model.offers[0].id,
+                        //   country: model.selectedCountry!,
+                        //   email: email,
+                        // );
+                        model.add(AcceptOfferEvent(
                           id: model.offers[0].id,
-                          country: model.selectedCountry!,
                           email: email,
-                        );
+                          country: model.selectedCountry!,
+                        ));
                         model.add(RemoveSelectedValuesEvent());
                         showModalBottomSheet(
                           context: context,

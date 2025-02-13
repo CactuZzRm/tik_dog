@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,6 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:tik_dog/constants.dart';
 import 'package:tik_dog/pages/auth_page/bloc/auth_bloc.dart';
 import 'package:tik_dog/pages/init_loading_page/init_loading_page.dart';
+
+import '../../themes.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({
@@ -20,7 +25,7 @@ class AuthPage extends StatelessWidget {
         if (state is AuthLoading) {
           model.add(AuthLoadingEvent());
           return InitLoadingPage();
-        } else if (state is AuthInitial) {
+        } else if (state is AuthCurrentState) {
           return Scaffold(
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -85,7 +90,8 @@ class AuthPage extends StatelessWidget {
                   iconSource: 'assets/icons/InstagramLogo.svg',
                   onPressed: () {
                     selectedSymbol = 'assets/images/InstagramSymbol';
-                    // context.replaceNamed('Loading', extra: false);
+                    context.pushNamed('AuthLoadingPage');
+                    model.add(AuthLoginEvent(socialNetwork: SocialNetworks.instagram));
                   },
                 ),
                 const SizedBox(height: 24),

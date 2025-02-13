@@ -165,7 +165,7 @@ class TopRatingTitle extends StatelessWidget {
 }
 
 class ProfileRating extends StatelessWidget {
-  final String desc; //TODO: Изменить название на корректное
+  final String desc;
   final String rating;
   final String? imageUrl;
 
@@ -196,7 +196,7 @@ class ProfileRating extends StatelessWidget {
             height: 44,
             width: 44,
             child: ClipOval(
-              child: imageUrl != null
+              child: imageUrl != null && imageUrl != ''
                   ? Image.network(imageUrl!, fit: BoxFit.cover)
                   : DecoratedBox(
                       decoration: BoxDecoration(

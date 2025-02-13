@@ -6,7 +6,7 @@ part 'user_model.g.dart';
 class UserModel {
   final String id;
   final String name;
-  final String avatar;
+  final String? avatar;
   @JsonKey(name: 'number_of_media')
   final int numberOfMedia;
   @JsonKey(name: 'number_of_followers')

@@ -17,33 +17,41 @@ class OffersPage extends StatelessWidget {
         final model = context.watch<OffersBloc>();
 
         if (state is OffersInitial) {
-          model.add(OffersInitEvent());
+          model.add(OffersInitEvent(status: null));
         } else if (state is OffersCurrentOffersState) {
-          OfferModel? offer;
+          List<OfferModel>? offers;
           if (context.watch<OffersBloc>().offers.isNotEmpty) {
-            offer = context.watch<OffersBloc>().offers[0];
+            offers = context.watch<OffersBloc>().offers;
           }
 
           return Scaffold(
-            body: ListView(
-              padding: const EdgeInsets.all(0),
+            body: Column(
               children: [
                 const SizedBox(height: 22),
                 OffersStatusBar(),
                 const SizedBox(height: 28),
-                if (offer != null)
-                  OfferCard(
-                    text: offer.title,
-                    image: 'assets/images/Offer.png',
-                    price: offer.formattedPrice.toString(),
-                    onTap: () => showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      useRootNavigator: true,
-                      builder: (context) => SelectedOfferBottomSheet(),
+                if (offers != null)
+                  Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(0),
+                      itemCount: offers.length,
+                      itemBuilder: (context, index) {
+                        return OfferCard(
+                          // text: offers![index].title,
+                          // price: offers[index].formattedPrice.toString(),
+                          offer: offers![index],
+                          image: 'assets/images/Offer.png',
+                          onTap: () => showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            useRootNavigator: true,
+                            builder: (context) => SelectedOfferBottomSheet(),
+                          ),
+                        );
+                      },
                     ),
-                  ),
+                  )
               ],
             ),
           );

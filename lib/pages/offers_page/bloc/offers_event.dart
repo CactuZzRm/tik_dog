@@ -3,12 +3,31 @@ part of 'offers_bloc.dart';
 @immutable
 sealed class OffersEvent {}
 
-class OffersInitEvent extends OffersEvent {}
+class OffersInitEvent extends OffersEvent {
+  final String? status;
+
+  OffersInitEvent({this.status});
+}
 
 class OffersChangeSelectedStatusEvent extends OffersEvent {
   final int index;
 
   OffersChangeSelectedStatusEvent({required this.index});
+}
+
+class AcceptOfferEvent extends OffersEvent {
+  final String id;
+  final String email;
+  final String country;
+
+  AcceptOfferEvent({required this.id, required this.email, required this.country});
+}
+
+class DeniedOfferEvent extends OffersEvent {
+  final String id;
+  final String reason;
+
+  DeniedOfferEvent({required this.id, required this.reason});
 }
 
 class SelectCountryEvent extends OffersEvent {

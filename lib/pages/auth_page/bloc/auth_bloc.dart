@@ -20,10 +20,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   String? token = '';
   late bool isTikTok;
 
+  String groupKey = '';
+
   AuthBloc({required this.authRepositoryImpl}) : super(AuthLoading()) {
     on<AuthLoadingEvent>((event, emit) async {
       await Future.delayed(Duration(seconds: 2)).then((value) {
-        emit(AuthInitial());
+        emit(AuthCurrentState());
       });
     });
     on<AuthLoginEvent>((event, emit) async {
@@ -35,6 +37,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       isTikTok = event.isTikTok;
       isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
       selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
+    });
+    on<GetKeyEvent>((event, emit) async {
+      await getKey();
+      emit(AuthCurrentState().copyWith());
+    });
+    on<SetKeyEvent>((event, emit) async {
+      await setKey(event.key);
     });
   }
 
@@ -89,5 +98,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       throw Exception(e);
     }
     return user;
+  }
+
+  Future<void> getKey() async {
+    try {
+      await authRepositoryImpl.generateKey().then((value) {
+        groupKey = value.key;
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+      throw Exception(e);
+    }
+  }
+
+  Future<void> setKey(String key) async {
+    try {
+      await authRepositoryImpl.setKey(key).then((value) {
+        debugPrint('Ok');
+      });
+    } catch (e) {
+      debugPrint(e.toString());
+      throw Exception(e);
+    }
   }
 }

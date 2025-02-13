@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tik_dog/constants.dart';
@@ -10,6 +12,7 @@ import 'dart:math' as math;
 
 import '../../themes.dart';
 import '../auth_information_page/auth_information_page.dart';
+import '../auth_page/bloc/auth_bloc.dart';
 import '../tabs_page/tabs_page.dart';
 
 class WalletPage extends StatelessWidget {
@@ -290,6 +293,22 @@ class WalletPage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 35),
+                    GradientContainer(
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+                      color: Theme.of(context).primaryColor,
+                      isActive: true,
+                      child: ActionButton(
+                        backgroundColor: Colors.transparent,
+                        text: 'Add account',
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AddAccountDialog(isIos: Platform.isIOS),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 12),
                     WalletAccountActionButton(
                       text: 'Log out',
                       onPressed: () {
@@ -367,7 +386,7 @@ class WalletPage extends StatelessWidget {
                                     ),
                               ),
                               actions: [
-                                CupertinoDialogAction(
+                                TextButton(
                                   child: Text(
                                     "Cancel",
                                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -381,7 +400,7 @@ class WalletPage extends StatelessWidget {
                                     Navigator.of(context).pop();
                                   },
                                 ),
-                                CupertinoDialogAction(
+                                TextButton(
                                   child: Text(
                                     "Log out",
                                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -479,7 +498,7 @@ class WalletPage extends StatelessWidget {
                                     ),
                               ),
                               actions: [
-                                CupertinoDialogAction(
+                                TextButton(
                                   child: Text(
                                     "Cancel",
                                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -493,7 +512,7 @@ class WalletPage extends StatelessWidget {
                                     Navigator.of(context).pop();
                                   },
                                 ),
-                                CupertinoDialogAction(
+                                TextButton(
                                   child: Text(
                                     "Delete",
                                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -522,6 +541,405 @@ class WalletPage extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class AddAccountDialog extends StatelessWidget {
+  final bool isIos;
+
+  const AddAccountDialog({
+    this.isIos = true,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.read<AuthBloc>();
+
+    return isIos
+        ? CupertinoAlertDialog(
+            title: Text(
+              'Add account',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    height: 1.22,
+                  ),
+            ),
+            content: Text(
+              'Do you have a key?',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    height: 1.44,
+                  ),
+            ),
+            actions: [
+              CupertinoDialogAction(
+                child: Text(
+                  "No",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        height: 1.22,
+                        color: Colors.blue,
+                      ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (context) => GetKeyDialog(isIos: isIos),
+                  );
+                },
+              ),
+              CupertinoDialogAction(
+                child: Text(
+                  "Yes",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        height: 1.22,
+                        color: Colors.blue,
+                      ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (context) => SetKeyDialog(isIos: isIos),
+                  );
+                },
+              ),
+            ],
+          )
+        : AlertDialog(
+            actionsAlignment: MainAxisAlignment.end,
+            title: Text(
+              'Add account',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    height: 1.22,
+                  ),
+            ),
+            content: Text(
+              'Do you have a key?',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    height: 1.44,
+                  ),
+            ),
+            actions: [
+              TextButton(
+                child: Text(
+                  "No",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        height: 1.22,
+                        color: Colors.blue,
+                      ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      model.add(GetKeyEvent());
+                      return GetKeyDialog(isIos: isIos);
+                    },
+                  );
+                },
+              ),
+              TextButton(
+                child: Text(
+                  "Yes",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        height: 1.22,
+                        color: Colors.blue,
+                      ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  showDialog(
+                    context: context,
+                    builder: (context) => SetKeyDialog(isIos: isIos),
+                  );
+                },
+              ),
+            ],
+          );
+  }
+}
+
+class GetKeyDialog extends StatelessWidget {
+  final bool isIos;
+
+  const GetKeyDialog({
+    this.isIos = true,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.watch<AuthBloc>();
+
+    return isIos
+        ? BlocBuilder<AuthBloc, AuthState>(
+            builder: (context, state) {
+              return CupertinoAlertDialog(
+                title: Text(
+                  'Get key',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                        height: 1.22,
+                      ),
+                ),
+                content: Text(
+                  'Key: ${model.groupKey}',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        height: 1.44,
+                      ),
+                ),
+                actions: [
+                  CupertinoDialogAction(
+                    child: Text(
+                      "Close",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w400,
+                            height: 1.22,
+                            color: Colors.blue,
+                          ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  CupertinoDialogAction(
+                    child: Text(
+                      "Copy",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w400,
+                            height: 1.22,
+                            color: Colors.blue,
+                          ),
+                    ),
+                    onPressed: () {
+                      FlutterClipboard.copy(model.groupKey).then((value) => debugPrint('copy success')).catchError((e) {
+                        debugPrint(e);
+                        throw Exception(e);
+                      });
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          )
+        : AlertDialog(
+            actionsAlignment: MainAxisAlignment.end,
+            title: Text(
+              'Get key',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                    height: 1.22,
+                  ),
+            ),
+            content: Text(
+              'Key: ${model.groupKey}',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    height: 1.44,
+                  ),
+            ),
+            actions: [
+              TextButton(
+                child: Text(
+                  "Close",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        height: 1.22,
+                        color: Colors.blue,
+                      ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text(
+                  "Copy",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                        height: 1.22,
+                        color: Colors.blue,
+                      ),
+                ),
+                onPressed: () {
+                  FlutterClipboard.copy(model.groupKey).then((value) => debugPrint('copy success')).catchError((e) {
+                    debugPrint(e);
+                    throw Exception(e);
+                  });
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+  }
+}
+
+class SetKeyDialog extends StatelessWidget {
+  final bool isIos;
+
+  const SetKeyDialog({
+    this.isIos = true,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final model = context.read<AuthBloc>();
+    String key = '';
+
+    if (isIos) {
+      return CupertinoAlertDialog(
+        title: Text(
+          'Set key',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+                height: 1.22,
+              ),
+        ),
+        content: Material(
+          color: Colors.transparent,
+          child: TextField(
+            autofocus: true,
+            onChanged: (value) => key = value,
+            style: TextStyle(
+              fontSize: 14,
+              height: 1,
+            ),
+            decoration: InputDecoration.collapsed(
+              hintText: 'Enter your key',
+              hintStyle: TextStyle(
+                fontSize: 14,
+                height: 1,
+                color: Theme.of(context).extension<CustomThemeData>()!.offersAcceptEmailHintColor!,
+              ),
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+        actions: [
+          CupertinoDialogAction(
+            child: Text(
+              "Cancel",
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    height: 1.22,
+                    color: Colors.blue,
+                  ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          CupertinoDialogAction(
+            child: Text(
+              "Set",
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    height: 1.22,
+                    color: Colors.blue,
+                  ),
+            ),
+            onPressed: () {
+              model.add(SetKeyEvent(key: key));
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    } else {
+      return AlertDialog(
+        actionsAlignment: MainAxisAlignment.end,
+        title: Text(
+          'Set key',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+                height: 1.22,
+              ),
+        ),
+        content: Material(
+          color: Colors.transparent,
+          child: TextField(
+            autofocus: true,
+            onChanged: (value) => key = value,
+            style: TextStyle(
+              fontSize: 14,
+              height: 1,
+            ),
+            decoration: InputDecoration.collapsed(
+              hintText: 'Enter your key',
+              hintStyle: TextStyle(
+                fontSize: 14,
+                height: 1,
+                color: Theme.of(context).extension<CustomThemeData>()!.offersAcceptEmailHintColor!,
+              ),
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            child: Text(
+              "Cancel",
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    height: 1.22,
+                    color: Colors.blue,
+                  ),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text(
+              "Set",
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w400,
+                    height: 1.22,
+                    color: Colors.blue,
+                  ),
+            ),
+            onPressed: () {
+              model.add(SetKeyEvent(key: key));
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    }
   }
 }
 

@@ -1,8 +1,11 @@
 part of 'auth_bloc.dart';
 
-@immutable
-sealed class AuthState {}
+class AuthState {}
 
-final class AuthLoading extends AuthState {}
+class AuthLoading extends AuthState {}
 
-final class AuthInitial extends AuthState {}
+class AuthCurrentState extends AuthState {
+  AuthCurrentState copyWith() {
+    return AuthCurrentState();
+  }
+}

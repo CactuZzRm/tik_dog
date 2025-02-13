@@ -23,3 +23,11 @@ class SocialNetworkChangeEvent extends AuthEvent {
 
   SocialNetworkChangeEvent({required this.themeContext, required this.isTikTok});
 }
+
+class GetKeyEvent extends AuthEvent {}
+
+class SetKeyEvent extends AuthEvent {
+  final String key;
+
+  SetKeyEvent({required this.key});
+}

@@ -117,8 +117,8 @@ class _TabsHeaderState extends State<TabsHeader> {
                         height: 70,
                         width: 70,
                         child: ClipOval(
-                          child: state.user.avatar != ''
-                              ? Image.network(state.user.avatar, fit: BoxFit.cover)
+                          child: state.user.avatar != null && state.user.avatar != ''
+                              ? Image.network(state.user.avatar ?? '', fit: BoxFit.cover)
                               : DecoratedBox(
                                   decoration: BoxDecoration(
                                     color: Color.fromRGBO(43, 43, 43, 1),

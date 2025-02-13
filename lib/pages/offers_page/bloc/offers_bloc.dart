@@ -8,36 +8,28 @@ part 'offers_event.dart';
 part 'offers_state.dart';
 
 class OffersBloc extends Bloc<OffersEvent, OffersState> {
-  OffersRepositoryImpl offersRepositoryImpl;
-  int selectedOffersTypeStatus = 0;
-
-  final List<String> items = [
-    'Item1',
-    'Item2',
-    'Item3',
-    'Item4',
-    'Item5',
-    'Item6',
-    'Item7',
-    'Item8',
-  ];
-
-  String? selectedCountry;
-
-  List<String>? reasons;
-  String? selectedTextReason;
-  int? selectedReasonIndex;
-
   OffersBloc({required this.offersRepositoryImpl}) : super(OffersInitial()) {
     on<OffersInitEvent>((event, emit) async {
-      await fetchOffers();
+      final status = event.status ?? getOffersStatus;
+      final limit = selectedOffersTypeStatus == 0 ? 1 : null;
+
+      await fetchOffers(limit: limit, status: status);
       emit(OffersCurrentOffersState(offers: offers));
     });
-    on<OffersChangeSelectedStatusEvent>((event, emit) {
+    on<OffersChangeSelectedStatusEvent>((event, emit) async {
       changeOffersTypeStatus(event.index);
+      final limit = selectedOffersTypeStatus == 0 ? 1 : null;
+      await fetchOffers(limit: limit, status: getOffersStatus);
       emit(OffersCurrentOffersState().copyWith(
+        offers: offers,
         selectedOffersStatus: event.index,
       ));
+    });
+    on<AcceptOfferEvent>((event, emit) async {
+      await acceptOffer(id: event.id, email: event.email, country: event.country);
+    });
+    on<DeniedOfferEvent>((event, emit) async {
+      await deniedOffer(id: event.id, reason: event.reason);
     });
     on<SelectCountryEvent>((event, emit) {
       selectedCountry = event.country;
@@ -63,15 +55,41 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
     });
   }
 
-  List<OfferModel> offers = [];
+  OffersRepositoryImpl offersRepositoryImpl;
+  int selectedOffersTypeStatus = 0;
 
-  Future<void> fetchOffers() async {
+  final List<String> items = [
+    'Item1',
+    'Item2',
+    'Item3',
+    'Item4',
+    'Item5',
+    'Item6',
+    'Item7',
+    'Item8',
+  ];
+
+  String? selectedCountry;
+
+  List<String>? reasons;
+  String? selectedTextReason;
+  int? selectedReasonIndex;
+
+  List<OfferModel> offers = [];
+  String? get getOffersStatus => selectedOffersTypeStatus == 0
+      ? null
+      : selectedOffersTypeStatus == 1
+          ? 'accepted'
+          : 'declined';
+
+  Future<void> fetchOffers({int? limit, String? status}) async {
     try {
-      await offersRepositoryImpl.getOffers().then((response) {
+      await offersRepositoryImpl.getOffers(limit: limit, status: status).then((response) {
         offers = response;
       });
     } catch (e) {
       debugPrint(e.toString());
+      throw Exception(e);
     }
   }
 
@@ -85,11 +103,13 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
     required String country,
   }) async {
     try {
+      final status = getOffersStatus;
       await offersRepositoryImpl.acceptOffer(id: id, email: email, country: country).then((response) async {
-        Future.microtask(() => add(OffersInitEvent()));
+        Future.microtask(() => add(OffersInitEvent(status: status)));
       });
     } catch (e) {
       debugPrint(e.toString());
+      throw Exception(e);
     }
   }
 
@@ -98,11 +118,13 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
     required String reason,
   }) async {
     try {
+      final status = getOffersStatus;
       await offersRepositoryImpl.deniedOffer(id: id, reason: reason).then((response) async {
-        Future.microtask(() => add(OffersInitEvent()));
+        Future.microtask(() => add(OffersInitEvent(status: status)));
       });
     } catch (e) {
       debugPrint(e.toString());
+      throw Exception(e);
     }
   }
 
