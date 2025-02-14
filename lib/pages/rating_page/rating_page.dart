@@ -9,21 +9,22 @@ class RatingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('build AMOGUS');
     return creators.isNotEmpty
         ? Column(
             children: [
-              SizedBox(height: 23),
-              ProfileRating(
+              const SizedBox(height: 23),
+              const ProfileRating(
                 desc: '123 456 789',
                 rating: '#1234',
               ),
               const SizedBox(height: 34),
-              TopRatingTitle(),
+              const TopRatingTitle(),
               const SizedBox(height: 26),
               Expanded(
                 child: ListView(
                   padding: const EdgeInsets.all(0),
-                  children: [
+                  children: const [
                     UserRating(
                       name: 'elkandar',
                       desc: '123 456 789',
@@ -36,7 +37,7 @@ class RatingPage extends StatelessWidget {
               )
             ],
           )
-        : EmptyCreators();
+        : const EmptyCreators();
   }
 }
 
@@ -73,11 +74,11 @@ class UserRating extends StatelessWidget {
                       imageUrl!,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        return Text('error');
+                        return const Text('error');
                       },
                     )
                   : DecoratedBox(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color.fromRGBO(43, 43, 43, 1),
                       ),
                       child: Center(
@@ -95,7 +96,7 @@ class UserRating extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: 4),
+            padding: const EdgeInsets.symmetric(vertical: 4),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,19 +105,19 @@ class UserRating extends StatelessWidget {
                   name,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 15, fontWeight: FontWeight.w500),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   desc,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: descFontSize ?? 15,
                         fontWeight: FontWeight.w400,
-                        color: Color.fromRGBO(122, 122, 122, 1),
+                        color: const Color.fromRGBO(122, 122, 122, 1),
                       ),
                 ),
               ],
             ),
           ),
-          Spacer(),
+          const Spacer(),
           Text(
             rating,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -199,7 +200,7 @@ class ProfileRating extends StatelessWidget {
               child: imageUrl != null && imageUrl != ''
                   ? Image.network(imageUrl!, fit: BoxFit.cover)
                   : DecoratedBox(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color.fromRGBO(43, 43, 43, 1),
                       ),
                       child: Center(
@@ -240,7 +241,7 @@ class ProfileRating extends StatelessWidget {
               ),
             ],
           ),
-          Spacer(),
+          const Spacer(),
           Text(
             rating,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(

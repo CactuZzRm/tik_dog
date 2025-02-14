@@ -14,9 +14,7 @@ class GetOffersResponse {
 
   factory GetOffersResponse.fromJson(List<dynamic> json) {
     return GetOffersResponse(
-      offers: json
-          .map((e) => OfferModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      offers: json.map((e) => OfferModel.fromJson(e as Map<String, dynamic>)).toList(),
     );
   }
   Map<String, dynamic> toJson() => _$GetOffersResponseToJson(this);

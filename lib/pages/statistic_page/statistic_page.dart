@@ -7,6 +7,7 @@ import 'package:tik_dog/constants.dart';
 
 import '../../themes.dart';
 import '../auth_information_page/auth_information_page.dart';
+import '../auth_page/bloc/auth_bloc.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
 class StatisticPage extends StatelessWidget {
@@ -37,7 +38,7 @@ class StatisticPage extends StatelessWidget {
                         : 'assets/images/LightSteps.png'),
                   ),
                   Positioned(
-                    bottom: 200,
+                    bottom: 180 + MediaQuery.of(context).padding.bottom,
                     left: MediaQuery.of(context).size.width * 0.5 - 117,
                     child: Image.asset('${selectedSymbol}Full.png'),
                   ),
@@ -49,8 +50,8 @@ class StatisticPage extends StatelessWidget {
                     const SizedBox(height: 4),
                     StatisticContainer(title: 'Videos', value: state.user.numberOfMedia.toString()),
                     const SizedBox(height: 45),
-                    StatisticDetails(),
-                    Spacer(),
+                    const StatisticDetails(),
+                    const Spacer(),
                     GradientContainer(
                       margin: const EdgeInsets.symmetric(horizontal: 15),
                       decoration: BoxDecoration(
@@ -73,33 +74,33 @@ class StatisticPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 22),
                     Text(
-                      'Wow! You have an amazing profile!',
+                      context.read<AuthBloc>().isTikTok ? 'Wow! You have an amazing profile!' : 'Legendary status!',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 13,
-                            fontWeight: FontWeight.w400,
+                            fontWeight: context.read<AuthBloc>().isTikTok ? FontWeight.w400 : FontWeight.w500,
                             height: 1,
                           ),
                     ),
-                    SizedBox(height: 20 + MediaQuery.of(context).padding.bottom),
+                    SizedBox(height: 21 + MediaQuery.of(context).padding.bottom),
                   ],
                 ),
                 ...[
-                  Positioned(
+                  const Positioned(
                     top: 164,
                     left: -31,
                     child: Text('🔥', style: TextStyle(fontSize: 64)),
                   ),
-                  Positioned(
+                  const Positioned(
                     top: 183,
                     right: 5,
                     child: Text('🔥', style: TextStyle(fontSize: 32)),
                   ),
-                  Positioned(
+                  const Positioned(
                     top: 480,
                     left: 20,
                     child: Text('🔥', style: TextStyle(fontSize: 32)),
                   ),
-                  Positioned(
+                  const Positioned(
                     top: 490,
                     right: 22,
                     child: Text('🔥', style: TextStyle(fontSize: 20)),
@@ -114,7 +115,7 @@ class StatisticPage extends StatelessWidget {
             ),
           );
         }
-        return Center(child: Text('error'));
+        return const Center(child: Text('error'));
       },
     );
   }
@@ -133,10 +134,10 @@ class StatisticDetails extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  StatisticCountContainer(
+                  const StatisticCountContainer(
                     text: 'of video',
                     value: '870k',
-                    margin: const EdgeInsets.only(left: 35, bottom: 45),
+                    margin: EdgeInsets.only(left: 35, bottom: 45),
                   ),
                   StatisticCountContainer(
                     text: 'Views',
@@ -146,18 +147,18 @@ class StatisticDetails extends StatelessWidget {
                   ),
                 ],
               ),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   StatisticCountContainer(
                     text: 'Shared',
                     value: '1.5k',
-                    margin: const EdgeInsets.only(left: 32, bottom: 45),
+                    margin: EdgeInsets.only(left: 32, bottom: 45),
                   ),
                   StatisticCountContainer(
                     text: 'Comments',
                     value: '870k',
-                    margin: const EdgeInsets.only(
+                    margin: EdgeInsets.only(
                       top: 18,
                       right: 28,
                       bottom: 45,
@@ -168,7 +169,7 @@ class StatisticDetails extends StatelessWidget {
             ],
           );
         }
-        return Center(child: Text('errorus'));
+        return const Center(child: Text('errorus'));
       },
     );
   }
@@ -249,7 +250,7 @@ class StatisticCountContainer extends StatelessWidget {
                         child: Text(
                           value,
                           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: Color.fromRGBO(254, 44, 85, 1),
+                                color: const Color.fromRGBO(254, 44, 85, 1),
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -260,7 +261,7 @@ class StatisticCountContainer extends StatelessWidget {
                         child: Text(
                           value,
                           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: Color.fromRGBO(4, 211, 237, 1),
+                                color: const Color.fromRGBO(4, 211, 237, 1),
                                 fontSize: 50,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -269,7 +270,7 @@ class StatisticCountContainer extends StatelessWidget {
                       Text(
                         value,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Color.fromRGBO(255, 255, 255, 1),
+                              color: const Color.fromRGBO(255, 255, 255, 1),
                               fontSize: 50,
                               fontWeight: FontWeight.bold,
                             ),
@@ -310,7 +311,7 @@ class GradientedText extends StatelessWidget {
                 fontSize: 50,
                 fontWeight: FontWeight.bold,
               ),
-      colors: [
+      colors: const [
         Color.fromRGBO(108, 34, 193, 1),
         Color.fromRGBO(229, 36, 69, 1),
       ],

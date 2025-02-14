@@ -66,7 +66,7 @@ class AuthInformationPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text(
                   'Wow!',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -93,7 +93,7 @@ class AuthInformationPage extends StatelessWidget {
                             child: Text(
                               '\$15k',
                               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: Color.fromRGBO(254, 44, 85, 1),
+                                    color: const Color.fromRGBO(254, 44, 85, 1),
                                     fontSize: 85,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -105,7 +105,7 @@ class AuthInformationPage extends StatelessWidget {
                             child: Text(
                               '\$15k',
                               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: Color.fromRGBO(4, 211, 237, 1),
+                                    color: const Color.fromRGBO(4, 211, 237, 1),
                                     fontSize: 85,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -114,7 +114,7 @@ class AuthInformationPage extends StatelessWidget {
                           Text(
                             '\$15k',
                             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                  color: Color.fromRGBO(255, 255, 255, 1),
+                                  color: const Color.fromRGBO(255, 255, 255, 1),
                                   fontSize: 85,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -128,7 +128,7 @@ class AuthInformationPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                       ),
-                Spacer(),
+                const Spacer(),
                 const SizedBox(height: 35),
                 GradientContainer(
                   color: Theme.of(context).primaryColor,
@@ -159,7 +159,7 @@ class AuthInformationPage extends StatelessWidget {
             Positioned(
               top: MediaQuery.of(context).size.height * 0.47,
               left: 19,
-              child: Text('🤑'),
+              child: const Text('🤑'),
             ),
             Positioned(
               top: MediaQuery.of(context).size.height * 0.40,
@@ -260,7 +260,7 @@ class TripleText extends StatelessWidget {
       children: [
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
             color: Color.fromRGBO(4, 211, 237, 1),
             fontSize: 53,
             height: 1,
@@ -271,7 +271,7 @@ class TripleText extends StatelessWidget {
           padding: const EdgeInsets.only(left: 3, top: 2),
           child: Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromRGBO(254, 44, 85, 1),
               fontSize: 53,
               height: 1,
@@ -283,7 +283,7 @@ class TripleText extends StatelessWidget {
           padding: const EdgeInsets.only(left: 2),
           child: Text(
             value,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 53,
               height: 1,
@@ -328,7 +328,7 @@ class GradientContainer extends StatelessWidget {
             Color.fromRGBO(108, 34, 193, 0.2),
             Color.fromRGBO(229, 36, 69, 0.2),
           ]);
-    color = isActive ? color : color!.withOpacity(0.2);
+    color = isActive ? color : color!.withValues(alpha: 0.2);
   }
 
   @override
@@ -379,7 +379,7 @@ class ActionButton extends StatelessWidget {
           elevation: 0,
           shadowColor: Colors.transparent,
           backgroundColor: backgroundColor,
-          padding: EdgeInsets.symmetric(horizontal: 22, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 20),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -390,7 +390,7 @@ class ActionButton extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
-                color: Colors.white.withOpacity(isActive ? 1 : 0.2),
+                color: Colors.white.withValues(alpha: isActive ? 1 : 0.2),
               ),
         ),
       ),

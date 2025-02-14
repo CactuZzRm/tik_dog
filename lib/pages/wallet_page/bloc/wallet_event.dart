@@ -7,3 +7,5 @@ class WalletInitEvent extends WalletEvent {
 
   WalletInitEvent({required this.userModel});
 }
+
+class ChangeUserEvent extends WalletEvent {}

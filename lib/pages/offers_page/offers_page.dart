@@ -28,7 +28,7 @@ class OffersPage extends StatelessWidget {
             body: Column(
               children: [
                 const SizedBox(height: 22),
-                OffersStatusBar(),
+                const OffersStatusBar(),
                 const SizedBox(height: 28),
                 if (offers != null)
                   Expanded(
@@ -46,7 +46,7 @@ class OffersPage extends StatelessWidget {
                             isScrollControlled: true,
                             backgroundColor: Colors.transparent,
                             useRootNavigator: true,
-                            builder: (context) => SelectedOfferBottomSheet(),
+                            builder: (context) => const SelectedOfferBottomSheet(),
                           ),
                         );
                       },
@@ -56,7 +56,7 @@ class OffersPage extends StatelessWidget {
             ),
           );
         }
-        return Center(child: Text('Загрузка'));
+        return const Center(child: Text('Загрузка'));
       },
     );
   }

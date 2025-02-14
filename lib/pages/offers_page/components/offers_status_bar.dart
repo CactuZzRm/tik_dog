@@ -12,23 +12,23 @@ class OffersStatusBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return const SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.all(0),
+      padding: EdgeInsets.all(0),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(width: 16),
+          SizedBox(width: 16),
           OfferTypeContainer(text: '✨New', index: 0),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           OfferTypeContainer(text: 'In progress', index: 1),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           OfferTypeContainer(text: 'Completed', index: 2),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           OfferTypeContainer(text: 'Completed', index: 3),
-          const SizedBox(width: 8),
+          SizedBox(width: 8),
           OfferTypeContainer(text: 'Completed', index: 4),
-          const SizedBox(width: 16),
+          SizedBox(width: 16),
         ],
       ),
     );

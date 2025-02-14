@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,8 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:tik_dog/constants.dart';
 import 'package:tik_dog/pages/auth_page/bloc/auth_bloc.dart';
 import 'package:tik_dog/pages/init_loading_page/init_loading_page.dart';
-
-import '../../themes.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({
@@ -24,9 +19,10 @@ class AuthPage extends StatelessWidget {
       builder: (context, state) {
         if (state is AuthLoading) {
           model.add(AuthLoadingEvent());
-          return InitLoadingPage();
+          return const InitLoadingPage();
         } else if (state is AuthCurrentState) {
           return Scaffold(
+            backgroundColor: Colors.black,
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -49,7 +45,7 @@ class AuthPage extends StatelessWidget {
                 Expanded(
                   child: Stack(
                     children: [
-                      SizedBox(width: double.infinity),
+                      const SizedBox(width: double.infinity),
                       Positioned(
                         left: 0,
                         bottom: 190,
@@ -91,7 +87,7 @@ class AuthPage extends StatelessWidget {
                   onPressed: () {
                     selectedSymbol = 'assets/images/InstagramSymbol';
                     context.pushNamed('AuthLoadingPage');
-                    model.add(AuthLoginEvent(socialNetwork: SocialNetworks.instagram));
+                    model.add(AuthLoginEvent(themeContext: context, socialNetwork: SocialNetworks.instagram));
                   },
                 ),
                 const SizedBox(height: 24),
@@ -101,7 +97,7 @@ class AuthPage extends StatelessWidget {
                   onPressed: () {
                     selectedSymbol = 'assets/images/TikTokSymbol';
                     context.pushNamed('AuthLoadingPage');
-                    model.add(AuthLoginEvent(socialNetwork: SocialNetworks.tiktok));
+                    model.add(AuthLoginEvent(themeContext: context, socialNetwork: SocialNetworks.tiktok));
                   },
                 ),
                 const SizedBox(height: 21),
@@ -109,7 +105,7 @@ class AuthPage extends StatelessWidget {
             ),
           );
         } else {
-          return Center(
+          return const Center(
             child: Text('errorus'),
           );
         }
@@ -137,11 +133,11 @@ class AuthButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.black,
-          padding: EdgeInsets.symmetric(horizontal: 22, vertical: 14),
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
-            side: BorderSide(color: Color.fromRGBO(77, 77, 77, 1)),
+            side: const BorderSide(color: Color.fromRGBO(77, 77, 77, 1)),
           ),
         ),
         child: Row(
@@ -160,7 +156,7 @@ class AuthButton extends StatelessWidget {
                     color: Colors.white,
                   ),
             ),
-            Spacer(),
+            const Spacer(),
           ],
         ),
       ),

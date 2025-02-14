@@ -28,7 +28,7 @@ class SelectedOfferBottomSheet extends StatelessWidget {
               sigmaY: 7.0,
               tileMode: TileMode.clamp,
             ),
-            child: SizedBox(),
+            child: const SizedBox(),
           ),
           if (AdaptiveTheme.of(context).mode.isDark)
             Positioned(
@@ -39,11 +39,27 @@ class SelectedOfferBottomSheet extends StatelessWidget {
             ),
           Positioned(
             bottom: MediaQuery.of(context).size.height * 0.6,
-            left: 31,
-            right: AdaptiveTheme.of(context).mode.isDark ? 36 : 38,
+            right: 38,
             child: Align(
-              alignment: Alignment.centerRight,
-              child: Image.asset('${selectedSymbol}AcceptOfferTopImage.png'),
+              alignment: Alignment.center,
+              child: Image.asset('${selectedSymbol}AcceptOfferBlurLogo.png'),
+            ),
+          ),
+          Positioned(
+            bottom: MediaQuery.of(context).size.height * 0.6 + 48,
+            left: 31,
+            child: Align(
+              alignment: Alignment.center,
+              child: Image.asset('${selectedSymbol}AcceptOfferNoBlurLogo.png'),
+            ),
+          ),
+          Positioned(
+            bottom: MediaQuery.of(context).size.height * 0.6,
+            right: 0,
+            left: 0,
+            child: Align(
+              alignment: Alignment.center,
+              child: Image.asset('${selectedSymbol}AcceptOfferTopSymbol.png'),
             ),
           ),
         ],
@@ -54,7 +70,7 @@ class SelectedOfferBottomSheet extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.6,
             decoration: BoxDecoration(
               color: Theme.of(context).splashColor,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16),
                 topRight: Radius.circular(16),
               ),
@@ -75,7 +91,7 @@ class SelectedOfferBottomSheet extends StatelessWidget {
                   ),
                 ),
                 // SizedBox(height: 76),
-                Spacer(),
+                const Spacer(),
                 Text(
                   'This offer is just for you',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -84,17 +100,17 @@ class SelectedOfferBottomSheet extends StatelessWidget {
                         height: 1.33,
                       ),
                 ),
-                SizedBox(height: 51),
+                const SizedBox(height: 51),
                 Text(
                   //
                   model.offers[0].formattedPrice,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Color.fromRGBO(42, 255, 173, 1),
+                        color: const Color.fromRGBO(42, 255, 173, 1),
                         fontSize: 60,
                         fontWeight: FontWeight.bold,
                       ),
                 ),
-                SizedBox(height: 51),
+                const SizedBox(height: 51),
                 Text(
                   'Will you accept this offer?',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -103,7 +119,7 @@ class SelectedOfferBottomSheet extends StatelessWidget {
                         height: 1.2,
                       ),
                 ),
-                Spacer(),
+                const Spacer(),
                 GradientContainer(
                   margin: const EdgeInsets.symmetric(horizontal: 15),
                   decoration: BoxDecoration(
@@ -118,7 +134,7 @@ class SelectedOfferBottomSheet extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 ActionButton(
                   onPressed: () async {
                     try {
@@ -144,23 +160,23 @@ class SelectedOfferBottomSheet extends StatelessWidget {
         ),
         ...[
           Positioned(
-            bottom: MediaQuery.of(context).size.height * 0.6 - 81 / 2 - MediaQuery.of(context).padding.top,
-            left: MediaQuery.of(context).size.width / 2 - 81 / 2,
+            bottom: MediaQuery.of(context).size.height * 0.6 - 81 / 2,
+            left: 0,
+            right: 0,
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                vertical: 30,
-                horizontal: 20,
-              ),
+              height: 81,
+              width: 81,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Theme.of(context).highlightColor,
               ),
-              child: Text('🥳', style: TextStyle(fontSize: 40)),
+              child: const Center(
+                  child: Text('🥳', textAlign: TextAlign.center, style: TextStyle(fontSize: 40, height: 1.2))),
             ),
           ),
           Positioned(
             bottom: MediaQuery.of(context).size.height * 0.6 - 50 / 2 - MediaQuery.of(context).padding.top,
-            left: MediaQuery.of(context).size.width / 2 - 50 / 2 - 80,
+            left: 81,
             child: Image.asset(
               '${selectedSymbol}LogoRightNotFilter.png',
             ),

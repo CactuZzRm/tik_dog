@@ -31,7 +31,7 @@ class _DeniedOfferDetailsPageState extends State<DeniedOfferDetailsPage> {
           backgroundColor: Theme.of(context).extension<CustomThemeData>()!.offerDeniedReasonScaffoldBackgroundColor!,
           body: Column(
             children: [
-              Spacer(),
+              const Spacer(),
               Stack(
                 children: [
                   Positioned(
@@ -71,7 +71,7 @@ class _DeniedOfferDetailsPageState extends State<DeniedOfferDetailsPage> {
                               child: SvgPicture.asset('assets/icons/Cross.svg'),
                             ),
                           ),
-                          Text(
+                          const Text(
                             'Reason for refusal',
                             style: TextStyle(
                               fontSize: 27,
@@ -82,7 +82,7 @@ class _DeniedOfferDetailsPageState extends State<DeniedOfferDetailsPage> {
                           const SizedBox(height: 27),
                           ...[
                             for (int i = 0; i < model.reasons!.length; i++) ...[
-                              SizedBox(height: 35),
+                              const SizedBox(height: 35),
                               ReasonBlock(
                                 text: model.reasons![i],
                                 index: i,
@@ -115,7 +115,7 @@ class _DeniedOfferDetailsPageState extends State<DeniedOfferDetailsPage> {
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
             ],
           ),
         );

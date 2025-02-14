@@ -24,16 +24,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc({required this.authRepositoryImpl}) : super(AuthLoading()) {
     on<AuthLoadingEvent>((event, emit) async {
-      await Future.delayed(Duration(seconds: 2)).then((value) {
+      await Future.delayed(const Duration(seconds: 2)).then((value) {
         emit(AuthCurrentState());
       });
     });
     on<AuthLoginEvent>((event, emit) async {
       final selectedSocialNetwork = event.socialNetwork == SocialNetworks.tiktok ? 'tiktok' : 'instagram';
       isTikTok = event.socialNetwork == SocialNetworks.tiktok ? true : false;
+      isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
+      selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
       await getTempToken(selectedSocialNetwork);
     });
-    on<SocialNetworkChangeEvent>((event, emit) {
+    on<SocialNetworkChangeEvent>((event, emit) async {
       isTikTok = event.isTikTok;
       isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
       selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';

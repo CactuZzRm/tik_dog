@@ -27,7 +27,7 @@ class ReasonBlock extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 15, fontWeight: FontWeight.w500),
                 ),
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Container(
                 padding: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
@@ -35,9 +35,9 @@ class ReasonBlock extends StatelessWidget {
                   border: Border.all(
                     color: index == model.selectedReasonIndex
                         ? AdaptiveTheme.of(context).mode.isDark
-                            ? Color.fromRGBO(255, 29, 101, 1)
-                            : Color.fromRGBO(181, 61, 173, 1)
-                        : Color.fromRGBO(128, 128, 128, 1),
+                            ? const Color.fromRGBO(255, 29, 101, 1)
+                            : const Color.fromRGBO(181, 61, 173, 1)
+                        : const Color.fromRGBO(128, 128, 128, 1),
                   ),
                 ),
                 child: index == model.selectedReasonIndex
@@ -47,17 +47,17 @@ class ReasonBlock extends StatelessWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: AdaptiveTheme.of(context).mode.isDark
-                              ? Color.fromRGBO(255, 29, 101, 1)
-                              : Color.fromRGBO(181, 61, 173, 1),
+                              ? const Color.fromRGBO(255, 29, 101, 1)
+                              : const Color.fromRGBO(181, 61, 173, 1),
                         ),
                       )
-                    : SizedBox(height: 14, width: 14),
+                    : const SizedBox(height: 14, width: 14),
               ),
             ],
           ),
           if (model.selectedReasonIndex != null && model.selectedReasonIndex == index) ...[
             const SizedBox(height: 16),
-            ReasonTextField(
+            const ReasonTextField(
               hintText: 'Are you ready to promote sellers in your region?: yes/no',
             ),
           ],
@@ -81,10 +81,10 @@ class ReasonTextField extends StatelessWidget {
     return TextField(
       minLines: 2,
       maxLines: 2,
-      style: TextStyle(fontSize: 15, height: 1.22),
+      style: const TextStyle(fontSize: 15, height: 1.22),
       onChanged: (value) => model.add(EditTextReasonEvent(textReason: value)),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(
+        contentPadding: const EdgeInsets.only(
           top: 18,
           right: 16,
           bottom: 25,
@@ -95,7 +95,7 @@ class ReasonTextField extends StatelessWidget {
           color: Theme.of(context).extension<CustomThemeData>()!.offerDeniedReasonTextFieldHintColor!,
         ),
         border: OutlineInputBorder(
-          borderSide: BorderSide(
+          borderSide: const BorderSide(
             color: Color.fromRGBO(137, 137, 137, 1),
           ),
           borderRadius: BorderRadius.circular(10),

@@ -23,6 +23,24 @@ linter:
   rules:
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    prefer_final_locals: true
+    avoid_empty_else: true
+    prefer_const_constructors: true
+    use_string_buffers: true
+    prefer_single_quotes: true
+    curly_braces_in_flow_control_structures: true
+    prefer_is_empty: true
+    avoid_print: true
+    avoid_unnecessary_containers: true
+    prefer_const_literals_to_create_immutables: true
+    prefer_typing_uninitialized_variables: true
+    prefer_const_constructors_in_immutables: true
+    use_key_in_widget_constructors: true
+    prefer_adjacent_string_concatenation: true
+    prefer_conditional_assignment: true
+    sort_child_properties_last: true
+    prefer_initializing_formals: true
+    unnecessary_this: true
     
 
 # Additional information about this file can be found at

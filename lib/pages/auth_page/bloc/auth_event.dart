@@ -13,8 +13,9 @@ class InitEvent extends AuthEvent {
 
 class AuthLoginEvent extends AuthEvent {
   final SocialNetworks socialNetwork;
+  final BuildContext themeContext;
 
-  AuthLoginEvent({required this.socialNetwork});
+  AuthLoginEvent({required this.socialNetwork, required this.themeContext});
 }
 
 class SocialNetworkChangeEvent extends AuthEvent {

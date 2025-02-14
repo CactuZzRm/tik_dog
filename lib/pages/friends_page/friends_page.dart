@@ -14,8 +14,7 @@ class FriendsPage extends StatelessWidget {
       builder: (context, state) {
         if (state is FriendsInitial) {
           context.read<FriendsCubit>().fetchFriends();
-
-          return Center(child: Text('loading'));
+          return const Center(child: Text('loading'));
         } else if (state is FriendsCurrentState) {
           final friends = state.friends;
 
@@ -23,12 +22,12 @@ class FriendsPage extends StatelessWidget {
               ? Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 11),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 17),
+                    const SizedBox(height: 11),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 17),
                       child: InviteFriendsDescription(),
                     ),
-                    SizedBox(height: 34),
+                    const SizedBox(height: 34),
                     Expanded(
                       child: ListView(
                         padding: const EdgeInsets.all(0),
@@ -42,7 +41,7 @@ class FriendsPage extends StatelessWidget {
                               descFontSize: 15,
                               ratingFontSize: 17,
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                           ]
                         ],
                       ),
@@ -64,7 +63,7 @@ class FriendsPage extends StatelessWidget {
                 )
               : Column(
                   children: [
-                    Spacer(),
+                    const Spacer(),
                     Text(
                       'Invite friends',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -74,16 +73,16 @@ class FriendsPage extends StatelessWidget {
                           ),
                     ),
                     const SizedBox(height: 22),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 39),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 39),
                       child: InviteFriendsDescription(textAlign: TextAlign.center),
                     ),
-                    SizedBox(height: 68),
-                    Spacer(),
+                    const SizedBox(height: 68),
+                    const Spacer(),
                   ],
                 );
         } else {
-          return Center(child: Text('error'));
+          return const Center(child: Text('error'));
         }
       },
     );
@@ -103,7 +102,7 @@ class InviteFriendsDescription extends StatelessWidget {
       textDirection: TextDirection.ltr,
       textAlign: textAlign,
       text: TextSpan(
-        text: "and get ",
+        text: 'and get ',
         style: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
@@ -134,8 +133,8 @@ class InviteFriendsDescription extends StatelessWidget {
               ),
             ),
           ),
-          TextSpan(
-            text: " from advertising contract your friend secures",
+          const TextSpan(
+            text: ' from advertising contract your friend secures',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,

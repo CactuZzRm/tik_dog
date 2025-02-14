@@ -67,7 +67,7 @@ class BottomNavBar extends StatelessWidget {
           ),
           BotttomNavBarItem(
             index: 2,
-            text: 'Invite Friends',
+            text: 'Friends',
             iconUrl: 'Friends.svg',
             navigationShell: navigationShell,
           ),
@@ -118,16 +118,37 @@ class _TabsHeaderState extends State<TabsHeader> {
                         width: 70,
                         child: ClipOval(
                           child: state.user.avatar != null && state.user.avatar != ''
-                              ? Image.network(state.user.avatar ?? '', fit: BoxFit.cover)
+                              ? Image.network(
+                                  state.user.avatar!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const DecoratedBox(
+                                      decoration: BoxDecoration(
+                                        color: Color.fromRGBO(43, 43, 43, 1),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'Image\nerror',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                )
                               : DecoratedBox(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Color.fromRGBO(43, 43, 43, 1),
                                   ),
                                   child: Center(
                                     child: Text(
                                       name[0] + name[1],
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
@@ -139,13 +160,13 @@ class _TabsHeaderState extends State<TabsHeader> {
                       )
                     : Text(
                         headerTitle[widget.currentIndex],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 27,
                           fontWeight: FontWeight.bold,
                           height: 1.27,
                         ),
                       ),
-                Spacer(),
+                const Spacer(),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
                   decoration: BoxDecoration(
@@ -160,17 +181,13 @@ class _TabsHeaderState extends State<TabsHeader> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // setState(() {
-                          // isTikTokSelect = true;
-                          // AdaptiveTheme.of(context).setDark();
-                          // selectedSymbol = 'assets/images/TikTokSymbol';
-                          // });
                           model.add(SocialNetworkChangeEvent(themeContext: context, isTikTok: true));
+                          context.read<WalletBloc>().add(ChangeUserEvent());
                         },
                         child: GradientContainer(
                           padding: const EdgeInsets.all(9),
                           needBackground: model.isTikTok,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                           ),
                           child: SvgPicture.asset(
@@ -189,11 +206,12 @@ class _TabsHeaderState extends State<TabsHeader> {
                       GestureDetector(
                         onTap: () {
                           model.add(SocialNetworkChangeEvent(themeContext: context, isTikTok: false));
+                          context.read<WalletBloc>().add(ChangeUserEvent());
                         },
                         child: GradientContainer(
                           padding: const EdgeInsets.all(9),
                           needBackground: !model.isTikTok,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                           ),
                           child: SvgPicture.asset(
@@ -215,7 +233,7 @@ class _TabsHeaderState extends State<TabsHeader> {
             ),
           );
         }
-        return Center(child: Text('error'));
+        return const Center(child: Text('error'));
       },
     );
   }
@@ -252,7 +270,7 @@ class _BotttomNavBarItemState extends State<BotttomNavBarItem> {
           SvgPicture.asset(
             currentPage != widget.index ? 'assets/icons/${widget.iconUrl}' : 'assets/icons/Insta${widget.iconUrl}',
             color: AdaptiveTheme.of(context).mode.isDark && currentPage == widget.index
-                ? Color.fromRGBO(255, 29, 101, 1)
+                ? const Color.fromRGBO(255, 29, 101, 1)
                 : null,
           ),
           const SizedBox(height: 4),

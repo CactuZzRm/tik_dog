@@ -134,7 +134,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 36),
+                  const SizedBox(height: 36),
                   Text(
                     '😎 Email',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 18, fontWeight: FontWeight.bold),
@@ -153,7 +153,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: TextField(
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         height: 1,
                       ),
@@ -171,7 +171,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                       ),
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   GradientContainer(
                     isActive: model.selectedCountry != null && email != '',
                     decoration: BoxDecoration(

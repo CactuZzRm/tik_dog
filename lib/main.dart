@@ -67,8 +67,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _handleDeepLink(String link) {
-    debugPrint("Получен deep link: $link");
-    if (link.startsWith("https://app.bigpie.ai/api/callback")) {}
+    debugPrint('Получен deep link: $link');
+    if (link.startsWith('https://app.bigpie.ai/api/callback')) {}
   }
 
   @override
@@ -101,47 +101,31 @@ final _router = GoRouter(
     final link = state.uri.toString();
 
     if (link.contains('callback')) {
-      final body = ExchangeTempTokenModel(
-        tempToken: context.read<AuthBloc>().tempToken,
-      );
-      try {
-        await Future.delayed(Duration(seconds: 5));
-        if (context.mounted) {
-          await context.read<AuthBloc>().exchangeTempToken(body).then((user) {
-            if (context.mounted) {
-              context.read<WalletBloc>().add(WalletInitEvent(userModel: user!));
-            }
-          });
-        }
-      } catch (e) {
-        debugPrint('ERROR: ${e.toString()}');
-        return '/';
-      }
-      return '/auth_statistic_page';
+      return '/authLoadingPage';
     }
     return null;
   },
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => AuthPage(),
+      builder: (context, state) => const AuthPage(),
       routes: [
         GoRoute(
           path: '/authLoadingPage',
           name: 'AuthLoadingPage',
-          builder: (context, state) => AuthLoadingPage(),
+          builder: (context, state) => const AuthLoadingPage(),
         ),
       ],
     ),
     GoRoute(
       path: '/auth_statistic_page',
       name: 'AuthStatisticPage',
-      builder: (context, state) => AuthStatisticPage(),
+      builder: (context, state) => const AuthStatisticPage(),
     ),
     GoRoute(
       path: '/auth_information_page',
       name: 'AuthInformationPage',
-      builder: (context, state) => AuthInformationPage(),
+      builder: (context, state) => const AuthInformationPage(),
     ),
     StatefulShellRoute.indexedStack(
       builder: (context, state, child) => TabsPage(navigationShell: child),
@@ -151,7 +135,7 @@ final _router = GoRouter(
             GoRoute(
               path: '/offers',
               name: 'OffersPage',
-              builder: (context, state) => OffersPage(),
+              builder: (context, state) => const OffersPage(),
             ),
           ],
         ),
@@ -169,7 +153,7 @@ final _router = GoRouter(
             GoRoute(
               path: '/friends',
               name: 'FriendsPage',
-              builder: (context, state) => FriendsPage(),
+              builder: (context, state) => const FriendsPage(),
             ),
           ],
         ),
@@ -178,7 +162,7 @@ final _router = GoRouter(
             GoRoute(
               path: '/wallet',
               name: 'WalletPage',
-              builder: (context, state) => WalletPage(),
+              builder: (context, state) => const WalletPage(),
             ),
           ],
         ),
@@ -187,17 +171,17 @@ final _router = GoRouter(
     GoRoute(
       path: '/accept_offer_details',
       name: 'AcceptOfferDetailsPage',
-      builder: (context, state) => AcceptOfferDetailsPage(),
+      builder: (context, state) => const AcceptOfferDetailsPage(),
     ),
     GoRoute(
       path: '/denied_offer_details',
       name: 'DeniedOfferDetailsPage',
-      builder: (context, state) => DeniedOfferDetailsPage(),
+      builder: (context, state) => const DeniedOfferDetailsPage(),
     ),
     GoRoute(
       path: '/statistic',
       name: 'StatisticPage',
-      builder: (context, state) => StatisticPage(),
+      builder: (context, state) => const StatisticPage(),
     ),
   ],
 );

@@ -34,7 +34,7 @@ class WalletPage extends StatelessWidget {
           ),
         Column(
           children: [
-            TabsHeader(
+            const TabsHeader(
               currentIndex: 3,
             ),
             Expanded(
@@ -78,7 +78,7 @@ class WalletPage extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Color.fromRGBO(255, 29, 101, 1),
+                          color: const Color.fromRGBO(255, 29, 101, 1),
                         ),
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -104,7 +104,7 @@ class WalletPage extends StatelessWidget {
                                       ),
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               SizedBox(
                                 height: 27.2,
                                 width: 68,
@@ -163,7 +163,7 @@ class WalletPage extends StatelessWidget {
                       padding: const EdgeInsets.all(1),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                           colors: [
                             Color.fromRGBO(108, 34, 193, 1),
                             Color.fromRGBO(229, 36, 69, 1),
@@ -203,7 +203,7 @@ class WalletPage extends StatelessWidget {
                                         ),
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 SizedBox(
                                   height: 27.2,
                                   width: 68,
@@ -265,9 +265,9 @@ class WalletPage extends StatelessWidget {
                         height: 108,
                         padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 17),
                         decoration: BoxDecoration(
-                          color: AdaptiveTheme.of(context).mode.isDark ? Color.fromRGBO(255, 29, 101, 1) : null,
+                          color: AdaptiveTheme.of(context).mode.isDark ? const Color.fromRGBO(255, 29, 101, 1) : null,
                           gradient: AdaptiveTheme.of(context).mode.isLight
-                              ? LinearGradient(colors: [
+                              ? const LinearGradient(colors: [
                                   Color.fromRGBO(108, 34, 193, 1),
                                   Color.fromRGBO(229, 36, 69, 1),
                                 ])
@@ -308,7 +308,7 @@ class WalletPage extends StatelessWidget {
                         },
                       ),
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     WalletAccountActionButton(
                       text: 'Log out',
                       onPressed: () {
@@ -335,7 +335,7 @@ class WalletPage extends StatelessWidget {
                               actions: [
                                 CupertinoDialogAction(
                                   child: Text(
-                                    "Cancel",
+                                    'Cancel',
                                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w400,
@@ -349,12 +349,12 @@ class WalletPage extends StatelessWidget {
                                 ),
                                 CupertinoDialogAction(
                                   child: Text(
-                                    "Log out",
+                                    'Log out',
                                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w600,
                                           height: 1.22,
-                                          color: Color.fromRGBO(255, 10, 14, 1),
+                                          color: const Color.fromRGBO(255, 10, 14, 1),
                                         ),
                                   ),
                                   onPressed: () {
@@ -388,7 +388,7 @@ class WalletPage extends StatelessWidget {
                               actions: [
                                 TextButton(
                                   child: Text(
-                                    "Cancel",
+                                    'Cancel',
                                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w400,
@@ -402,12 +402,12 @@ class WalletPage extends StatelessWidget {
                                 ),
                                 TextButton(
                                   child: Text(
-                                    "Log out",
+                                    'Log out',
                                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w600,
                                           height: 1.22,
-                                          color: Color.fromRGBO(255, 10, 14, 1),
+                                          color: const Color.fromRGBO(255, 10, 14, 1),
                                         ),
                                   ),
                                   onPressed: () {
@@ -420,7 +420,7 @@ class WalletPage extends StatelessWidget {
                         }
                       },
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 12),
                     WalletAccountActionButton(
                       text: 'Delete account',
                       onPressed: () {
@@ -447,7 +447,7 @@ class WalletPage extends StatelessWidget {
                               actions: [
                                 CupertinoDialogAction(
                                   child: Text(
-                                    "Cancel",
+                                    'Cancel',
                                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w400,
@@ -461,12 +461,12 @@ class WalletPage extends StatelessWidget {
                                 ),
                                 CupertinoDialogAction(
                                   child: Text(
-                                    "Delete",
+                                    'Delete',
                                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w600,
                                           height: 1.22,
-                                          color: Color.fromRGBO(255, 10, 14, 1),
+                                          color: const Color.fromRGBO(255, 10, 14, 1),
                                         ),
                                   ),
                                   onPressed: () {
@@ -500,7 +500,7 @@ class WalletPage extends StatelessWidget {
                               actions: [
                                 TextButton(
                                   child: Text(
-                                    "Cancel",
+                                    'Cancel',
                                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w400,
@@ -514,12 +514,12 @@ class WalletPage extends StatelessWidget {
                                 ),
                                 TextButton(
                                   child: Text(
-                                    "Delete",
+                                    'Delete',
                                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                           fontSize: 17,
                                           fontWeight: FontWeight.w600,
                                           height: 1.22,
-                                          color: Color.fromRGBO(255, 10, 14, 1),
+                                          color: const Color.fromRGBO(255, 10, 14, 1),
                                         ),
                                   ),
                                   onPressed: () {
@@ -577,7 +577,7 @@ class AddAccountDialog extends StatelessWidget {
             actions: [
               CupertinoDialogAction(
                 child: Text(
-                  "No",
+                  'No',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
@@ -595,7 +595,7 @@ class AddAccountDialog extends StatelessWidget {
               ),
               CupertinoDialogAction(
                 child: Text(
-                  "Yes",
+                  'Yes',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
@@ -634,7 +634,7 @@ class AddAccountDialog extends StatelessWidget {
             actions: [
               TextButton(
                 child: Text(
-                  "No",
+                  'No',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
@@ -655,7 +655,7 @@ class AddAccountDialog extends StatelessWidget {
               ),
               TextButton(
                 child: Text(
-                  "Yes",
+                  'Yes',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
@@ -711,7 +711,7 @@ class GetKeyDialog extends StatelessWidget {
                 actions: [
                   CupertinoDialogAction(
                     child: Text(
-                      "Close",
+                      'Close',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 17,
                             fontWeight: FontWeight.w400,
@@ -725,7 +725,7 @@ class GetKeyDialog extends StatelessWidget {
                   ),
                   CupertinoDialogAction(
                     child: Text(
-                      "Copy",
+                      'Copy',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 17,
                             fontWeight: FontWeight.w400,
@@ -766,7 +766,7 @@ class GetKeyDialog extends StatelessWidget {
             actions: [
               TextButton(
                 child: Text(
-                  "Close",
+                  'Close',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
@@ -780,7 +780,7 @@ class GetKeyDialog extends StatelessWidget {
               ),
               TextButton(
                 child: Text(
-                  "Copy",
+                  'Copy',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 17,
                         fontWeight: FontWeight.w400,
@@ -829,7 +829,7 @@ class SetKeyDialog extends StatelessWidget {
           child: TextField(
             autofocus: true,
             onChanged: (value) => key = value,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               height: 1,
             ),
@@ -847,7 +847,7 @@ class SetKeyDialog extends StatelessWidget {
         actions: [
           CupertinoDialogAction(
             child: Text(
-              "Cancel",
+              'Cancel',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 17,
                     fontWeight: FontWeight.w400,
@@ -861,7 +861,7 @@ class SetKeyDialog extends StatelessWidget {
           ),
           CupertinoDialogAction(
             child: Text(
-              "Set",
+              'Set',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 17,
                     fontWeight: FontWeight.w400,
@@ -892,7 +892,7 @@ class SetKeyDialog extends StatelessWidget {
           child: TextField(
             autofocus: true,
             onChanged: (value) => key = value,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 14,
               height: 1,
             ),
@@ -910,7 +910,7 @@ class SetKeyDialog extends StatelessWidget {
         actions: [
           TextButton(
             child: Text(
-              "Cancel",
+              'Cancel',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 17,
                     fontWeight: FontWeight.w400,
@@ -924,7 +924,7 @@ class SetKeyDialog extends StatelessWidget {
           ),
           TextButton(
             child: Text(
-              "Set",
+              'Set',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontSize: 17,
                     fontWeight: FontWeight.w400,
@@ -1006,7 +1006,7 @@ class WalletAccoundActionDialog extends StatelessWidget {
               ),
               const SizedBox(height: 40),
               GradientContainer(
-                color: Color.fromRGBO(73, 73, 75, 1),
+                color: const Color.fromRGBO(73, 73, 75, 1),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -1045,7 +1045,7 @@ class WalletAccountActionButton extends StatelessWidget {
           elevation: 0,
           shadowColor: Colors.transparent,
           backgroundColor: Theme.of(context).extension<CustomThemeData>()!.walletAccountActionButtonBackgroundColor!,
-          padding: EdgeInsets.symmetric(horizontal: 22, vertical: 22),
+          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 22),
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -1092,7 +1092,7 @@ class SocialNetworkButton extends StatelessWidget {
             ? Theme.of(context).extension<CustomThemeData>()!.walletTikTokButtonBackgroundColor!
             : null,
         gradient: isTikTok == false
-            ? LinearGradient(colors: [
+            ? const LinearGradient(colors: [
                 Color.fromRGBO(108, 34, 193, 1),
                 Color.fromRGBO(229, 36, 69, 1),
               ])

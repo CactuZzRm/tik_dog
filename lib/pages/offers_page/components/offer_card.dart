@@ -41,7 +41,7 @@ class OfferCard extends StatelessWidget {
                       offer.formattedPrice,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 24,
-                            color: Color.fromRGBO(42, 255, 173, 1),
+                            color: const Color.fromRGBO(42, 255, 173, 1),
                             fontWeight: FontWeight.bold,
                             height: 1.21,
                           ),
