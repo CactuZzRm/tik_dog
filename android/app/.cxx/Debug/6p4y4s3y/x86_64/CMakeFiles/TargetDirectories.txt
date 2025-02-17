@@ -1,0 +1,2 @@
+D:/development/FlutterProjects/tik_dog/android/app/.cxx/Debug/6p4y4s3y/x86_64/CMakeFiles/edit_cache.dir
+D:/development/FlutterProjects/tik_dog/android/app/.cxx/Debug/6p4y4s3y/x86_64/CMakeFiles/rebuild_cache.dir

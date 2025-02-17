@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 
 class InitLoadingPage extends StatelessWidget {
   const InitLoadingPage({super.key});
@@ -19,10 +20,8 @@ class InitLoadingPage extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
-                child: Image.asset(
-                  'assets/images/StepsHorizontalInitLoadingPage.png',
-                ),
+              const Center(
+                child: AnimatedHorizontalSteps(),
               ),
               const SizedBox(height: 58),
               SvgPicture.asset('assets/icons/BIGpie.svg'),

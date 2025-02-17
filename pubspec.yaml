@@ -55,6 +55,10 @@ dependencies:
   url_launcher: ^6.3.1
   clipboard: ^0.1.3
   flutter_plugin_android_lifecycle: ^2.0.24
+  share_plus: ^10.1.4
+  shared_preferences: ^2.5.2
+  screenshot: ^3.0.0
+  path_provider: ^2.1.5
 
 dev_dependencies:
   flutter_test:

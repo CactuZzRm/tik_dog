@@ -121,7 +121,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                         maxHeight: 200,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: Colors.red, //TODO: Цвет заменить
+                          color: const Color.fromRGBO(23, 23, 23, 1), //TODO: Цвет согласовать
                         ),
                       ),
                       menuItemStyleData: const MenuItemStyleData(

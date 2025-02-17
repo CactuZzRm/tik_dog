@@ -17,6 +17,7 @@ class FriendsPage extends StatelessWidget {
           return const Center(child: Text('loading'));
         } else if (state is FriendsCurrentState) {
           final friends = state.friends;
+          final model = context.read<FriendsCubit>();
 
           return friends.isNotEmpty
               ? Column(
@@ -79,6 +80,21 @@ class FriendsPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 68),
                     const Spacer(),
+                    GradientContainer(
+                      margin: const EdgeInsets.symmetric(horizontal: 17),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: ActionButton(
+                        onPressed: () async {
+                          await model.getShareFriendLink();
+                          // Share.shareUri(Uri.parse('https://amoga.sus'));
+                        },
+                        text: 'Invite a friend',
+                        backgroundColor: Colors.transparent,
+                      ),
+                    ),
+                    const SizedBox(height: 21),
                   ],
                 );
         } else {

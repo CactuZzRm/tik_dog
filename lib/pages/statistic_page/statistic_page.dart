@@ -2,6 +2,7 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:tik_dog/constants.dart';
 
@@ -20,98 +21,102 @@ class StatisticPage extends StatelessWidget {
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
         if (state is WalletCurrentState) {
-          return Scaffold(
-            body: Stack(
-              children: [
-                ...[
-                  if (AdaptiveTheme.of(context).mode.isDark)
+          return Screenshot(
+            controller: context.read<WalletBloc>().screenshotController,
+            child: Scaffold(
+              body: Stack(
+                children: [
+                  ...[
+                    if (AdaptiveTheme.of(context).mode.isDark)
+                      Positioned(
+                        bottom: 172,
+                        right: 0,
+                        child: Image.asset('assets/images/BlueTorch.png'),
+                      ),
                     Positioned(
-                      bottom: 172,
+                      bottom: 220 + MediaQuery.of(context).padding.bottom,
                       right: 0,
-                      child: Image.asset('assets/images/BlueTorch.png'),
+                      child: Image.asset(AdaptiveTheme.of(context).mode.isDark
+                          ? 'assets/images/DarkSteps.png'
+                          : 'assets/images/LightSteps.png'),
                     ),
-                  Positioned(
-                    bottom: 220 + MediaQuery.of(context).padding.bottom,
-                    right: 0,
-                    child: Image.asset(AdaptiveTheme.of(context).mode.isDark
-                        ? 'assets/images/DarkSteps.png'
-                        : 'assets/images/LightSteps.png'),
-                  ),
-                  Positioned(
-                    bottom: 180 + MediaQuery.of(context).padding.bottom,
-                    left: MediaQuery.of(context).size.width * 0.5 - 117,
-                    child: Image.asset('${selectedSymbol}Full.png'),
-                  ),
-                ],
-                Column(
-                  children: [
-                    SizedBox(height: 26 + MediaQuery.of(context).padding.top),
-                    StatisticContainer(title: 'Subscribers', value: state.user.numberOfFollowers.toString()),
-                    const SizedBox(height: 4),
-                    StatisticContainer(title: 'Videos', value: state.user.numberOfMedia.toString()),
-                    const SizedBox(height: 45),
-                    const StatisticDetails(),
-                    const Spacer(),
-                    GradientContainer(
-                      margin: const EdgeInsets.symmetric(horizontal: 15),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: ActionButton(
-                        onPressed: () => context.pop(),
-                        text: 'Ok',
-                        backgroundColor: Colors.transparent,
-                      ),
+                    Positioned(
+                      bottom: 180 + MediaQuery.of(context).padding.bottom,
+                      left: MediaQuery.of(context).size.width * 0.5 - 117,
+                      child: Image.asset('${selectedSymbol}Full.png'),
                     ),
-                    const SizedBox(height: 18),
-                    ActionButton(
-                      onPressed: () {
-                        debugPrint('PLACEHOLDER: SHARE');
-                      },
-                      text: 'Share',
-                      backgroundColor: Theme.of(context).cardColor,
-                      margin: const EdgeInsets.symmetric(horizontal: 15),
-                    ),
-                    const SizedBox(height: 22),
-                    Text(
-                      context.read<AuthBloc>().isTikTok ? 'Wow! You have an amazing profile!' : 'Legendary status!',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontSize: 13,
-                            fontWeight: context.read<AuthBloc>().isTikTok ? FontWeight.w400 : FontWeight.w500,
-                            height: 1,
-                          ),
-                    ),
-                    SizedBox(height: 21 + MediaQuery.of(context).padding.bottom),
                   ],
-                ),
-                ...[
-                  const Positioned(
-                    top: 164,
-                    left: -31,
-                    child: Text('🔥', style: TextStyle(fontSize: 64)),
+                  Column(
+                    children: [
+                      SizedBox(height: 26 + MediaQuery.of(context).padding.top),
+                      StatisticContainer(title: 'Subscribers', value: state.user.numberOfFollowers.toString()),
+                      const SizedBox(height: 4),
+                      StatisticContainer(title: 'Videos', value: state.user.numberOfMedia.toString()),
+                      const SizedBox(height: 45),
+                      const StatisticDetails(),
+                      const Spacer(),
+                      GradientContainer(
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: ActionButton(
+                          onPressed: () => context.pop(),
+                          text: 'Ok',
+                          backgroundColor: Colors.transparent,
+                        ),
+                      ),
+                      const SizedBox(height: 18),
+                      ActionButton(
+                        onPressed: () async {
+                          debugPrint('PLACEHOLDER: SHARE');
+                          context.read<WalletBloc>().getScreen();
+                        },
+                        text: 'Share',
+                        backgroundColor: Theme.of(context).cardColor,
+                        margin: const EdgeInsets.symmetric(horizontal: 15),
+                      ),
+                      const SizedBox(height: 22),
+                      Text(
+                        context.read<AuthBloc>().isTikTok ? 'Wow! You have an amazing profile!' : 'Legendary status!',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize: 13,
+                              fontWeight: context.read<AuthBloc>().isTikTok ? FontWeight.w400 : FontWeight.w500,
+                              height: 1,
+                            ),
+                      ),
+                      SizedBox(height: 21 + MediaQuery.of(context).padding.bottom),
+                    ],
                   ),
-                  const Positioned(
-                    top: 183,
-                    right: 5,
-                    child: Text('🔥', style: TextStyle(fontSize: 32)),
-                  ),
-                  const Positioned(
-                    top: 480,
-                    left: 20,
-                    child: Text('🔥', style: TextStyle(fontSize: 32)),
-                  ),
-                  const Positioned(
-                    top: 490,
-                    right: 22,
-                    child: Text('🔥', style: TextStyle(fontSize: 20)),
-                  ),
-                  Positioned(
-                    bottom: 141,
-                    left: 0,
-                    child: Image.asset('${selectedSymbol}LogoReversed.png'),
-                  ),
-                ]
-              ],
+                  ...[
+                    const Positioned(
+                      top: 164,
+                      left: -31,
+                      child: Text('🔥', style: TextStyle(fontSize: 64)),
+                    ),
+                    const Positioned(
+                      top: 183,
+                      right: 5,
+                      child: Text('🔥', style: TextStyle(fontSize: 32)),
+                    ),
+                    const Positioned(
+                      top: 480,
+                      left: 20,
+                      child: Text('🔥', style: TextStyle(fontSize: 32)),
+                    ),
+                    const Positioned(
+                      top: 490,
+                      right: 22,
+                      child: Text('🔥', style: TextStyle(fontSize: 20)),
+                    ),
+                    Positioned(
+                      bottom: 141,
+                      left: 0,
+                      child: Image.asset('${selectedSymbol}LogoReversed.png'),
+                    ),
+                  ]
+                ],
+              ),
             ),
           );
         }

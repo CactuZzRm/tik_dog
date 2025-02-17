@@ -1,6 +1,5 @@
 import 'package:tik_dog/data/api/api_service.dart';
 import 'package:tik_dog/data/api/models/exchange_temp_token_model.dart';
-import 'package:tik_dog/data/api/response_models/change_social_network_response.dart';
 import 'package:tik_dog/data/api/response_models/exchange_temp_token_response.dart';
 import 'package:tik_dog/data/api/response_models/generate_key_response.dart';
 import 'package:tik_dog/data/api/response_models/get_redirect_url_response.dart';

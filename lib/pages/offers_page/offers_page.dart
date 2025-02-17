@@ -30,15 +30,13 @@ class OffersPage extends StatelessWidget {
                 const SizedBox(height: 22),
                 const OffersStatusBar(),
                 const SizedBox(height: 28),
-                if (offers != null)
+                if (offers != null && offers.isNotEmpty)
                   Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(0),
                       itemCount: offers.length,
                       itemBuilder: (context, index) {
                         return OfferCard(
-                          // text: offers![index].title,
-                          // price: offers[index].formattedPrice.toString(),
                           offer: offers![index],
                           image: 'assets/images/Offer.png',
                           onTap: () => showModalBottomSheet(
@@ -52,6 +50,22 @@ class OffersPage extends StatelessWidget {
                       },
                     ),
                   )
+                else
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 16, right: 28),
+                      width: double.infinity,
+                      child: Text(
+                        'New offers will appear here soon',
+                        textAlign: TextAlign.start,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              height: 1.33,
+                            ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           );

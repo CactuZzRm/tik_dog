@@ -237,6 +237,33 @@ class _ApiService implements ApiService {
   }
 
   @override
+  Future<ShareFriendLinkResponse> getShareFriendLink() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<ShareFriendLinkResponse>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/user/invite',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
+    late ShareFriendLinkResponse _value;
+    try {
+      _value = ShareFriendLinkResponse.fromJson(_result.data!);
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
   Future<GenerateKeyResponse> generateKey() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

@@ -9,7 +9,6 @@ class RatingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('build AMOGUS');
     return creators.isNotEmpty
         ? Column(
             children: [
@@ -264,13 +263,17 @@ class EmptyCreators extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(
-        'Ждите обновления участников 1 марта',
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-              height: 1.28,
-            ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 50),
+        child: Text(
+          'Wait for the participants to be updated on March 1st',
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontSize: 17,
+                fontWeight: FontWeight.bold,
+                height: 1.28,
+              ),
+        ),
       ),
     );
   }

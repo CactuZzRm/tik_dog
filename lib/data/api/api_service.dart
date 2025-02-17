@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:tik_dog/data/api/models/exchange_temp_token_model.dart';
-import 'package:tik_dog/data/api/response_models/change_social_network_response.dart';
 import 'package:tik_dog/data/api/response_models/generate_key_response.dart';
+import 'package:tik_dog/data/api/response_models/share_friend_link_response.dart';
 
 import 'models/accept_offer_model.dart';
 import 'models/denied_offer_model.dart';
@@ -42,6 +42,9 @@ abstract class ApiService {
 
   @GET('/api/user/referrals')
   Future<List<FriendModel>> fetchFriends();
+
+  @GET('/api/user/invite')
+  Future<ShareFriendLinkResponse> getShareFriendLink();
 
   @GET('/api/user/group')
   Future<GenerateKeyResponse> generateKey();
