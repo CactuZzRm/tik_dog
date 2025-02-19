@@ -140,7 +140,9 @@ final tiktokTheme = ThemeData(
       offersPageHeaderUnselectedCategoryColor: const Color.fromRGBO(255, 255, 255, 0.8),
       offersAcceptGradientFirstColor: const Color.fromRGBO(28, 28, 30, 1),
       offersAcceptGradientSecondColor: const Color.fromRGBO(0, 0, 0, 0),
-      offerDeniedReasonSelectBackgroundColor: const Color.fromRGBO(28, 28, 30, 0.9),
+      //TODO: Решить с блюром
+      // offerDeniedReasonSelectBackgroundColor: const Color.fromRGBO(28, 28, 30, 0.9),
+      offerDeniedReasonSelectBackgroundColor: const Color.fromRGBO(28, 28, 30, 0.6),
       offerDeniedReasonScaffoldBackgroundColor: const Color.fromRGBO(0, 0, 0, 1),
       offerDeniedReasonTextFieldHintColor: const Color.fromRGBO(255, 255, 255, 37),
       walletTikTokButtonBackgroundColor: const Color.fromRGBO(44, 44, 44, 1),

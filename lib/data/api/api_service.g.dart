@@ -20,9 +20,16 @@ class _ApiService implements ApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<GetRedirectUrlResponse> getRedirectUrl(String provider) async {
+  Future<GetRedirectUrlResponse> getRedirectUrl(
+    String provider,
+    String? inviteKey,
+  ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'provider': provider};
+    final queryParameters = <String, dynamic>{
+      r'provider': provider,
+      r'referral_key': inviteKey,
+    };
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<GetRedirectUrlResponse>(

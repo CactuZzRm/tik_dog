@@ -5,7 +5,7 @@ import '../../themes.dart';
 class RatingPage extends StatelessWidget {
   RatingPage({super.key});
 
-  final List<String> creators = ['1'];
+  final List<String> creators = [];
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +47,7 @@ class UserRating extends StatelessWidget {
   final String? imageUrl;
   final double? descFontSize;
   final double? ratingFontSize;
+  final bool needRating;
 
   const UserRating({
     super.key,
@@ -56,6 +57,7 @@ class UserRating extends StatelessWidget {
     this.imageUrl,
     this.descFontSize,
     this.ratingFontSize,
+    this.needRating = false,
   });
 
   @override
@@ -117,13 +119,15 @@ class UserRating extends StatelessWidget {
             ),
           ),
           const Spacer(),
-          Text(
-            rating,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: ratingFontSize ?? 32,
-                  fontWeight: FontWeight.bold,
-                ),
-          ),
+          needRating
+              ? Text(
+                  rating,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: ratingFontSize ?? 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                )
+              : const SizedBox(),
         ],
       ),
     );

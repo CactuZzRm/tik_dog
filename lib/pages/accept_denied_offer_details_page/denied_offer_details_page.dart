@@ -45,8 +45,8 @@ class _DeniedOfferDetailsPageState extends State<DeniedOfferDetailsPage> {
                   ),
                   BackdropFilter(
                     filter: ImageFilter.blur(
-                      sigmaX: 7.0,
-                      sigmaY: 7.0,
+                      sigmaX: 0.0,
+                      sigmaY: 0.0,
                       tileMode: TileMode.clamp,
                     ),
                     child: Container(

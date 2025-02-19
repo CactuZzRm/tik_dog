@@ -11,9 +11,9 @@ import '../api/models/user_model.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   @override
-  Future<GetRedirectUrlResponse> getUrl(String provider) async {
+  Future<GetRedirectUrlResponse> getUrl(String provider, String? inviteKey) async {
     final apiService = getIt<ApiService>();
-    final request = await apiService.getRedirectUrl(provider);
+    final request = await apiService.getRedirectUrl(provider, inviteKey);
 
     return request;
   }

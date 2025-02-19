@@ -1,9 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../data/api/models/exchange_temp_token_model.dart';
+import '../../injection_container.dart';
 import '../auth_page/bloc/auth_bloc.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
@@ -15,8 +18,34 @@ class AuthLoadingPage extends StatefulWidget {
 }
 
 class _AuthLoadingPageState extends State<AuthLoadingPage> with WidgetsBindingObserver {
+  void setToken(bool isTikTok) {
+    getIt<Dio>().interceptors.add(
+          InterceptorsWrapper(
+            onRequest: (options, handler) async {
+              final token = getIt<SharedPreferences>().getString(isTikTok ? 'tiktok_token' : 'instagram_token');
+              if (token != null) {
+                options.headers['Authorization'] = 'Bearer $token';
+              }
+              handler.next(options);
+            },
+            onResponse: (response, handler) {
+              handler.next(response);
+            },
+          ),
+        );
+  }
+
   @override
   void initState() {
+    if (context.mounted) {
+      final isTikTok = context.read<AuthBloc>().isTikTok;
+      if (getIt<SharedPreferences>().getString('tiktok_token') != null && isTikTok ||
+          getIt<SharedPreferences>().getString('instagram_token') != null && !isTikTok) {
+        context.read<WalletBloc>().add(ChangeUserEvent()); // TODO: Костыль по получению данных пользователя
+        setToken(isTikTok);
+        context.goNamed('OffersPage');
+      } else {}
+    }
     WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
@@ -118,7 +147,6 @@ class _AuthLoadingPageState extends State<AuthLoadingPage> with WidgetsBindingOb
                       ),
                 ),
               ),
-              // SvgPicture.asset('assets/icons/BIGpie.svg'),
             ],
           ),
         ],

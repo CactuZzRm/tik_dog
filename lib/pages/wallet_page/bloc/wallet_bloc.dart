@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:tik_dog/data/api/response_models/change_social_network_response.dart';
 import 'package:tik_dog/data/repositories/auth_repository_impl.dart';
 
 import '../../../data/api/models/user_model.dart';
@@ -15,7 +14,7 @@ part 'wallet_event.dart';
 part 'wallet_state.dart';
 
 class WalletBloc extends Bloc<WalletEvent, WalletState> {
-  WalletBloc() : super(WalletInitial()) {
+  WalletBloc() : super(WalletLoadingState()) {
     on<WalletEvent>((event, emit) {});
     on<WalletInitEvent>((event, emit) {
       final user = event.userModel;

@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tik_dog/pages/friends_page/cubit/friends_cubit.dart';
 
 import '../auth_information_page/auth_information_page.dart';
+import '../auth_loading_page/auth_loading_page.dart';
+import '../error_page/error_page.dart';
 import '../rating_page/rating_page.dart';
 
 class FriendsPage extends StatelessWidget {
@@ -14,7 +16,7 @@ class FriendsPage extends StatelessWidget {
       builder: (context, state) {
         if (state is FriendsInitial) {
           context.read<FriendsCubit>().fetchFriends();
-          return const Center(child: Text('loading'));
+          return const Center(child: Center(child: AnimatedHorizontalSteps()));
         } else if (state is FriendsCurrentState) {
           final friends = state.friends;
           final model = context.read<FriendsCubit>();
@@ -88,7 +90,6 @@ class FriendsPage extends StatelessWidget {
                       child: ActionButton(
                         onPressed: () async {
                           await model.getShareFriendLink();
-                          // Share.shareUri(Uri.parse('https://amoga.sus'));
                         },
                         text: 'Invite a friend',
                         backgroundColor: Colors.transparent,
@@ -98,7 +99,7 @@ class FriendsPage extends StatelessWidget {
                   ],
                 );
         } else {
-          return const Center(child: Text('error'));
+          return const ErrorPage();
         }
       },
     );

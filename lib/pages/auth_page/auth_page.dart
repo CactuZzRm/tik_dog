@@ -6,6 +6,8 @@ import 'package:tik_dog/constants.dart';
 import 'package:tik_dog/pages/auth_page/bloc/auth_bloc.dart';
 import 'package:tik_dog/pages/init_loading_page/init_loading_page.dart';
 
+import '../error_page/error_page.dart';
+
 class AuthPage extends StatelessWidget {
   const AuthPage({
     super.key,
@@ -105,9 +107,7 @@ class AuthPage extends StatelessWidget {
             ),
           );
         } else {
-          return const Center(
-            child: Text('errorus'),
-          );
+          return const ErrorPage();
         }
       },
     );

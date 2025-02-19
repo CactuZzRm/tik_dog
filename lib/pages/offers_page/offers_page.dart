@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 
 import '../../data/api/models/offer_model.dart';
+import '../error_page/error_page.dart';
 import 'bloc/offers_bloc.dart';
 import 'components/offer_card.dart';
 import 'components/offers_status_bar.dart';
@@ -18,6 +20,7 @@ class OffersPage extends StatelessWidget {
 
         if (state is OffersInitial) {
           model.add(OffersInitEvent(status: null));
+          return const Center(child: AnimatedHorizontalSteps());
         } else if (state is OffersCurrentOffersState) {
           List<OfferModel>? offers;
           if (context.watch<OffersBloc>().offers.isNotEmpty) {
@@ -70,7 +73,7 @@ class OffersPage extends StatelessWidget {
             ),
           );
         }
-        return const Center(child: Text('Загрузка'));
+        return const ErrorPage();
       },
     );
   }

@@ -233,7 +233,7 @@ class _TabsHeaderState extends State<TabsHeader> {
             ),
           );
         }
-        return const Center(child: Text('error'));
+        return const Center(child: Text('Загрузка'));
       },
     );
   }

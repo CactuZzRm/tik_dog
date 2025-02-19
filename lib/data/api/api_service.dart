@@ -20,7 +20,8 @@ abstract class ApiService {
   factory ApiService(Dio dio, {String baseUrl}) = _ApiService;
 
   @GET('/api/login')
-  Future<GetRedirectUrlResponse> getRedirectUrl(@Query('provider') String provider);
+  Future<GetRedirectUrlResponse> getRedirectUrl(
+      @Query('provider') String provider, @Query('referral_key') String? inviteKey);
 
   @POST('/api/exchange-temp-token')
   Future<ExchangeTempTokenResponse> exchangeTempToken(@Body() ExchangeTempTokenModel body);

@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tik_dog/constants.dart';
 import 'dart:math' as math;
 
+import '../../injection_container.dart';
 import '../../themes.dart';
 import '../auth_information_page/auth_information_page.dart';
 import '../auth_page/bloc/auth_bloc.dart';
@@ -17,6 +19,15 @@ import '../tabs_page/tabs_page.dart';
 
 class WalletPage extends StatelessWidget {
   const WalletPage({super.key});
+
+  void logOut() {
+    if (getIt<SharedPreferences>().getString('tiktok_token') != null) {
+      getIt<SharedPreferences>().remove('tiktok_token');
+    }
+    if (getIt<SharedPreferences>().getString('instagram_token') != null) {
+      getIt<SharedPreferences>().remove('instagram_token');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -359,6 +370,8 @@ class WalletPage extends StatelessWidget {
                                   ),
                                   onPressed: () {
                                     Navigator.of(context).pop();
+                                    logOut();
+                                    context.go('/');
                                   },
                                 ),
                               ],
@@ -412,6 +425,8 @@ class WalletPage extends StatelessWidget {
                                   ),
                                   onPressed: () {
                                     Navigator.of(context).pop();
+                                    logOut();
+                                    context.go('/');
                                   },
                                 ),
                               ],

@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tik_dog/data/api/models/exchange_temp_token_model.dart';
 import 'package:tik_dog/data/repositories/auth_repository_impl.dart';
 
@@ -19,6 +20,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   String loginUrl = '';
   String? token = '';
   late bool isTikTok;
+  String? inviteKey;
 
   String groupKey = '';
 
@@ -33,7 +35,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       isTikTok = event.socialNetwork == SocialNetworks.tiktok ? true : false;
       isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
       selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
-      await getTempToken(selectedSocialNetwork);
+
+      if (event.socialNetwork == SocialNetworks.tiktok &&
+          getIt<SharedPreferences>().getString('tiktok_token') != null) {
+      } else if (event.socialNetwork == SocialNetworks.instagram &&
+          getIt<SharedPreferences>().getString('instagram_token') != null) {
+      } else {
+        await getTempToken(selectedSocialNetwork);
+      }
     });
     on<SocialNetworkChangeEvent>((event, emit) async {
       isTikTok = event.isTikTok;
@@ -51,7 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   Future<void> getTempToken(String provider) async {
     try {
-      await authRepositoryImpl.getUrl(provider).then(
+      await authRepositoryImpl.getUrl(provider, inviteKey).then(
         (response) async {
           tempToken = response.tempToken;
           loginUrl = response.url;
@@ -78,7 +87,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         (response) {
           token = response.token;
           user = response.user;
-
+          if (user!.provider == 'tiktok') {
+            getIt<SharedPreferences>().setString('tiktok_token', token!);
+          } else {
+            getIt<SharedPreferences>().setString('instagram_token', token!);
+          }
           getIt<Dio>().interceptors.add(
                 InterceptorsWrapper(
                   onRequest: (options, handler) async {
@@ -93,6 +106,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                   },
                 ),
               );
+          print(getIt<SharedPreferences>().getKeys());
         },
       );
     } catch (e) {

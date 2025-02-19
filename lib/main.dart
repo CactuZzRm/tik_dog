@@ -3,6 +3,7 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 import 'package:tik_dog/pages/auth_statistic_page/auth_statistic_page.dart';
 import 'package:tik_dog/themes.dart';
@@ -26,6 +27,11 @@ import 'pages/wallet_page/wallet_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
+
+  //TODO: ????? Ошибка по AppLinks
+  final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  getIt.registerSingleton<SharedPreferences>(sharedPreferences);
+
   runApp(const MyApp());
 }
 
@@ -101,6 +107,13 @@ final _router = GoRouter(
 
     if (link.contains('callback')) {
       return '/authLoadingPage';
+    } else if (link.contains('invite')) {
+      if (context.mounted) {
+        final splitLink = link.split('/');
+        final inviteKey = splitLink[splitLink.length - 1];
+        context.read<AuthBloc>().inviteKey = inviteKey;
+      }
+      return '/';
     }
     return null;
   },

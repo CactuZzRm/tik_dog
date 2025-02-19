@@ -5,27 +5,30 @@ import 'package:go_router/go_router.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:tik_dog/constants.dart';
+import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 
 import '../../themes.dart';
 import '../auth_information_page/auth_information_page.dart';
 import '../auth_page/bloc/auth_bloc.dart';
+import '../error_page/error_page.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
 class AuthStatisticPage extends StatelessWidget {
-  // final String? buttonRedirectPageName;
-  // final String buttonText;
-
   const AuthStatisticPage({
     super.key,
-    // this.buttonRedirectPageName,
-    // required this.buttonText,
   });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
-        if (state is WalletCurrentState) {
+        if (state is WalletLoadingState) {
+          return const Scaffold(
+            body: Center(
+              child: AnimatedHorizontalSteps(),
+            ),
+          );
+        } else if (state is WalletCurrentState) {
           return Screenshot(
             controller: context.read<WalletBloc>().screenshotController,
             child: Scaffold(
@@ -147,13 +150,13 @@ class StatisticDetails extends StatelessWidget {
                   const StatisticCountContainer(
                     text: 'of video',
                     value: '870k',
-                    margin: EdgeInsets.only(left: 35, bottom: 45),
+                    margin: EdgeInsets.only(left: 35, bottom: 37),
                   ),
                   StatisticCountContainer(
                     text: 'Views',
                     //TODO: Скорректировать плавающую точку
                     value: state.user.numberOfMediaViews.toString(),
-                    margin: const EdgeInsets.only(right: 22, bottom: 45),
+                    margin: const EdgeInsets.only(right: 22, bottom: 37),
                   ),
                 ],
               ),
@@ -163,23 +166,19 @@ class StatisticDetails extends StatelessWidget {
                   StatisticCountContainer(
                     text: 'Shared',
                     value: '1.5k',
-                    margin: EdgeInsets.only(left: 32, bottom: 45),
+                    margin: EdgeInsets.only(left: 32),
                   ),
                   StatisticCountContainer(
                     text: 'Comments',
                     value: '870k',
-                    margin: EdgeInsets.only(
-                      top: 18,
-                      right: 28,
-                      bottom: 45,
-                    ),
+                    margin: EdgeInsets.only(right: 28),
                   ),
                 ],
               ),
             ],
           );
         }
-        return const Center(child: Text('errorus'));
+        return const ErrorPage();
       },
     );
   }

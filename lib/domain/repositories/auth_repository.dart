@@ -6,7 +6,7 @@ import '../../data/api/models/user_model.dart';
 import '../../data/api/response_models/get_redirect_url_response.dart';
 
 abstract class AuthRepository {
-  Future<GetRedirectUrlResponse> getUrl(String provider);
+  Future<GetRedirectUrlResponse> getUrl(String provider, String? inviteKey);
   Future<ExchangeTempTokenResponse> exhangeTempToken(ExchangeTempTokenModel body);
   Future<UserModel> changeSocialNetwork();
   Future<GenerateKeyResponse> generateKey();
