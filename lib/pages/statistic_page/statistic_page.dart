@@ -129,6 +129,21 @@ class StatisticPage extends StatelessWidget {
 class StatisticDetails extends StatelessWidget {
   const StatisticDetails({super.key});
 
+  String formatNumber(int number) {
+    if (number < 1000) {
+      return number.toString();
+    } else if (number < 1000000) {
+      final result = number / 1000;
+      return '${result.toStringAsFixed(1)}k';
+    } else if (number < 1000000000) {
+      final result = number / 1000000;
+      return '${result.toStringAsFixed(1)}kk';
+    } else {
+      final result = number / 1000000000;
+      return '${result.toStringAsFixed(1)}b';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WalletBloc, WalletState>(
@@ -139,34 +154,37 @@ class StatisticDetails extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const StatisticCountContainer(
-                    text: 'of video',
-                    value: '870k',
-                    margin: EdgeInsets.only(left: 35, bottom: 45),
+                  Expanded(
+                    child: StatisticCountContainer(
+                      text: 'Views',
+                      value: formatNumber(state.user.numberOfMediaViews),
+                      margin: const EdgeInsets.only(left: 0, bottom: 37),
+                    ),
                   ),
-                  StatisticCountContainer(
-                    text: 'Views',
-                    //TODO: Скорректировать плавающую точку
-                    value: state.user.numberOfMediaViews.toString(),
-                    margin: const EdgeInsets.only(right: 22, bottom: 45),
+                  Expanded(
+                    child: StatisticCountContainer(
+                      text: 'Likes',
+                      value: formatNumber(state.user.numberOfLikes),
+                      margin: const EdgeInsets.only(right: 0, bottom: 37),
+                    ),
                   ),
                 ],
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  StatisticCountContainer(
-                    text: 'Shared',
-                    value: '1.5k',
-                    margin: EdgeInsets.only(left: 32, bottom: 45),
+                  Expanded(
+                    child: StatisticCountContainer(
+                      text: 'Shared',
+                      value: formatNumber(state.user.numberOfShares),
+                      margin: const EdgeInsets.only(left: 0),
+                    ),
                   ),
-                  StatisticCountContainer(
-                    text: 'Comments',
-                    value: '870k',
-                    margin: EdgeInsets.only(
-                      top: 18,
-                      right: 28,
-                      bottom: 45,
+                  Expanded(
+                    child: StatisticCountContainer(
+                      text: 'Comments',
+                      value: formatNumber(state.user.numberOfComments),
+                      margin: const EdgeInsets.only(right: 0),
                     ),
                   ),
                 ],
@@ -241,57 +259,55 @@ class StatisticCountContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        margin: margin,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            AdaptiveTheme.of(context).mode.isDark
-                ? Stack(
-                    children: [
-                      Positioned(
-                        left: 2,
-                        child: Text(
-                          value,
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: const Color.fromRGBO(254, 44, 85, 1),
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
-                      ),
-                      Positioned(
-                        right: 2,
-                        child: Text(
-                          value,
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                color: const Color.fromRGBO(4, 211, 237, 1),
-                                fontSize: 50,
-                                fontWeight: FontWeight.bold,
-                              ),
-                        ),
-                      ),
-                      Text(
+    return Container(
+      margin: margin,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          AdaptiveTheme.of(context).mode.isDark
+              ? Stack(
+                  children: [
+                    Positioned(
+                      left: 2,
+                      child: Text(
                         value,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: const Color.fromRGBO(255, 255, 255, 1),
+                              color: const Color.fromRGBO(254, 44, 85, 1),
                               fontSize: 50,
                               fontWeight: FontWeight.bold,
                             ),
                       ),
-                    ],
-                  )
-                : GradientedText(text: value),
-            Text(
-              text,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ],
-        ),
+                    ),
+                    Positioned(
+                      right: 2,
+                      child: Text(
+                        value,
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: const Color.fromRGBO(4, 211, 237, 1),
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ),
+                    Text(
+                      value,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: const Color.fromRGBO(255, 255, 255, 1),
+                            fontSize: 50,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ],
+                )
+              : GradientedText(text: value),
+          Text(
+            text,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+        ],
       ),
     );
   }

@@ -213,12 +213,12 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<FriendModel>> fetchFriends() async {
+  Future<List<UserModel>> fetchFriends() async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
-    final _options = _setStreamType<List<FriendModel>>(
+    final _options = _setStreamType<List<UserModel>>(
       Options(method: 'GET', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -229,12 +229,39 @@ class _ApiService implements ApiService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<FriendModel> _value;
+    late List<UserModel> _value;
     try {
       _value = _result.data!
-          .map(
-            (dynamic i) => FriendModel.fromJson(i as Map<String, dynamic>),
+          .map((dynamic i) => UserModel.fromJson(i as Map<String, dynamic>))
+          .toList();
+    } on Object catch (e, s) {
+      errorLogger?.logError(e, s, _options);
+      rethrow;
+    }
+    return _value;
+  }
+
+  @override
+  Future<List<UserModel>> fetchRating() async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _options = _setStreamType<List<UserModel>>(
+      Options(method: 'GET', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/user/ranks',
+            queryParameters: queryParameters,
+            data: _data,
           )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch<List<dynamic>>(_options);
+    late List<UserModel> _value;
+    try {
+      _value = _result.data!
+          .map((dynamic i) => UserModel.fromJson(i as Map<String, dynamic>))
           .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);

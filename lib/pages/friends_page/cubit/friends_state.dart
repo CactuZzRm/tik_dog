@@ -6,7 +6,7 @@ sealed class FriendsState {}
 final class FriendsInitial extends FriendsState {}
 
 final class FriendsCurrentState extends FriendsState {
-  final List<FriendModel> friends;
+  final List<UserModel> friends;
 
   FriendsCurrentState({required this.friends});
 }

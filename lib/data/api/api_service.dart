@@ -42,7 +42,10 @@ abstract class ApiService {
   Future<List<String>> fetchDeniedOfferReasons();
 
   @GET('/api/user/referrals')
-  Future<List<FriendModel>> fetchFriends();
+  Future<List<UserModel>> fetchFriends();
+
+  @GET('/api/user/ranks')
+  Future<List<UserModel>> fetchRating();
 
   @GET('/api/user/invite')
   Future<ShareFriendLinkResponse> getShareFriendLink();

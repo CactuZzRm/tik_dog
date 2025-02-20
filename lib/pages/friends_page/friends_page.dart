@@ -32,21 +32,15 @@ class FriendsPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 34),
                     Expanded(
-                      child: ListView(
+                      child: ListView.builder(
                         padding: const EdgeInsets.all(0),
-                        children: [
-                          for (int i = 0; i < friends.length; i++) ...[
-                            UserRating(
-                              name: friends[i].name,
-                              desc: '587 adv, 10%',
-                              rating: '\$547.2',
-                              imageUrl: friends[i].avatar,
-                              descFontSize: 15,
-                              ratingFontSize: 17,
-                            ),
-                            const SizedBox(height: 20),
-                          ]
-                        ],
+                        itemCount: friends.length,
+                        itemBuilder: (context, index) => UserRating(
+                          user: friends[index],
+                          // desc: '587 adv, 10%',
+                          descFontSize: 15,
+                          ratingFontSize: 17,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 2),

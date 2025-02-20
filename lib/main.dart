@@ -18,6 +18,7 @@ import 'pages/friends_page/cubit/friends_cubit.dart';
 import 'pages/friends_page/friends_page.dart';
 import 'pages/offers_page/bloc/offers_bloc.dart';
 import 'pages/offers_page/offers_page.dart';
+import 'pages/rating_page/cubit/rating_cubit.dart';
 import 'pages/rating_page/rating_page.dart';
 import 'pages/statistic_page/statistic_page.dart';
 import 'pages/tabs_page/tabs_page.dart';
@@ -90,6 +91,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (context) => getIt<OffersBloc>()),
           BlocProvider(create: (context) => WalletBloc()),
           BlocProvider(create: (context) => FriendsCubit()),
+          BlocProvider(create: (context) => RatingCubit())
         ],
         child: MaterialApp.router(
           routerConfig: _router,
@@ -156,7 +158,7 @@ final _router = GoRouter(
             GoRoute(
               path: '/rating',
               name: 'RatingPage',
-              builder: (context, state) => RatingPage(),
+              builder: (context, state) => const RatingPage(),
             ),
           ],
         ),

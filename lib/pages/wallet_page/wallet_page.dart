@@ -88,6 +88,7 @@ class WalletPage extends StatelessWidget {
                         bottom: 22,
                       ),
                       decoration: BoxDecoration(
+                        color: Theme.of(context).scaffoldBackgroundColor,
                         border: Border.all(
                           color: const Color.fromRGBO(255, 29, 101, 1),
                         ),

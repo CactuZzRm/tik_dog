@@ -34,26 +34,6 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https" android:host="app.bigpie.ai" />
             </intent-filter>
-
-            <!-- <intent-filter android:autoVerify="false">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:host="app.bigpie.ai"
-                    android:scheme="http"
-                    android:pathPrefix="" />
-            </intent-filter> -->
-            
-            <!-- <intent-filter android:autoVerify="false">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:host="localhost"
-                    android:scheme="http"
-                    android:pathPrefix="" />
-            </intent-filter> -->
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

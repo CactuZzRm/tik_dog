@@ -10,7 +10,6 @@ import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 import '../../themes.dart';
 import '../auth_information_page/auth_information_page.dart';
 import '../auth_page/bloc/auth_bloc.dart';
-import '../error_page/error_page.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
 class AuthStatisticPage extends StatelessWidget {
@@ -137,6 +136,21 @@ class AuthStatisticPage extends StatelessWidget {
 class StatisticDetails extends StatelessWidget {
   const StatisticDetails({super.key});
 
+  String formatNumber(int number) {
+    if (number < 1000) {
+      return number.toString();
+    } else if (number < 1000000) {
+      final result = number / 1000;
+      return '${result.toStringAsFixed(1)}k';
+    } else if (number < 1000000000) {
+      final result = number / 1000000;
+      return '${result.toStringAsFixed(1)}kk';
+    } else {
+      final result = number / 1000000000;
+      return '${result.toStringAsFixed(1)}b';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WalletBloc, WalletState>(
@@ -147,38 +161,45 @@ class StatisticDetails extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const StatisticCountContainer(
-                    text: 'of video',
-                    value: '870k',
-                    margin: EdgeInsets.only(left: 35, bottom: 37),
+                  Expanded(
+                    child: StatisticCountContainer(
+                      text: 'Views',
+                      value: formatNumber(state.user.numberOfMediaViews),
+                      margin: const EdgeInsets.only(left: 0, bottom: 37),
+                    ),
                   ),
-                  StatisticCountContainer(
-                    text: 'Views',
-                    //TODO: Скорректировать плавающую точку
-                    value: state.user.numberOfMediaViews.toString(),
-                    margin: const EdgeInsets.only(right: 22, bottom: 37),
+                  Expanded(
+                    child: StatisticCountContainer(
+                      text: 'Likes',
+                      value: formatNumber(state.user.numberOfLikes),
+                      margin: const EdgeInsets.only(right: 0, bottom: 37),
+                    ),
                   ),
                 ],
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  StatisticCountContainer(
-                    text: 'Shared',
-                    value: '1.5k',
-                    margin: EdgeInsets.only(left: 32),
+                  Expanded(
+                    child: StatisticCountContainer(
+                      text: 'Shared',
+                      value: formatNumber(state.user.numberOfShares),
+                      margin: const EdgeInsets.only(left: 0),
+                    ),
                   ),
-                  StatisticCountContainer(
-                    text: 'Comments',
-                    value: '870k',
-                    margin: EdgeInsets.only(right: 28),
+                  Expanded(
+                    child: StatisticCountContainer(
+                      text: 'Comments',
+                      value: formatNumber(state.user.numberOfComments),
+                      margin: const EdgeInsets.only(right: 0),
+                    ),
                   ),
                 ],
               ),
             ],
           );
         }
-        return const ErrorPage();
+        return const Center(child: Text('errorus'));
       },
     );
   }

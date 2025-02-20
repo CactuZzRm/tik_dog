@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:tik_dog/data/repositories/friends_repository_impl.dart';
 
-import '../../../data/api/models/friend_model.dart';
+import '../../../data/api/models/user_model.dart';
 import '../../../injection_container.dart';
 
 part 'friends_state.dart';
