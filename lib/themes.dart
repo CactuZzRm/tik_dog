@@ -165,7 +165,7 @@ final tiktokTheme = ThemeData(
     titleSmall: TextStyle(color: Color.fromRGBO(255, 255, 255, 0.5)),
     titleMedium: TextStyle(color: Color.fromRGBO(255, 255, 255, 1)),
     bodySmall: TextStyle(fontSize: 13, color: Color.fromRGBO(157, 157, 157, 1), height: 1),
-    bodyMedium: TextStyle(fontSize: 15, color: Colors.white),
+    bodyMedium: TextStyle(fontFamily: 'Montserrat', fontSize: 15, color: Colors.white),
     bodyLarge: TextStyle(fontSize: 32, color: Colors.white, height: 1),
   ),
 );
@@ -204,7 +204,7 @@ final instaTheme = ThemeData(
     titleSmall: TextStyle(color: Color.fromRGBO(157, 157, 157, 1)),
     titleMedium: TextStyle(color: Color.fromRGBO(0, 0, 0, 1)),
     bodySmall: TextStyle(fontSize: 13, color: Color.fromRGBO(255, 255, 255, 1), height: 1),
-    bodyMedium: TextStyle(fontSize: 15, color: Colors.black),
+    bodyMedium: TextStyle(fontFamily: 'Montserrat', fontSize: 15, color: Colors.black),
     bodyLarge: TextStyle(fontSize: 32, color: Colors.black, height: 1),
   ),
 ).copyWith();
