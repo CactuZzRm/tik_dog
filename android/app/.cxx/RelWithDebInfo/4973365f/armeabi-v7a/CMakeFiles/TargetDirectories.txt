@@ -1,0 +1,2 @@
+C:/Users/Ramil/Desktop/tik_dog/android/app/.cxx/RelWithDebInfo/4973365f/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/Ramil/Desktop/tik_dog/android/app/.cxx/RelWithDebInfo/4973365f/armeabi-v7a/CMakeFiles/rebuild_cache.dir
