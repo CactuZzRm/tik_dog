@@ -17,6 +17,7 @@ OfferModel _$OfferModelFromJson(Map<String, dynamic> json) => OfferModel(
       priority: (json['priority'] as num).toInt(),
       companyName: json['company_name'] as String,
       createdAt: json['created_at'] as String,
+      picture: json['picture'] as String,
     );
 
 Map<String, dynamic> _$OfferModelToJson(OfferModel instance) =>
@@ -31,4 +32,5 @@ Map<String, dynamic> _$OfferModelToJson(OfferModel instance) =>
       'priority': instance.priority,
       'company_name': instance.companyName,
       'created_at': instance.createdAt,
+      'picture': instance.picture,
     };

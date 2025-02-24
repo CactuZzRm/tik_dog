@@ -6,10 +6,10 @@ import 'package:tik_dog/data/api/response_models/share_friend_link_response.dart
 
 import 'models/accept_offer_model.dart';
 import 'models/denied_offer_model.dart';
-import 'models/friend_model.dart';
 import 'models/offer_model.dart';
 import 'models/set_key_model.dart';
 import 'models/user_model.dart';
+import 'models/user_rating_model.dart';
 import 'response_models/exchange_temp_token_response.dart';
 import 'response_models/get_redirect_url_response.dart';
 
@@ -45,7 +45,10 @@ abstract class ApiService {
   Future<List<UserModel>> fetchFriends();
 
   @GET('/api/user/ranks')
-  Future<List<UserModel>> fetchRating();
+  Future<List<UserRatingModel>> fetchRating();
+
+  @GET('/api/user/rank')
+  Future<UserRatingModel> fetchProfileRating();
 
   @GET('/api/user/invite')
   Future<ShareFriendLinkResponse> getShareFriendLink();

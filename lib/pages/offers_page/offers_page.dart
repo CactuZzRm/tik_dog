@@ -41,7 +41,6 @@ class OffersPage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return OfferCard(
                           offer: offers![index],
-                          image: 'assets/images/Offer.png',
                           onTap: () => showModalBottomSheet(
                             context: context,
                             isScrollControlled: true,

@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,13 +8,11 @@ import '../bloc/offers_bloc.dart';
 class OfferCard extends StatelessWidget {
   final OfferModel offer;
   final Function() onTap;
-  final String image;
 
   const OfferCard({
     super.key,
     required this.offer,
     required this.onTap,
-    required this.image,
   });
 
   @override
@@ -27,7 +26,22 @@ class OfferCard extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Image.asset(image, width: double.infinity, fit: BoxFit.cover),
+                Image.asset(
+                  offer.picture,
+                  height: 216,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    height: 216,
+                    decoration: BoxDecoration(
+                      color: AdaptiveTheme.of(context).mode.isDark? const Color.fromRGBO(23, 23, 23, 1) : const Color.fromRGBO(233, 233, 233, 1),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: const Center(
+                      child: Text('Image error'),
+                    ),
+                  ),
+                ),
                 Positioned(
                   top: 12,
                   right: 12,

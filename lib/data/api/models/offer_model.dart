@@ -18,6 +18,7 @@ class OfferModel {
   final String companyName;
   @JsonKey(name: 'created_at')
   final String createdAt;
+  final String picture;
 
   OfferModel({
     required this.id,
@@ -30,9 +31,9 @@ class OfferModel {
     required this.priority,
     required this.companyName,
     required this.createdAt,
+    required this.picture,
   });
 
-  factory OfferModel.fromJson(Map<String, dynamic> json) =>
-      _$OfferModelFromJson(json);
+  factory OfferModel.fromJson(Map<String, dynamic> json) => _$OfferModelFromJson(json);
   Map<String, dynamic> toJson() => _$OfferModelToJson(this);
 }

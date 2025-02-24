@@ -8,7 +8,8 @@ final class RatingInitial extends RatingState {}
 final class RatingLoadingState extends RatingState {}
 
 final class RatingCurrentState extends RatingState {
-  final List<UserModel> rating;
+  final UserRatingModel profileRating;
+  final List<UserRatingModel> rating;
 
-  RatingCurrentState({required this.rating});
+  RatingCurrentState({required this.profileRating, required this.rating});
 }

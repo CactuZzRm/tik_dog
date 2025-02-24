@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tik_dog/data/api/models/user_rating_model.dart';
 import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 import 'package:tik_dog/pages/wallet_page/bloc/wallet_bloc.dart';
 
@@ -49,7 +50,7 @@ class RatingPage extends StatelessWidget {
 }
 
 class UserRating extends StatelessWidget {
-  final UserModel user;
+  final UserRatingModel user;
   final String? desc;
   final int? rating;
   final double? descFontSize;
@@ -79,13 +80,6 @@ class UserRating extends StatelessWidget {
     return '';
   }
 
-  String calculateRating(UserModel user) {
-    final double count =
-        (user.numberOfLikes + user.numberOfComments + user.numberOfShares) * 100 / user.numberOfMediaViews;
-
-    return count > 0 ? count.toStringAsFixed(5) : '0.0';
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -101,7 +95,7 @@ class UserRating extends StatelessWidget {
                       user.avatar!,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        return const Text('error');
+                        return const Center(child: Text('error'));
                       },
                     )
                   : DecoratedBox(
@@ -132,7 +126,7 @@ class UserRating extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               Text(
-                desc ?? calculateRating(user),
+                desc ?? user.rank.toStringAsFixed(5),
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: descFontSize ?? 15,
                       fontWeight: FontWeight.w400,
@@ -196,90 +190,97 @@ class TopRatingTitle extends StatelessWidget {
 class ProfileRating extends StatelessWidget {
   const ProfileRating({super.key});
 
-  String calculateRating(UserModel user) {
-    final double count =
-        (user.numberOfLikes + user.numberOfComments + user.numberOfShares) * 100 / user.numberOfMediaViews;
-
-    return count > 0 ? count.toStringAsFixed(5) : '0.0';
-  }
-
   @override
   Widget build(BuildContext context) {
-    final model = context.read<WalletBloc>();
+    final model = context.read<RatingCubit>();
 
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(left: 16, right: 18),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 12,
-      ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).extension<CustomThemeData>()!.ratingProfileCardBackgroundColor,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 44,
-            width: 44,
-            child: ClipOval(
-              child: model.user.avatar != null && model.user.avatar != ''
-                  ? Image.network(model.user.avatar!, fit: BoxFit.cover)
-                  : DecoratedBox(
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(43, 43, 43, 1),
-                      ),
-                      child: Center(
-                        child: Text(
-                          model.user.name[0] + model.user.name[1],
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
-                              ),
-                        ),
-                      ),
-                    ),
+    return BlocBuilder<RatingCubit, RatingState>(
+      builder: (context, state) {
+        if (state is RatingLoadingState) {
+          return const Text('loading user info');
+        } else if (state is RatingCurrentState) {
+          return Container(
+            width: double.infinity,
+            margin: const EdgeInsets.only(left: 16, right: 18),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
             ),
-          ),
-          const SizedBox(width: 12),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'You',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                calculateRating(model.user),
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      color: Theme.of(context).textTheme.bodySmall!.color,
-                    ),
-              ),
-            ],
-          ),
-          const Spacer(),
-          Text(
-            '#${model.user.rank}',
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+            decoration: BoxDecoration(
+              color: Theme.of(context).extension<CustomThemeData>()!.ratingProfileCardBackgroundColor,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 44,
+                  width: 44,
+                  child: ClipOval(
+                    child: state.profileRating.avatar != null && state.profileRating.avatar != ''
+                        ? Image.network(
+                            state.profileRating.avatar!,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => const Center(child: Text('error')),
+                          )
+                        : DecoratedBox(
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(43, 43, 43, 1),
+                            ),
+                            child: Center(
+                              child: Text(
+                                state.profileRating.name[0] + state.profileRating.name[1],
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
+                                    ),
+                              ),
+                            ),
+                          ),
+                  ),
                 ),
-          ),
-        ],
-      ),
+                const SizedBox(width: 12),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'You',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      state.profileRating.rank.toStringAsFixed(5),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context).textTheme.bodySmall!.color,
+                          ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                Text(
+                  '#${state.profileRating.top}',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return Text('error');
+        }
+      },
     );
   }
 }
