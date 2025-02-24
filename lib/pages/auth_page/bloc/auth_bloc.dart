@@ -33,22 +33,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLoginEvent>((event, emit) async {
       final selectedSocialNetwork = event.socialNetwork == SocialNetworks.tiktok ? 'tiktok' : 'instagram';
       isTikTok = event.socialNetwork == SocialNetworks.tiktok ? true : false;
-      isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
-      selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
+      // isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
+      // selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
 
       if (event.socialNetwork == SocialNetworks.tiktok &&
           getIt<SharedPreferences>().getString('tiktok_token') != null) {
+        isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
+        selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
       } else if (event.socialNetwork == SocialNetworks.instagram &&
           getIt<SharedPreferences>().getString('instagram_token') != null) {
+        isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
+        selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
       } else {
         await getTempToken(selectedSocialNetwork);
       }
     });
-    on<SocialNetworkChangeEvent>((event, emit) async {
-      isTikTok = event.isTikTok;
-      isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
-      selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
-    });
+
     on<GetKeyEvent>((event, emit) async {
       await getKey();
       emit(AuthCurrentState().copyWith());
@@ -106,7 +106,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                   },
                 ),
               );
-          print(getIt<SharedPreferences>().getKeys());
         },
       );
     } catch (e) {

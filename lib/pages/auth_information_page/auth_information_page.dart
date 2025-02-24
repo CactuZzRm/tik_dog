@@ -8,6 +8,7 @@ import 'dart:math' as math;
 import '../../constants.dart';
 import '../auth_page/bloc/auth_bloc.dart';
 import '../auth_statistic_page/auth_statistic_page.dart';
+import '../wallet_page/bloc/wallet_bloc.dart';
 
 class AuthInformationPage extends StatelessWidget {
   const AuthInformationPage({super.key});
@@ -15,6 +16,7 @@ class AuthInformationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.read<AuthBloc>();
+    final walletModel = context.read<WalletBloc>();
 
     return Scaffold(
       body: Stack(
@@ -47,18 +49,18 @@ class AuthInformationPage extends StatelessWidget {
                   height: 247 + MediaQuery.of(context).padding.top,
                   child: Stack(
                     children: [
-                      if (model.isTikTok)
+                      if (walletModel.isTikTokSelect)
                         Positioned(
                           top: -20,
                           child: Image.asset('assets/images/AuthInformationPageTopMoney.png'),
                         ),
                       Positioned(
-                        top: model.isTikTok ? -11 : 0,
+                        top: walletModel.isTikTokSelect ? -11 : 0,
                         left: 78,
                         right: 78,
                         child: Image.asset('${selectedSymbol}AuthInformationPageTopImage.png'),
                       ),
-                      if (!model.isTikTok)
+                      if (!walletModel.isTikTokSelect)
                         Positioned(
                           top: -50,
                           child: Image.asset('assets/images/AuthInformationPageTopMoney.png'),
@@ -144,7 +146,7 @@ class AuthInformationPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 27),
                 Text(
-                  model.isTikTok ? 'Wow! You have an amazing profile!' : 'Legendary status!',
+                  walletModel.isTikTokSelect ? 'Wow! You have an amazing profile!' : 'Legendary status!',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
@@ -155,7 +157,7 @@ class AuthInformationPage extends StatelessWidget {
               ],
             ),
           ),
-          if (model.isTikTok) ...[
+          if (walletModel.isTikTokSelect) ...[
             Positioned(
               top: MediaQuery.of(context).size.height * 0.47,
               left: 19,

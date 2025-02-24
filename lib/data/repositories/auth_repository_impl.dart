@@ -27,9 +27,9 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<UserModel> changeSocialNetwork() async {
+  Future<UserModel> getUserData() async {
     final apiService = getIt<ApiService>();
-    final request = await apiService.changeSocialNetwork();
+    final request = await apiService.getUserData();
 
     return request;
   }

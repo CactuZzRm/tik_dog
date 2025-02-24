@@ -27,7 +27,7 @@ abstract class ApiService {
   Future<ExchangeTempTokenResponse> exchangeTempToken(@Body() ExchangeTempTokenModel body);
 
   @GET('/api/user/me')
-  Future<UserModel> changeSocialNetwork();
+  Future<UserModel> getUserData();
 
   @GET('/api/offers')
   Future<List<OfferModel>> getOffers(@Query('limit') int? limit, @Query('status') String? status);

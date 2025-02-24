@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tik_dog/data/api/models/user_rating_model.dart';
 import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
-import 'package:tik_dog/pages/wallet_page/bloc/wallet_bloc.dart';
 
-import '../../data/api/models/user_model.dart';
 import '../../themes.dart';
+import '../friends_page/cubit/friends_cubit.dart';
+import '../wallet_page/bloc/wallet_bloc.dart';
 import 'cubit/rating_cubit.dart';
 
 class RatingPage extends StatelessWidget {
@@ -13,6 +13,10 @@ class RatingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocListener<WalletBloc, WalletState>(listener: (context, state) {
+      context.read<RatingCubit>().fetchRating();
+    });
+
     return BlocBuilder<RatingCubit, RatingState>(
       builder: (context, state) {
         if (state is RatingLoadingState) {
@@ -278,7 +282,7 @@ class ProfileRating extends StatelessWidget {
             ),
           );
         } else {
-          return Text('error');
+          return const Text('error');
         }
       },
     );

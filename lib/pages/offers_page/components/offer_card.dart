@@ -17,6 +17,8 @@ class OfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(offer.picture);
+
     return GestureDetector(
       onTap: context.watch<OffersBloc>().selectedOffersTypeStatus == 0 ? onTap : () {},
       child: Container(
@@ -26,21 +28,25 @@ class OfferCard extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Image.asset(
+                Image.network(
                   offer.picture,
                   height: 216,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    height: 216,
-                    decoration: BoxDecoration(
-                      color: AdaptiveTheme.of(context).mode.isDark? const Color.fromRGBO(23, 23, 23, 1) : const Color.fromRGBO(233, 233, 233, 1),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Center(
-                      child: Text('Image error'),
-                    ),
-                  ),
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      height: 216,
+                      decoration: BoxDecoration(
+                        color: AdaptiveTheme.of(context).mode.isDark
+                            ? const Color.fromRGBO(23, 23, 23, 1)
+                            : const Color.fromRGBO(233, 233, 233, 1),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Center(
+                        child: Text('Image error'),
+                      ),
+                    );
+                  },
                 ),
                 Positioned(
                   top: 12,

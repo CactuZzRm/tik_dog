@@ -8,4 +8,10 @@ class WalletInitEvent extends WalletEvent {
   WalletInitEvent({required this.userModel});
 }
 
-class ChangeUserEvent extends WalletEvent {}
+class ChangeTokenEvent extends WalletEvent {
+  final SocialNetworks socialNetwork;
+
+  ChangeTokenEvent({required this.socialNetwork});
+}
+
+class GetUserData extends WalletEvent {}

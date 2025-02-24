@@ -18,6 +18,8 @@ class StatisticPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final walletModel = context.read<WalletBloc>();
+
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
         if (state is WalletCurrentState) {
@@ -78,10 +80,10 @@ class StatisticPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 22),
                       Text(
-                        context.read<AuthBloc>().isTikTok ? 'Wow! You have an amazing profile!' : 'Legendary status!',
+                        walletModel.isTikTokSelect ? 'Wow! You have an amazing profile!' : 'Legendary status!',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 13,
-                              fontWeight: context.read<AuthBloc>().isTikTok ? FontWeight.w400 : FontWeight.w500,
+                              fontWeight: walletModel.isTikTokSelect ? FontWeight.w400 : FontWeight.w500,
                               height: 1,
                             ),
                       ),

@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "D:\\development\\SDKs\\flutter\\packages\\flutter_tools\\gradle\\src\\main\\groovy\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "D:\\development\\SDKs\\AndroidSDK\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "D:\\development\\FlutterProjects\\tik_dog\\android\\app\\.cxx\\RelWithDebInfo\\6a86g42q\\arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "D:\\development\\SDKs\\AndroidSDK\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "D:\\development\\FlutterProjects\\tik_dog\\android\\app\\.cxx\\RelWithDebInfo\\6a86g42q\\arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

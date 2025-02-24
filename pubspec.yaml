@@ -48,8 +48,6 @@ dependencies:
   flutter_bloc: ^9.0.0
   get_it: ^8.0.3
   pretty_dio_logger: ^1.4.0
-  webview_flutter: ^4.10.0
-  flutter_web_auth_2: ^4.1.0
   flutter_custom_tabs: ^2.1.0
   app_links: ^6.3.3
   url_launcher: ^6.3.1

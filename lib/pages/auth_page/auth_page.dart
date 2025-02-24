@@ -36,7 +36,7 @@ class AuthPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 22),
                 Text(
-                  'Chose your App\nCheck your Star',
+                  'Chose your App\nCheck your Stat',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontSize: 16,

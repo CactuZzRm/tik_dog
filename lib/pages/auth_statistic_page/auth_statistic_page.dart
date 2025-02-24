@@ -19,6 +19,8 @@ class AuthStatisticPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final walletModel = context.read<WalletBloc>();
+
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
         if (state is WalletLoadingState) {
@@ -85,10 +87,10 @@ class AuthStatisticPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 22),
                       Text(
-                        context.read<AuthBloc>().isTikTok ? 'Wow! You have an amazing profile!' : 'Legendary status!',
+                        walletModel.isTikTokSelect ? 'Wow! You have an amazing profile!' : 'Legendary status!',
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 13,
-                              fontWeight: context.read<AuthBloc>().isTikTok ? FontWeight.w400 : FontWeight.w500,
+                              fontWeight: walletModel.isTikTokSelect ? FontWeight.w400 : FontWeight.w500,
                               height: 1,
                             ),
                       ),
@@ -161,38 +163,30 @@ class StatisticDetails extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: StatisticCountContainer(
-                      text: 'Views',
-                      value: formatNumber(state.user.numberOfMediaViews),
-                      margin: const EdgeInsets.only(left: 0, bottom: 37),
-                    ),
+                  StatisticCountContainer(
+                    text: 'Views',
+                    value: formatNumber(state.user.numberOfMediaViews),
+                    margin: const EdgeInsets.only(left: 0, bottom: 37),
                   ),
-                  Expanded(
-                    child: StatisticCountContainer(
-                      text: 'Likes',
-                      value: formatNumber(state.user.numberOfLikes),
-                      margin: const EdgeInsets.only(right: 0, bottom: 37),
-                    ),
+                  StatisticCountContainer(
+                    text: 'Likes',
+                    value: formatNumber(state.user.numberOfLikes),
+                    margin: const EdgeInsets.only(right: 0, bottom: 37),
                   ),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: StatisticCountContainer(
-                      text: 'Shared',
-                      value: formatNumber(state.user.numberOfShares),
-                      margin: const EdgeInsets.only(left: 0),
-                    ),
+                  StatisticCountContainer(
+                    text: 'Shared',
+                    value: formatNumber(state.user.numberOfShares),
+                    margin: const EdgeInsets.only(left: 0),
                   ),
-                  Expanded(
-                    child: StatisticCountContainer(
-                      text: 'Comments',
-                      value: formatNumber(state.user.numberOfComments),
-                      margin: const EdgeInsets.only(right: 0),
-                    ),
+                  StatisticCountContainer(
+                    text: 'Comments',
+                    value: formatNumber(state.user.numberOfComments),
+                    margin: const EdgeInsets.only(right: 0),
                   ),
                 ],
               ),

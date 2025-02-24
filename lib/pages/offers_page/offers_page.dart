@@ -4,6 +4,7 @@ import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 
 import '../../data/api/models/offer_model.dart';
 import '../error_page/error_page.dart';
+import '../wallet_page/bloc/wallet_bloc.dart';
 import 'bloc/offers_bloc.dart';
 import 'components/offer_card.dart';
 import 'components/offers_status_bar.dart';
@@ -14,6 +15,15 @@ class OffersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocListener<WalletBloc, WalletState>(
+      listener: (context, state) {
+        if (state is WalletCurrentState) {
+          print('amoga');
+          context.watch<OffersBloc>().add(OffersInitEvent(status: null));
+        }
+      },
+    );
+
     return BlocBuilder<OffersBloc, OffersState>(
       builder: (context, state) {
         final model = context.watch<OffersBloc>();

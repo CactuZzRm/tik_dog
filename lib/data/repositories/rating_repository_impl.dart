@@ -1,4 +1,3 @@
-import 'package:tik_dog/data/api/models/user_model.dart';
 import 'package:tik_dog/domain/repositories/rating_repository.dart';
 
 import '../../injection_container.dart';
@@ -13,7 +12,7 @@ class RatingRepositoryImpl extends RatingRepository {
 
     return request;
   }
-  
+
   @override
   Future<UserRatingModel> fetchProfileRating() async {
     final apiService = getIt<ApiService>();

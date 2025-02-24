@@ -21,6 +21,7 @@ import 'pages/offers_page/offers_page.dart';
 import 'pages/rating_page/cubit/rating_cubit.dart';
 import 'pages/rating_page/rating_page.dart';
 import 'pages/statistic_page/statistic_page.dart';
+import 'pages/tabs_page/cubit/tabs_cubit.dart';
 import 'pages/tabs_page/tabs_page.dart';
 import 'pages/wallet_page/bloc/wallet_bloc.dart';
 import 'pages/wallet_page/wallet_page.dart';
@@ -91,7 +92,8 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (context) => getIt<OffersBloc>()),
           BlocProvider(create: (context) => WalletBloc()),
           BlocProvider(create: (context) => FriendsCubit()),
-          BlocProvider(create: (context) => RatingCubit())
+          BlocProvider(create: (context) => RatingCubit()),
+          BlocProvider(create: (context) => TabsCubit()),
         ],
         child: MaterialApp.router(
           routerConfig: _router,
@@ -123,13 +125,11 @@ final _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (context, state) => const AuthPage(),
-      routes: [
-        GoRoute(
-          path: '/authLoadingPage',
-          name: 'AuthLoadingPage',
-          builder: (context, state) => const AuthLoadingPage(),
-        ),
-      ],
+    ),
+    GoRoute(
+      path: '/authLoadingPage',
+      name: 'AuthLoadingPage',
+      builder: (context, state) => const AuthLoadingPage(),
     ),
     GoRoute(
       path: '/auth_statistic_page',

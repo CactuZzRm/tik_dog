@@ -6,13 +6,17 @@ import '../../data/api/models/user_model.dart';
 import '../auth_information_page/auth_information_page.dart';
 import '../auth_loading_page/auth_loading_page.dart';
 import '../error_page/error_page.dart';
-import '../rating_page/rating_page.dart';
+import '../wallet_page/bloc/wallet_bloc.dart';
 
 class FriendsPage extends StatelessWidget {
   const FriendsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    BlocListener<WalletBloc, WalletState>(listener: (context, state) {
+      context.read<FriendsCubit>().fetchFriends();
+    });
+
     return BlocBuilder<FriendsCubit, FriendsState>(
       builder: (context, state) {
         if (state is FriendsInitial) {

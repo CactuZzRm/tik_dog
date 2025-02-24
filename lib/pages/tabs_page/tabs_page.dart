@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tik_dog/constants.dart';
 import 'package:tik_dog/pages/auth_information_page/auth_information_page.dart';
 import 'package:tik_dog/themes.dart';
 
+import '../../injection_container.dart';
 import '../auth_page/bloc/auth_bloc.dart';
+import '../friends_page/cubit/friends_cubit.dart';
+import '../rating_page/cubit/rating_cubit.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
 class TabsPage extends StatelessWidget {
@@ -102,7 +107,8 @@ class _TabsHeaderState extends State<TabsHeader> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<AuthBloc>();
+    // final model = context.read<AuthBloc>();
+
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
         if (state is WalletCurrentState) {
@@ -181,12 +187,24 @@ class _TabsHeaderState extends State<TabsHeader> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          model.add(SocialNetworkChangeEvent(themeContext: context, isTikTok: true));
-                          context.read<WalletBloc>().add(ChangeUserEvent());
+                          // model.add(SocialNetworkChangeEvent(themeContext: context, isTikTok: true));
+                          // if (getIt<SharedPreferences>().getString('tiktok_token') != null) {
+                          //   context.read<WalletBloc>().add(GetUserData());
+                          // }
+                          if (context.read<WalletBloc>().changeTokenFromCache(SocialNetworks.tiktok, context) ==
+                              false) {
+                            context.read<AuthBloc>().add(
+                                  AuthLoginEvent(
+                                    socialNetwork: SocialNetworks.tiktok,
+                                    themeContext: context,
+                                  ),
+                                );
+                            context.pushNamed('AuthLoadingPage');
+                          }
                         },
                         child: GradientContainer(
                           padding: const EdgeInsets.all(9),
-                          needBackground: model.isTikTok,
+                          needBackground: state.user.provider == 'tiktok',
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                           ),
@@ -194,7 +212,7 @@ class _TabsHeaderState extends State<TabsHeader> {
                             'assets/icons/TikTokLogo.svg',
                             width: 13,
                             height: 13,
-                            color: model.isTikTok
+                            color: state.user.provider == 'tiktok'
                                 ? Colors.white
                                 : Theme.of(context)
                                     .extension<CustomThemeData>()!
@@ -205,12 +223,22 @@ class _TabsHeaderState extends State<TabsHeader> {
                       const SizedBox(width: 8),
                       GestureDetector(
                         onTap: () {
-                          model.add(SocialNetworkChangeEvent(themeContext: context, isTikTok: false));
-                          context.read<WalletBloc>().add(ChangeUserEvent());
+                          // model.add(SocialNetworkChangeEvent(themeContext: context, isTikTok: false));
+                          // context.read<WalletBloc>().add(ChangeUserEvent());
+                          if (context.read<WalletBloc>().changeTokenFromCache(SocialNetworks.instagram, context) ==
+                              false) {
+                            context.read<AuthBloc>().add(
+                                  AuthLoginEvent(
+                                    socialNetwork: SocialNetworks.instagram,
+                                    themeContext: context,
+                                  ),
+                                );
+                            context.pushNamed('AuthLoadingPage');
+                          }
                         },
                         child: GradientContainer(
                           padding: const EdgeInsets.all(9),
-                          needBackground: !model.isTikTok,
+                          needBackground: state.user.provider == 'instagrambasic',
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                           ),
@@ -218,7 +246,7 @@ class _TabsHeaderState extends State<TabsHeader> {
                             'assets/icons/InstagramLogo.svg',
                             width: 13,
                             height: 13,
-                            color: !model.isTikTok
+                            color: state.user.provider == 'instagrambasic'
                                 ? Colors.white
                                 : Theme.of(context)
                                     .extension<CustomThemeData>()!

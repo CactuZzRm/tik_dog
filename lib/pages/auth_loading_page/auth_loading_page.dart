@@ -1,3 +1,4 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../constants.dart';
 import '../../data/api/models/exchange_temp_token_model.dart';
 import '../../injection_container.dart';
 import '../auth_page/bloc/auth_bloc.dart';
@@ -39,9 +41,10 @@ class _AuthLoadingPageState extends State<AuthLoadingPage> with WidgetsBindingOb
   void initState() {
     if (context.mounted) {
       final isTikTok = context.read<AuthBloc>().isTikTok;
+      print('$isTikTok' + '<<<<<');
       if (getIt<SharedPreferences>().getString('tiktok_token') != null && isTikTok ||
           getIt<SharedPreferences>().getString('instagram_token') != null && !isTikTok) {
-        context.read<WalletBloc>().add(ChangeUserEvent()); // TODO: Костыль по получению данных пользователя
+        context.read<WalletBloc>().add(GetUserData()); // TODO: Костыль по получению данных пользователя
         setToken(isTikTok);
         context.goNamed('OffersPage');
       } else {}
@@ -70,7 +73,14 @@ class _AuthLoadingPageState extends State<AuthLoadingPage> with WidgetsBindingOb
               if (mounted) {
                 await context.read<AuthBloc>().exchangeTempToken(body).then((user) {
                   if (mounted) {
-                    context.read<WalletBloc>().add(WalletInitEvent(userModel: user!));
+                    context.read<WalletBloc>().add(GetUserData());
+
+                    context.read<AuthBloc>().isTikTok
+                        ? AdaptiveTheme.of(context).setDark()
+                        : AdaptiveTheme.of(context).setLight();
+                    selectedSymbol = context.read<AuthBloc>().isTikTok
+                        ? 'assets/images/TikTokSymbol'
+                        : 'assets/images/InstagramSymbol';
                     context.replaceNamed('AuthStatisticPage');
                   }
                 });

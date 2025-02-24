@@ -1,0 +1,2 @@
+D:/development/FlutterProjects/tik_dog/android/app/.cxx/RelWithDebInfo/6a86g42q/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/development/FlutterProjects/tik_dog/android/app/.cxx/RelWithDebInfo/6a86g42q/armeabi-v7a/CMakeFiles/rebuild_cache.dir
