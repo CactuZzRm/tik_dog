@@ -1,0 +1,35 @@
+# Игнорировать сгенерированные файлы Flutter/Dart
+*.g.dart
+*.freezed.dart
+*.gr.dart
+*.part.dart
+*.gen.dart
+*.inject.dart
+*.iml
+*.idea
+*.dart_tool/
+*.packages
+.packages
+pubspec.lock  # Можно включить, если зависимости фиксируются вручную
+
+# Игнорировать сборочные артефакты
+build/
+*.apk
+*.aab
+*.ipa
+
+# Игнорировать локальные настройки разработчика
+.idea/  # Файлы IntelliJ/Android Studio
+*.DS_Store  # Файлы macOS
+.vscode/  # Настройки VS Code (если не нужны в команде)
+local.properties  # Локальные пути к SDK в Android
+
+# Игнорировать временные файлы
+*.log
+*.tmp
+*.bak
+*.swp
+
+*.jks  # Хранилища ключей (keystore)
+*.keystore
+key.properties
