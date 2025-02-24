@@ -11,6 +11,7 @@ import 'package:tik_dog/themes.dart';
 import '../../injection_container.dart';
 import '../auth_page/bloc/auth_bloc.dart';
 import '../friends_page/cubit/friends_cubit.dart';
+import '../offers_page/bloc/offers_bloc.dart';
 import '../rating_page/cubit/rating_cubit.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
@@ -187,10 +188,6 @@ class _TabsHeaderState extends State<TabsHeader> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // model.add(SocialNetworkChangeEvent(themeContext: context, isTikTok: true));
-                          // if (getIt<SharedPreferences>().getString('tiktok_token') != null) {
-                          //   context.read<WalletBloc>().add(GetUserData());
-                          // }
                           if (context.read<WalletBloc>().changeTokenFromCache(SocialNetworks.tiktok, context) ==
                               false) {
                             context.read<AuthBloc>().add(
@@ -200,6 +197,17 @@ class _TabsHeaderState extends State<TabsHeader> {
                                   ),
                                 );
                             context.pushNamed('AuthLoadingPage');
+                          } else {
+                            try {
+                              context.read<RatingCubit>().fetchRating();
+                            } catch (e) {
+                              debugPrint(e.toString());
+                            }
+                            try {
+                              context.read<FriendsCubit>().fetchFriends();
+                            } catch (e) {
+                              debugPrint(e.toString());
+                            }
                           }
                         },
                         child: GradientContainer(
@@ -223,8 +231,6 @@ class _TabsHeaderState extends State<TabsHeader> {
                       const SizedBox(width: 8),
                       GestureDetector(
                         onTap: () {
-                          // model.add(SocialNetworkChangeEvent(themeContext: context, isTikTok: false));
-                          // context.read<WalletBloc>().add(ChangeUserEvent());
                           if (context.read<WalletBloc>().changeTokenFromCache(SocialNetworks.instagram, context) ==
                               false) {
                             context.read<AuthBloc>().add(
@@ -234,6 +240,17 @@ class _TabsHeaderState extends State<TabsHeader> {
                                   ),
                                 );
                             context.pushNamed('AuthLoadingPage');
+                          } else {
+                            try {
+                              context.read<RatingCubit>().fetchRating();
+                            } catch (e) {
+                              debugPrint(e.toString());
+                            }
+                            try {
+                              context.read<FriendsCubit>().fetchFriends();
+                            } catch (e) {
+                              debugPrint(e.toString());
+                            }
                           }
                         },
                         child: GradientContainer(

@@ -13,9 +13,9 @@ class RatingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocListener<WalletBloc, WalletState>(listener: (context, state) {
-      context.read<RatingCubit>().fetchRating();
-    });
+    // BlocListener<WalletBloc, WalletState>(listener: (context, state) {
+    //   context.read<RatingCubit>().fetchRating();
+    // });
 
     return BlocBuilder<RatingCubit, RatingState>(
       builder: (context, state) {

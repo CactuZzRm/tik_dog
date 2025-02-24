@@ -15,15 +15,6 @@ class OffersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocListener<WalletBloc, WalletState>(
-      listener: (context, state) {
-        if (state is WalletCurrentState) {
-          print('amoga');
-          context.watch<OffersBloc>().add(OffersInitEvent(status: null));
-        }
-      },
-    );
-
     return BlocBuilder<OffersBloc, OffersState>(
       builder: (context, state) {
         final model = context.watch<OffersBloc>();
