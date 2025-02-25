@@ -208,6 +208,11 @@ class _TabsHeaderState extends State<TabsHeader> {
                             } catch (e) {
                               debugPrint(e.toString());
                             }
+                            try {
+                              context.read<OffersBloc>().add(RefreshOffersEvent());
+                            } catch (e) {
+                              debugPrint(e.toString());
+                            }
                           }
                         },
                         child: GradientContainer(
@@ -248,6 +253,12 @@ class _TabsHeaderState extends State<TabsHeader> {
                             }
                             try {
                               context.read<FriendsCubit>().fetchFriends();
+                            } catch (e) {
+                              debugPrint(e.toString());
+                            }
+                            try {
+                              print('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+                              context.read<OffersBloc>().add(OffersChangeSelectedStatusEvent(index: 0));
                             } catch (e) {
                               debugPrint(e.toString());
                             }

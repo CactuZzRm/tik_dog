@@ -16,6 +16,13 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
       await fetchOffers(limit: limit, status: status);
       emit(OffersCurrentOffersState(offers: offers));
     });
+    on<RefreshOffersEvent>((event, emit) async {
+      final status = getOffersStatus;
+      final limit = selectedOffersTypeStatus == 0 ? 1 : null;
+
+      await fetchOffers(limit: limit, status: status);
+      emit(OffersCurrentOffersState(offers: offers));
+    });
     on<OffersChangeSelectedStatusEvent>((event, emit) async {
       changeOffersTypeStatus(event.index);
       final limit = selectedOffersTypeStatus == 0 ? 1 : null;

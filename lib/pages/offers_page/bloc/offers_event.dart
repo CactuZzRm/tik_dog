@@ -9,6 +9,8 @@ class OffersInitEvent extends OffersEvent {
   OffersInitEvent({this.status});
 }
 
+class RefreshOffersEvent extends OffersEvent {}
+
 class OffersChangeSelectedStatusEvent extends OffersEvent {
   final int index;
 
