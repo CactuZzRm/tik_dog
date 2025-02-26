@@ -1,6 +1,7 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,6 +32,11 @@ import 'pages/wallet_page/wallet_page.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setup();
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
 
   //TODO: ????? Ошибка по AppLinks
   final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
