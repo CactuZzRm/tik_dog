@@ -142,10 +142,6 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                   const SizedBox(height: 12),
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 17,
-                      horizontal: 15,
-                    ),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Theme.of(context).extension<CustomThemeData>()!.offersAcceptEmailHintColor!,
@@ -160,7 +156,11 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                       onChanged: (value) => setState(() {
                         email = value;
                       }),
-                      decoration: InputDecoration.collapsed(
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                          vertical: 17,
+                          horizontal: 15,
+                        ),
                         hintText: 'Email address',
                         hintStyle: TextStyle(
                           fontSize: 14,

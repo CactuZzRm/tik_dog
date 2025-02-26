@@ -28,8 +28,9 @@ class OffersPage extends StatelessWidget {
             offers = context.watch<OffersBloc>().offers;
           }
 
-          return Scaffold(
-            body: Column(
+          return ColoredBox(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            child: Column(
               children: [
                 const SizedBox(height: 22),
                 const OffersStatusBar(),

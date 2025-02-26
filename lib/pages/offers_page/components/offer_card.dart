@@ -20,7 +20,7 @@ class OfferCard extends StatelessWidget {
     print(offer.picture);
 
     return GestureDetector(
-      onTap: context.watch<OffersBloc>().selectedOffersTypeStatus == 0 ? onTap : () {},
+      onTap: context.watch<OffersBloc>().selectedOffersTypeStatus != 0 ? onTap : () {},
       child: Container(
         margin: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
         child: Column(

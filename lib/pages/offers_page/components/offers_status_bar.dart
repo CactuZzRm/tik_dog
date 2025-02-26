@@ -46,6 +46,7 @@ class OfferTypeContainer extends StatelessWidget {
     final model = context.watch<OffersBloc>();
 
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () => model.add(OffersChangeSelectedStatusEvent(index: index)),
       child: GradientContainer(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
