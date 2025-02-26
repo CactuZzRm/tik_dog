@@ -7,6 +7,7 @@ import 'package:tik_dog/pages/auth_page/bloc/auth_bloc.dart';
 import 'package:tik_dog/pages/init_loading_page/init_loading_page.dart';
 
 import '../error_page/error_page.dart';
+import '../wallet_page/bloc/wallet_bloc.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({
@@ -15,101 +16,115 @@ class AuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AuthBloc>();
-
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        if (state is AuthLoading) {
-          model.add(AuthLoadingEvent());
-          return const InitLoadingPage();
-        } else if (state is AuthCurrentState) {
-          return Scaffold(
-            backgroundColor: Colors.black,
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+    final model = context.read<AuthBloc>();
+    final content = Scaffold(
+      backgroundColor: Colors.black,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: MediaQuery.of(context).padding.top + 27),
+          SvgPicture.asset(
+            'assets/icons/BIGpie.svg',
+            width: 171,
+            height: 70,
+          ),
+          const SizedBox(height: 22),
+          Text(
+            'Chose your App\nCheck your Stat',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 1.134,
+                ),
+          ),
+          Expanded(
+            child: Stack(
               children: [
-                SizedBox(height: MediaQuery.of(context).padding.top + 27),
-                SvgPicture.asset(
-                  'assets/icons/BIGpie.svg',
-                  width: 171,
-                  height: 70,
+                const SizedBox(width: double.infinity),
+                Positioned(
+                  left: 0,
+                  bottom: 190,
+                  child: Image.asset('assets/images/InstagramLogo.png'),
                 ),
-                const SizedBox(height: 22),
-                Text(
-                  'Chose your App\nCheck your Stat',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        letterSpacing: 1.134,
-                      ),
+                Positioned(
+                  right: 26,
+                  left: 26,
+                  bottom: -50,
+                  child: Image.asset('assets/images/BlueTorchFull.png'),
                 ),
-                Expanded(
-                  child: Stack(
-                    children: [
-                      const SizedBox(width: double.infinity),
-                      Positioned(
-                        left: 0,
-                        bottom: 190,
-                        child: Image.asset('assets/images/InstagramLogo.png'),
-                      ),
-                      Positioned(
-                        right: 26,
-                        left: 26,
-                        bottom: -50,
-                        child: Image.asset('assets/images/BlueTorchFull.png'),
-                      ),
-                      Positioned(
-                        left: 0,
-                        bottom: 0,
-                        child: Image.asset(
-                          'assets/images/InstagramSymbol.png',
-                          width: 254,
-                          height: 275,
-                        ),
-                      ),
-                      Positioned(
-                        right: -150,
-                        bottom: 0,
-                        child: Image.asset(
-                          'assets/images/TikTokSymbol.png',
-                        ),
-                      ),
-                      Positioned(
-                        right: 0,
-                        bottom: 0,
-                        child: Image.asset('assets/images/TikTokLogo.png'),
-                      ),
-                    ],
+                Positioned(
+                  left: 0,
+                  bottom: 0,
+                  child: Image.asset(
+                    'assets/images/InstagramSymbol.png',
+                    width: 254,
+                    height: 275,
                   ),
                 ),
-                AuthButton(
-                  text: 'Continue with Instagram',
-                  iconSource: 'assets/icons/InstagramLogo.svg',
-                  onPressed: () {
-                    selectedSymbol = 'assets/images/InstagramSymbol';
-                    context.pushNamed('AuthLoadingPage');
-                    model.add(AuthLoginEvent(themeContext: context, socialNetwork: SocialNetworks.instagram));
-                  },
+                Positioned(
+                  right: -150,
+                  bottom: 0,
+                  child: Image.asset(
+                    'assets/images/TikTokSymbol.png',
+                  ),
                 ),
-                const SizedBox(height: 24),
-                AuthButton(
-                  text: 'Continue with TikTok',
-                  iconSource: 'assets/icons/TikTokLogo.svg',
-                  onPressed: () {
-                    selectedSymbol = 'assets/images/TikTokSymbol';
-                    context.pushNamed('AuthLoadingPage');
-                    model.add(AuthLoginEvent(themeContext: context, socialNetwork: SocialNetworks.tiktok));
-                  },
+                Positioned(
+                  right: 0,
+                  bottom: 0,
+                  child: Image.asset('assets/images/TikTokLogo.png'),
                 ),
-                const SizedBox(height: 21),
               ],
             ),
-          );
-        } else {
-          return const ErrorPage();
+          ),
+          AuthButton(
+            text: 'Continue with Instagram',
+            iconSource: 'assets/icons/InstagramLogo.svg',
+            onPressed: () {
+              selectedSymbol = 'assets/images/InstagramSymbol';
+              model.add(AuthLoginEvent(themeContext: context, socialNetwork: SocialNetworks.instagram));
+            },
+          ),
+          const SizedBox(height: 24),
+          AuthButton(
+            text: 'Continue with TikTok',
+            iconSource: 'assets/icons/TikTokLogo.svg',
+            onPressed: () {
+              selectedSymbol = 'assets/images/TikTokSymbol';
+              model.add(AuthLoginEvent(themeContext: context, socialNetwork: SocialNetworks.tiktok));
+            },
+          ),
+          const SizedBox(height: 21),
+        ],
+      ),
+    );
+
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthAuthenticatedState) {
+          context.read<WalletBloc>().add(GetUserData());
+          context.replaceNamed('OffersPage');
+        } else if (state is AuthUnauthenticatedState) {
+          context.pushNamed('AuthLoadingPage');
         }
       },
+      child: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, state) {
+          if (state is AuthLoading) {
+            model.add(AuthLoadingEvent());
+            return const InitLoadingPage();
+          } else if (state is AuthCurrentState) {
+            return content;
+          } else if (state is AuthAuthenticatedState) {
+            return content;
+          } else if (state is AuthUnauthenticatedState) {
+            return content;
+          } else {
+            context.go('/');
+            return const ErrorPage();
+          }
+        },
+      ),
     );
   }
 }

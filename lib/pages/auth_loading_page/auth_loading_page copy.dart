@@ -62,7 +62,7 @@
 //           final link = getIt<String>();
 
 //           // await getIt<Dio>().get(link);
-//           context.read<AuthLoadingCubit>().authCallBackRequest(link);
+          // context.read<AuthLoadingCubit>().authCallBackRequest(link);
 
 //           getIt<IsFirstBoolWrapper>().hasRequest = true;
 //           getIt.unregister<String>();

@@ -126,14 +126,14 @@ final _router = GoRouter(
 
     if (link.contains('callback')) {
       getIt.registerSingleton<String>(link);
-      context.read<AuthLoadingCubit>().authCallBackRequest(link);
+      // context.read<AuthLoadingCubit>().authCallBackRequest(link);
 
       return '/authLoadingPage';
     } else if (link.contains('invite')) {
       if (context.mounted) {
         final splitLink = link.split('/');
         final inviteKey = splitLink[splitLink.length - 1];
-        context.read<AuthBloc>().inviteKey = inviteKey;
+        context.read<AuthLoadingCubit>().inviteKey = inviteKey;
       }
       return '/';
     }
@@ -147,7 +147,7 @@ final _router = GoRouter(
     GoRoute(
       path: '/authLoadingPage',
       name: 'AuthLoadingPage',
-      builder: (context, state) => AuthLoadingPage(),
+      builder: (context, state) => const AuthLoadingPage(),
     ),
     GoRoute(
       path: '/auth_statistic_page',

@@ -31,22 +31,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       });
     });
     on<AuthLoginEvent>((event, emit) async {
-      final selectedSocialNetwork = event.socialNetwork == SocialNetworks.tiktok ? 'tiktok' : 'instagram';
       isTikTok = event.socialNetwork == SocialNetworks.tiktok ? true : false;
 
-      if (event.socialNetwork == SocialNetworks.tiktok &&
-          getIt<SharedPreferences>().getString('tiktok_token') != null) {
+      if (isTikTok && getIt<SharedPreferences>().getString('tiktok_token') != null ||
+          !isTikTok && getIt<SharedPreferences>().getString('instagram_token') != null) {
+        setToken(isTikTok);
         isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
         selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
-      } else if (event.socialNetwork == SocialNetworks.instagram &&
-          getIt<SharedPreferences>().getString('instagram_token') != null) {
-        isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
-        selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
+        emit(AuthAuthenticatedState());
       } else {
-        await getTempToken(selectedSocialNetwork);
+        emit(AuthUnauthenticatedState());
       }
     });
-
     on<GetKeyEvent>((event, emit) async {
       await getKey();
       emit(AuthCurrentState().copyWith());
@@ -54,69 +50,97 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SetKeyEvent>((event, emit) async {
       await setKey(event.key);
     });
+    // on<AuthLoginEvent>((event, emit) {
+    //   final selectedSocialNetwork = event.socialNetwork == SocialNetworks.tiktok ? 'tiktok' : 'instagram';
+    //   isTikTok = event.socialNetwork == SocialNetworks.tiktok ? true : false;
+
+    // if (event.socialNetwork == SocialNetworks.tiktok &&
+    //     getIt<SharedPreferences>().getString('tiktok_token') != null) {
+    //   isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
+    //   selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
+    // } else if (event.socialNetwork == SocialNetworks.instagram &&
+    //     getIt<SharedPreferences>().getString('instagram_token') != null) {
+    //   isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
+    //   selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
+    // }
+    //// else {
+    //   await getTempToken(selectedSocialNetwork);
+    // }
+    // });
   }
 
-  Future<void> getTempToken(String provider) async {
-    try {
-      await authRepositoryImpl.getUrl(provider, inviteKey).then(
-        (response) async {
-          tempToken = response.tempToken;
-          loginUrl = response.url;
+  // Future<void> getTempToken(String provider) async {
+  //   try {
+  //     await authRepositoryImpl.getUrl(provider, inviteKey).then(
+  //       (response) async {
+  //         tempToken = response.tempToken;
+  //         loginUrl = response.url;
 
-          !await launchUrl(Uri.parse(loginUrl), mode: LaunchMode.platformDefault).catchError(
-            (error) {
-              debugPrint('Url_launcher error: $error');
-              throw Exception(error);
+  //         !await launchUrl(Uri.parse(loginUrl), mode: LaunchMode.platformDefault).catchError(
+  //           (error) {
+  //             debugPrint('Url_launcher error: $error');
+  //             throw Exception(error);
+  //           },
+  //         );
+  //       },
+  //     );
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //     throw Exception(e);
+  //   }
+  // }
+
+  // Future<UserModel?> exchangeTempToken(ExchangeTempTokenModel body) async {
+  //   UserModel? user;
+
+  //   try {
+  //     await authRepositoryImpl.exhangeTempToken(body).then(
+  //       (response) {
+  //         token = response.token;
+  //         user = response.user;
+  //         if (user!.provider == 'tiktok') {
+  //           getIt<SharedPreferences>().setString('tiktok_token', token!);
+  //         } else {
+  //           getIt<SharedPreferences>().setString('instagram_token', token!);
+  //         }
+  //         getIt<Dio>().interceptors.add(
+  //               InterceptorsWrapper(
+  //                 onRequest: (options, handler) async {
+  //                   final token = this.token; // Получаем токен
+  //                   if (token != null) {
+  //                     options.headers['Authorization'] = 'Bearer $token';
+  //                   }
+  //                   handler.next(options);
+  //                 },
+  //                 onResponse: (response, handler) {
+  //                   handler.next(response);
+  //                 },
+  //               ),
+  //             );
+  //       },
+  //     );
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //     throw Exception(e);
+  //   }
+  //   return user;
+  // }
+
+  void setToken(bool isTikTok) {
+    getIt<Dio>().interceptors.add(
+          InterceptorsWrapper(
+            onRequest: (options, handler) async {
+              final token = getIt<SharedPreferences>().getString(isTikTok ? 'tiktok_token' : 'instagram_token');
+              if (token != null) {
+                options.headers['Authorization'] = 'Bearer $token';
+              }
+              handler.next(options);
             },
-          );
-        },
-      );
-    } catch (e) {
-      debugPrint(e.toString());
-      throw Exception(e);
-    }
-  }
-
-  // https://www.tiktok.com/v2/auth/authorize/
-  // ?client_key=sbawe3cqrlzi2tvxkp&state=UGjltLcxugwy72Qt8vMT
-  // &response_type=code&scope=user.info.basic%2Cuser.info.stats%2Cvideo.list
-  // &redirect_uri=https%3A%2F%2Fapp.bigpie.ai%2Fapi%2Fcallback%2Ftiktok&error=invalid_request
-  // &error_type=redirect_uri
-
-  Future<UserModel?> exchangeTempToken(ExchangeTempTokenModel body) async {
-    UserModel? user;
-
-    try {
-      await authRepositoryImpl.exhangeTempToken(body).then(
-        (response) {
-          token = response.token;
-          user = response.user;
-          if (user!.provider == 'tiktok') {
-            getIt<SharedPreferences>().setString('tiktok_token', token!);
-          } else {
-            getIt<SharedPreferences>().setString('instagram_token', token!);
-          }
-          getIt<Dio>().interceptors.add(
-                InterceptorsWrapper(
-                  onRequest: (options, handler) async {
-                    final token = this.token; // Получаем токен
-                    if (token != null) {
-                      options.headers['Authorization'] = 'Bearer $token';
-                    }
-                    handler.next(options);
-                  },
-                  onResponse: (response, handler) {
-                    handler.next(response);
-                  },
-                ),
-              );
-        },
-      );
-    } catch (e) {
-      debugPrint(e.toString());
-      throw Exception(e);
-    }
-    return user;
+            onResponse: (response, handler) {
+              handler.next(response);
+            },
+          ),
+        );
   }
 
   Future<void> getKey() async {

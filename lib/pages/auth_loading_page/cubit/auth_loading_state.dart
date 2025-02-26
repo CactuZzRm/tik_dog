@@ -1,10 +1,20 @@
 part of 'auth_loading_cubit.dart';
 
 @immutable
-sealed class AuthLoadingPageState {}
+sealed class AuthLoadingState {}
 
-final class AuthLoadingPageInitial extends AuthLoadingPageState {}
+final class AuthLoadingPageInitial extends AuthLoadingState {}
 
-final class AuthLoadingPageCallback extends AuthLoadingPageState {}
+final class AuthLoadingPageWebLoginProcess extends AuthLoadingState {}
 
-final class AuthLoadingPageWait extends AuthLoadingPageState {}
+final class AuthLoadingSuccessLogin extends AuthLoadingState {}
+
+final class AuthLoadingNotSuccessLogin extends AuthLoadingState {}
+
+// final class AuthLoadingPageCallback extends AuthLoadingPageState {}
+
+// final class AuthLoadingPageWait extends AuthLoadingPageState {}
+
+// final class AuthLoadingPageSuccess extends AuthLoadingPageState {}
+
+// final class AuthLoadingPageError extends AuthLoadingPageState {}

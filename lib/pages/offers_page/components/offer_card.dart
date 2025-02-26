@@ -20,7 +20,7 @@ class OfferCard extends StatelessWidget {
     print(offer.picture);
 
     return GestureDetector(
-      onTap: context.watch<OffersBloc>().selectedOffersTypeStatus != 0 ? onTap : () {},
+      onTap: context.watch<OffersBloc>().selectedOffersTypeStatus == 0 ? onTap : () {},
       child: Container(
         margin: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
         child: Column(
@@ -58,7 +58,7 @@ class OfferCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(36),
                     ),
                     child: Text(
-                      offer.formattedPrice,
+                      '\$${offer.formattedPrice}',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 24,
                             color: const Color.fromRGBO(42, 255, 173, 1),

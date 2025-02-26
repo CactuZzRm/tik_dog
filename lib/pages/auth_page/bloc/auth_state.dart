@@ -11,3 +11,7 @@ class AuthCurrentState extends AuthState {
     return AuthCurrentState();
   }
 }
+
+class AuthAuthenticatedState extends AuthState {}
+
+class AuthUnauthenticatedState extends AuthState {}
