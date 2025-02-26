@@ -8,9 +8,11 @@ import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 import 'package:tik_dog/pages/auth_statistic_page/auth_statistic_page.dart';
 import 'package:tik_dog/themes.dart';
 
+import 'data/api/api_service.dart';
 import 'injection_container.dart';
 import 'pages/accept_denied_offer_details_page/accept_offer_details_page.dart';
 import 'pages/accept_denied_offer_details_page/denied_offer_details_page.dart';
+import 'pages/auth_loading_page/cubit/auth_loading_cubit.dart';
 import 'pages/auth_page/auth_page.dart';
 import 'pages/auth_information_page/auth_information_page.dart';
 import 'pages/auth_page/bloc/auth_bloc.dart';
@@ -94,6 +96,7 @@ class _MyAppState extends State<MyApp> {
           BlocProvider(create: (context) => FriendsCubit()),
           BlocProvider(create: (context) => RatingCubit()),
           BlocProvider(create: (context) => TabsCubit()),
+          BlocProvider(create: (context) => AuthLoadingCubit()),
         ],
         child: MaterialApp.router(
           routerConfig: _router,
@@ -105,11 +108,20 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+class IsFirstBoolWrapper {
+  bool isFirst;
+  bool hasRequest;
+  IsFirstBoolWrapper(this.isFirst, this.hasRequest);
+}
+
 final _router = GoRouter(
   redirect: (context, state) async {
     final link = state.uri.toString();
 
     if (link.contains('callback')) {
+      getIt.registerSingleton<String>(link);
+      context.read<AuthLoadingCubit>().authCallBackRequest(link);
+
       return '/authLoadingPage';
     } else if (link.contains('invite')) {
       if (context.mounted) {
@@ -129,7 +141,7 @@ final _router = GoRouter(
     GoRoute(
       path: '/authLoadingPage',
       name: 'AuthLoadingPage',
-      builder: (context, state) => const AuthLoadingPage(),
+      builder: (context, state) => AuthLoadingPage(),
     ),
     GoRoute(
       path: '/auth_statistic_page',

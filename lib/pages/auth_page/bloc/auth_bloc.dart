@@ -2,10 +2,10 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tik_dog/data/api/models/exchange_temp_token_model.dart';
 import 'package:tik_dog/data/repositories/auth_repository_impl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../constants.dart';
 import '../../../data/api/models/user_model.dart';
@@ -33,8 +33,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLoginEvent>((event, emit) async {
       final selectedSocialNetwork = event.socialNetwork == SocialNetworks.tiktok ? 'tiktok' : 'instagram';
       isTikTok = event.socialNetwork == SocialNetworks.tiktok ? true : false;
-      // isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
-      // selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
 
       if (event.socialNetwork == SocialNetworks.tiktok &&
           getIt<SharedPreferences>().getString('tiktok_token') != null) {
@@ -65,7 +63,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           tempToken = response.tempToken;
           loginUrl = response.url;
 
-          await launchUrl(Uri.parse(loginUrl)).catchError(
+          !await launchUrl(Uri.parse(loginUrl), mode: LaunchMode.platformDefault).catchError(
             (error) {
               debugPrint('Url_launcher error: $error');
               throw Exception(error);
@@ -78,6 +76,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       throw Exception(e);
     }
   }
+
+  // https://www.tiktok.com/v2/auth/authorize/
+  // ?client_key=sbawe3cqrlzi2tvxkp&state=UGjltLcxugwy72Qt8vMT
+  // &response_type=code&scope=user.info.basic%2Cuser.info.stats%2Cvideo.list
+  // &redirect_uri=https%3A%2F%2Fapp.bigpie.ai%2Fapi%2Fcallback%2Ftiktok&error=invalid_request
+  // &error_type=redirect_uri
 
   Future<UserModel?> exchangeTempToken(ExchangeTempTokenModel body) async {
     UserModel? user;

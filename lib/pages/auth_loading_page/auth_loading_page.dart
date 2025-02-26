@@ -5,114 +5,92 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tik_dog/pages/auth_loading_page/cubit/auth_loading_cubit.dart';
 
 import '../../constants.dart';
+import '../../data/api/api_service.dart';
 import '../../data/api/models/exchange_temp_token_model.dart';
 import '../../injection_container.dart';
+import '../../main.dart';
 import '../auth_page/bloc/auth_bloc.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
 class AuthLoadingPage extends StatefulWidget {
-  const AuthLoadingPage({super.key});
+  AuthLoadingPage({super.key});
+
+  bool isFirst = true;
 
   @override
   State<AuthLoadingPage> createState() => _AuthLoadingPageState();
 }
 
-class _AuthLoadingPageState extends State<AuthLoadingPage> with WidgetsBindingObserver {
-  void setToken(bool isTikTok) {
-    getIt<Dio>().interceptors.add(
-          InterceptorsWrapper(
-            onRequest: (options, handler) async {
-              final token = getIt<SharedPreferences>().getString(isTikTok ? 'tiktok_token' : 'instagram_token');
-              if (token != null) {
-                options.headers['Authorization'] = 'Bearer $token';
-              }
-              handler.next(options);
-            },
-            onResponse: (response, handler) {
-              handler.next(response);
-            },
-          ),
-        );
-  }
+class _AuthLoadingPageState extends State<AuthLoadingPage> {
+  // @override
+  // void initState() {
+  //   final requestFlagsBoolWrapper = getIt<IsFirstBoolWrapper>();
 
-  @override
-  void initState() {
-    if (context.mounted) {
-      final isTikTok = context.read<AuthBloc>().isTikTok;
-      print('$isTikTok' + '<<<<<');
-      if (getIt<SharedPreferences>().getString('tiktok_token') != null && isTikTok ||
-          getIt<SharedPreferences>().getString('instagram_token') != null && !isTikTok) {
-        context.read<WalletBloc>().add(GetUserData()); // TODO: Костыль по получению данных пользователя
-        setToken(isTikTok);
-        context.goNamed('OffersPage');
-      } else {}
-    }
-    WidgetsBinding.instance.addObserver(this);
-    super.initState();
-  }
+  // if (context.mounted) {
+  //   final isTikTok = context.read<AuthBloc>().isTikTok;
+  //   if (getIt<SharedPreferences>().getString('tiktok_token') != null && isTikTok ||
+  //       getIt<SharedPreferences>().getString('instagram_token') != null && !isTikTok) {
+  //     context.read<WalletBloc>().add(GetUserData()); // TODO: Костыль по получению данных пользователя
+  //     setToken(isTikTok);
+  //     context.goNamed('OffersPage');
+  //   } else if (!requestFlagsBoolWrapper.isFirst) {
+  //     final body = ExchangeTempTokenModel(
+  //       tempToken: context.read<AuthBloc>().tempToken,
+  //     );
 
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
+  //       try {
+  //         final link = getIt<String>();
 
-  @override
-  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        final body = ExchangeTempTokenModel(
-          tempToken: context.read<AuthBloc>().tempToken,
-        );
+  //         // await getIt<Dio>().get(link);
+  //         context.read<AuthLoadingCubit>().authCallBackRequest(link);
 
-        try {
-          await Future.delayed(const Duration(seconds: 5)).then(
-            (value) async {
-              if (mounted) {
-                await context.read<AuthBloc>().exchangeTempToken(body).then((user) {
-                  if (mounted) {
-                    context.read<WalletBloc>().add(GetUserData());
+  //         getIt<IsFirstBoolWrapper>().hasRequest = true;
+  //         getIt.unregister<String>();
+  //       } catch (e) {
+  //         debugPrint(e.toString());
+  //       }
 
-                    context.read<AuthBloc>().isTikTok
-                        ? AdaptiveTheme.of(context).setDark()
-                        : AdaptiveTheme.of(context).setLight();
-                    selectedSymbol = context.read<AuthBloc>().isTikTok
-                        ? 'assets/images/TikTokSymbol'
-                        : 'assets/images/InstagramSymbol';
-                    context.replaceNamed('AuthStatisticPage');
-                  }
-                });
-              }
-            },
-          );
-        } catch (e) {
-          if (mounted) {
-            context.replace('/');
-          }
-          debugPrint('ERROR: ${e.toString()}');
-          throw Exception(e);
-        }
-        break;
-      case AppLifecycleState.inactive:
-        print('Приложение неактивно');
-        break;
-      case AppLifecycleState.paused:
-        print('Приложение на паузе');
-        break;
-      case AppLifecycleState.detached:
-        print('Приложение завершено');
-        break;
-      case AppLifecycleState.hidden:
-        print('Приложение скрыто');
-        break;
-    }
-  }
+  //       try {
+  //         Future.delayed(const Duration(seconds: 5)).then(
+  //           (value) async {
+  //             if (mounted) {
+  //               await context.read<AuthBloc>().exchangeTempToken(body).then((user) {
+  //                 if (mounted) {
+  //                   context.read<WalletBloc>().add(GetUserData());
+
+  //                   context.read<AuthBloc>().isTikTok
+  //                       ? AdaptiveTheme.of(context).setDark()
+  //                       : AdaptiveTheme.of(context).setLight();
+  //                   selectedSymbol = context.read<AuthBloc>().isTikTok
+  //                       ? 'assets/images/TikTokSymbol'
+  //                       : 'assets/images/InstagramSymbol';
+  //                   context.replaceNamed('AuthStatisticPage');
+  //                 }
+  //               });
+  //             }
+  //           },
+  //         );
+  //       } catch (e) {
+  //         if (mounted) {
+  //           context.replace('/');
+  //         }
+  //         debugPrint('ERROR: ${e.toString()}');
+  //         throw Exception(e);
+  //       }
+  //     } else {
+  //       getIt<IsFirstBoolWrapper>().isFirst = false;
+  //     }
+  //   }
+
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final content = Scaffold(
       backgroundColor: const Color.fromRGBO(0, 0, 0, 1),
       body: Stack(
         children: [
@@ -161,6 +139,28 @@ class _AuthLoadingPageState extends State<AuthLoadingPage> with WidgetsBindingOb
           ),
         ],
       ),
+    );
+
+    return BlocBuilder<AuthLoadingCubit, AuthLoadingPageState>(
+      builder: (context, state) {
+        final isTikTok = context.read<AuthBloc>().isTikTok;
+
+        if (state is AuthLoadingPageInitial) {
+          if (context.read<AuthLoadingCubit>().getLocalAuth(isTikTok) == true) {
+            context.read<WalletBloc>().add(GetUserData());
+            context.goNamed('OffersPage');
+          }
+          return content;
+        } else if (state is AuthLoadingPageCallback) {
+          final tempToken = context.read<AuthBloc>().tempToken;
+          context.read<AuthLoadingCubit>().getNotLocalAuth(tempToken, context);
+          return content;
+        } else {
+          debugPrint('AUTH ERROR');
+          context.go('/');
+          return const Center(child: Text('error'));
+        }
+      },
     );
   }
 }
@@ -272,3 +272,62 @@ class _AnimatedHorizontalStepsState extends State<AnimatedHorizontalSteps> with 
     );
   }
 }
+
+
+// final requestFlagsBoolWrapper = getIt<IsFirstBoolWrapper>();
+//     // print('init state');
+
+//     if (context.mounted) {
+//       final isTikTok = context.read<AuthBloc>().isTikTok;
+//       // print('$isTikTok' + '<<<<<');
+//       if (getIt<SharedPreferences>().getString('tiktok_token') != null && isTikTok ||
+//           getIt<SharedPreferences>().getString('instagram_token') != null && !isTikTok) {
+//         context.read<WalletBloc>().add(GetUserData()); // TODO: Костыль по получению данных пользователя
+//         setToken(isTikTok);
+//         context.goNamed('OffersPage');
+//       } else if (!requestFlagsBoolWrapper.isFirst && !requestFlagsBoolWrapper.hasRequest) {
+//         final body = ExchangeTempTokenModel(
+//           tempToken: context.read<AuthBloc>().tempToken,
+//         );
+
+//         try {
+//           final link = getIt<String>();
+
+//           await getIt<Dio>().get(link);
+
+//           getIt<IsFirstBoolWrapper>().isFirst = false;
+//           getIt<IsFirstBoolWrapper>().hasRequest = true;
+//           getIt.unregister<String>();
+//         } catch (e) {
+//           debugPrint(e.toString());
+//         }
+
+//         try {
+//           await Future.delayed(const Duration(seconds: 5)).then(
+//             (value) async {
+//               if (mounted) {
+//                 await context.read<AuthBloc>().exchangeTempToken(body).then((user) {
+//                   if (mounted) {
+//                     context.read<WalletBloc>().add(GetUserData());
+
+//                     context.read<AuthBloc>().isTikTok
+//                         ? AdaptiveTheme.of(context).setDark()
+//                         : AdaptiveTheme.of(context).setLight();
+//                     selectedSymbol = context.read<AuthBloc>().isTikTok
+//                         ? 'assets/images/TikTokSymbol'
+//                         : 'assets/images/InstagramSymbol';
+//                     context.replaceNamed('AuthStatisticPage');
+//                   }
+//                 });
+//               }
+//             },
+//           );
+//         } catch (e) {
+//           if (mounted) {
+//             context.replace('/');
+//           }
+//           debugPrint('ERROR: ${e.toString()}');
+//           throw Exception(e);
+//         }
+//       } else {}
+//     }

@@ -102,8 +102,7 @@ class SelectedOfferBottomSheet extends StatelessWidget {
                 ),
                 const SizedBox(height: 51),
                 Text(
-                  //
-                  model.offers[0].formattedPrice,
+                  '${model.offers[0].formattedPrice}\$',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: const Color.fromRGBO(42, 255, 173, 1),
                         fontSize: 60,

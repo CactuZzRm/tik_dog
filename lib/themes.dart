@@ -9,6 +9,7 @@ class CustomThemeData extends ThemeExtension<CustomThemeData> {
   final Color? offersPageHeaderUnselectedCategoryColor;
   final Color? offersAcceptGradientFirstColor;
   final Color? offersAcceptGradientSecondColor;
+  final Color? offersAcceptCountrySelectColor;
   final Color? offerDeniedReasonSelectBackgroundColor;
   final Color? offerDeniedReasonScaffoldBackgroundColor;
   final Color? offerDeniedReasonTextFieldHintColor;
@@ -27,6 +28,7 @@ class CustomThemeData extends ThemeExtension<CustomThemeData> {
     this.offersPageHeaderUnselectedCategoryColor,
     this.offersAcceptGradientFirstColor,
     this.offersAcceptGradientSecondColor,
+    this.offersAcceptCountrySelectColor,
     this.offerDeniedReasonSelectBackgroundColor,
     this.offerDeniedReasonScaffoldBackgroundColor,
     this.offerDeniedReasonTextFieldHintColor,
@@ -85,6 +87,11 @@ class CustomThemeData extends ThemeExtension<CustomThemeData> {
         other.offersAcceptGradientSecondColor,
         t,
       ),
+      offersAcceptCountrySelectColor: Color.lerp(
+        offersAcceptCountrySelectColor,
+        other.offersAcceptCountrySelectColor,
+        t,
+      ),
       offerDeniedReasonSelectBackgroundColor: Color.lerp(
         offerDeniedReasonSelectBackgroundColor,
         other.offerDeniedReasonSelectBackgroundColor,
@@ -140,6 +147,7 @@ final tiktokTheme = ThemeData(
       offersPageHeaderUnselectedCategoryColor: const Color.fromRGBO(255, 255, 255, 0.8),
       offersAcceptGradientFirstColor: const Color.fromRGBO(28, 28, 30, 1),
       offersAcceptGradientSecondColor: const Color.fromRGBO(0, 0, 0, 0),
+      offersAcceptCountrySelectColor: const Color.fromRGBO(23, 23, 23, 1),
       //TODO: Решить с блюром
       // offerDeniedReasonSelectBackgroundColor: const Color.fromRGBO(28, 28, 30, 0.9),
       offerDeniedReasonSelectBackgroundColor: const Color.fromRGBO(28, 28, 30, 0.6),
@@ -181,6 +189,7 @@ final instaTheme = ThemeData(
       offersPageHeaderUnselectedCategoryColor: const Color.fromRGBO(99, 99, 99, 0.8),
       offersAcceptGradientFirstColor: const Color.fromRGBO(255, 255, 255, 1),
       offersAcceptGradientSecondColor: const Color.fromRGBO(255, 255, 255, 0),
+      offersAcceptCountrySelectColor: const Color.fromRGBO(233, 233, 233, 1),
       offerDeniedReasonSelectBackgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       offerDeniedReasonScaffoldBackgroundColor: const Color.fromRGBO(235, 235, 235, 1),
       offerDeniedReasonTextFieldHintColor: const Color.fromRGBO(0, 0, 0, 0.5),

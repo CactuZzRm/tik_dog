@@ -6,7 +6,7 @@ part 'offer_model.g.dart';
 class OfferModel {
   final String id;
   final String title;
-  final String description;
+  final String? description;
   final String source;
   @JsonKey(name: 'offer_status')
   final String status;
@@ -18,7 +18,7 @@ class OfferModel {
   final String companyName;
   @JsonKey(name: 'created_at')
   final String createdAt;
-  final String picture;
+  final String? picture;
 
   OfferModel({
     required this.id,

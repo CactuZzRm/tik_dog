@@ -231,7 +231,9 @@ class _ApiService implements ApiService {
     final _result = await _dio.fetch<List<dynamic>>(_options);
     late List<UserModel> _value;
     try {
-      _value = _result.data!.map((dynamic i) => UserModel.fromJson(i as Map<String, dynamic>)).toList();
+      _value = _result.data!
+          .map((dynamic i) => UserModel.fromJson(i as Map<String, dynamic>))
+          .toList();
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -373,7 +375,8 @@ class _ApiService implements ApiService {
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {
     if (T != dynamic &&
-        !(requestOptions.responseType == ResponseType.bytes || requestOptions.responseType == ResponseType.stream)) {
+        !(requestOptions.responseType == ResponseType.bytes ||
+            requestOptions.responseType == ResponseType.stream)) {
       if (T == String) {
         requestOptions.responseType = ResponseType.plain;
       } else {

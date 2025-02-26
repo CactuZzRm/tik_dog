@@ -257,7 +257,6 @@ class _TabsHeaderState extends State<TabsHeader> {
                               debugPrint(e.toString());
                             }
                             try {
-                              print('eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
                               context.read<OffersBloc>().add(OffersChangeSelectedStatusEvent(index: 0));
                             } catch (e) {
                               debugPrint(e.toString());

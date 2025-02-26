@@ -9,7 +9,7 @@ part of 'offer_model.dart';
 OfferModel _$OfferModelFromJson(Map<String, dynamic> json) => OfferModel(
       id: json['id'] as String,
       title: json['title'] as String,
-      description: json['description'] as String,
+      description: json['description'] as String?,
       source: json['source'] as String,
       status: json['offer_status'] as String,
       price: (json['price'] as num).toInt(),
@@ -17,7 +17,7 @@ OfferModel _$OfferModelFromJson(Map<String, dynamic> json) => OfferModel(
       priority: (json['priority'] as num).toInt(),
       companyName: json['company_name'] as String,
       createdAt: json['created_at'] as String,
-      picture: json['picture'] as String,
+      picture: json['picture'] as String?,
     );
 
 Map<String, dynamic> _$OfferModelToJson(OfferModel instance) =>

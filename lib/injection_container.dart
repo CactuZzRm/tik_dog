@@ -8,6 +8,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:tik_dog/data/repositories/auth_repository_impl.dart';
 import 'package:tik_dog/data/repositories/friends_repository_impl.dart';
 import 'package:tik_dog/data/repositories/offers_repository_impl.dart';
+import 'package:tik_dog/main.dart';
 
 import 'data/api/api_service.dart';
 import 'data/repositories/rating_repository_impl.dart';
@@ -38,6 +39,8 @@ void setup() {
 
   getIt.registerSingleton<Dio>(dio);
   getIt.registerSingleton<ApiService>(ApiService(getIt<Dio>()));
+
+  getIt.registerSingleton<IsFirstBoolWrapper>(IsFirstBoolWrapper(true, false));
 
   // Репозитории
   getIt.registerSingleton<AuthRepositoryImpl>(AuthRepositoryImpl());

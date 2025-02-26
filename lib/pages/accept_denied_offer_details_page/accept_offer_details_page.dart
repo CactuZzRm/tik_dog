@@ -121,7 +121,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                         maxHeight: 200,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: const Color.fromRGBO(23, 23, 23, 1), //TODO: Цвет согласовать
+                          color: Theme.of(context).extension<CustomThemeData>()!.offersAcceptCountrySelectColor,
                         ),
                       ),
                       menuItemStyleData: const MenuItemStyleData(
@@ -179,17 +179,13 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                     ),
                     child: ActionButton(
                       onPressed: () {
-                        // model.acceptOffer(
-                        //   id: model.offers[0].id,
-                        //   country: model.selectedCountry!,
-                        //   email: email,
-                        // );
                         model.add(AcceptOfferEvent(
                           id: model.offers[0].id,
                           email: email,
                           country: model.selectedCountry!,
                         ));
                         model.add(RemoveSelectedValuesEvent());
+                        model.add(OffersChangeSelectedStatusEvent(index: 1));
                         showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,

@@ -29,7 +29,7 @@ class OfferCard extends StatelessWidget {
             Stack(
               children: [
                 Image.network(
-                  offer.picture,
+                  offer.picture ?? '',
                   height: 216,
                   width: double.infinity,
                   fit: BoxFit.cover,
