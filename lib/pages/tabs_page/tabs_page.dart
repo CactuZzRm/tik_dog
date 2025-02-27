@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tik_dog/constants.dart';
 import 'package:tik_dog/pages/auth_information_page/auth_information_page.dart';
 import 'package:tik_dog/themes.dart';
 
-import '../../injection_container.dart';
 import '../auth_page/bloc/auth_bloc.dart';
 import '../friends_page/cubit/friends_cubit.dart';
 import '../offers_page/bloc/offers_bloc.dart';
@@ -31,10 +29,7 @@ class TabsPage extends StatelessWidget {
           SizedBox(
               height:
                   currentPage == 3 ? 18 + MediaQuery.of(context).padding.top : 38 + MediaQuery.of(context).padding.top),
-          if (currentPage != 3)
-            TabsHeader(
-              currentIndex: currentPage,
-            ),
+          if (currentPage != 3) TabsHeader(currentIndex: currentPage),
           Expanded(child: navigationShell),
           BottomNavBar(navigationShell: navigationShell),
           SizedBox(height: MediaQuery.of(context).padding.bottom),
@@ -187,6 +182,7 @@ class _TabsHeaderState extends State<TabsHeader> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           if (context.read<WalletBloc>().changeTokenFromCache(SocialNetworks.tiktok, context) ==
                               false) {
@@ -235,6 +231,7 @@ class _TabsHeaderState extends State<TabsHeader> {
                       ),
                       const SizedBox(width: 8),
                       GestureDetector(
+                        behavior: HitTestBehavior.opaque,
                         onTap: () {
                           if (context.read<WalletBloc>().changeTokenFromCache(SocialNetworks.instagram, context) ==
                               false) {
@@ -244,7 +241,7 @@ class _TabsHeaderState extends State<TabsHeader> {
                                     themeContext: context,
                                   ),
                                 );
-                            context.pushNamed('AuthLoadingPage');
+                            context.pushNamed('AuthLoadingPage', queryParameters: {'fromOffers': 'true'});
                           } else {
                             try {
                               context.read<RatingCubit>().fetchRating();

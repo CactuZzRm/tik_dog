@@ -9,7 +9,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:taskAffinity=""
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -32,7 +32,8 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="app.bigpie.ai" />
+                <data android:scheme="https" android:host="app.bigpie.ai" pathPattern='/api/callback/.*'/>
+                <data android:scheme="https" android:host="app.bigpie.ai" pathPattern='/invite/.*'/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

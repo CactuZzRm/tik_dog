@@ -81,7 +81,6 @@ class AuthPage extends StatelessWidget {
             text: 'Continue with Instagram',
             iconSource: 'assets/icons/InstagramLogo.svg',
             onPressed: () {
-              selectedSymbol = 'assets/images/InstagramSymbol';
               model.add(AuthLoginEvent(themeContext: context, socialNetwork: SocialNetworks.instagram));
             },
           ),
@@ -90,7 +89,6 @@ class AuthPage extends StatelessWidget {
             text: 'Continue with TikTok',
             iconSource: 'assets/icons/TikTokLogo.svg',
             onPressed: () {
-              selectedSymbol = 'assets/images/TikTokSymbol';
               model.add(AuthLoginEvent(themeContext: context, socialNetwork: SocialNetworks.tiktok));
             },
           ),
@@ -105,7 +103,7 @@ class AuthPage extends StatelessWidget {
           context.read<WalletBloc>().add(GetUserData());
           context.replaceNamed('OffersPage');
         } else if (state is AuthUnauthenticatedState) {
-          context.pushNamed('AuthLoadingPage');
+          context.replaceNamed('AuthLoadingPage');
         }
       },
       child: BlocBuilder<AuthBloc, AuthState>(

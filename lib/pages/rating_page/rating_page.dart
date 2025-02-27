@@ -72,7 +72,7 @@ class UserRating extends StatelessWidget {
   String ratingFormatter(int rating) {
     if (rating >= 3) {
       ratingFontSize = 17;
-      return '#$rating';
+      return '#${rating + 1}';
     } else if (rating == 0) {
       return '🥇';
     } else if (rating == 1) {

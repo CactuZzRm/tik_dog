@@ -4,7 +4,6 @@ import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 
 import '../../data/api/models/offer_model.dart';
 import '../error_page/error_page.dart';
-import '../wallet_page/bloc/wallet_bloc.dart';
 import 'bloc/offers_bloc.dart';
 import 'components/offer_card.dart';
 import 'components/offers_status_bar.dart';
@@ -24,9 +23,7 @@ class OffersPage extends StatelessWidget {
           return const Center(child: AnimatedHorizontalSteps());
         } else if (state is OffersCurrentOffersState) {
           List<OfferModel>? offers;
-          if (context.watch<OffersBloc>().offers.isNotEmpty) {
-            offers = context.watch<OffersBloc>().offers;
-          }
+          offers = state.offers;
 
           return ColoredBox(
             color: Theme.of(context).scaffoldBackgroundColor,
@@ -54,7 +51,7 @@ class OffersPage extends StatelessWidget {
                       },
                     ),
                   )
-                else
+                else if (offers != null && offers.isEmpty)
                   Expanded(
                     child: Container(
                       padding: const EdgeInsets.only(left: 16, right: 28),
@@ -69,6 +66,10 @@ class OffersPage extends StatelessWidget {
                             ),
                       ),
                     ),
+                  )
+                else
+                  const Expanded(
+                    child: Center(child: AnimatedHorizontalSteps()),
                   ),
               ],
             ),

@@ -375,7 +375,7 @@ class ActionButton extends StatelessWidget {
       width: double.infinity,
       margin: margin,
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isActive ? onPressed : null,
         style: ElevatedButton.styleFrom(
           disabledBackgroundColor: disabledBackgroundColor,
           elevation: 0,

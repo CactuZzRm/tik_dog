@@ -66,9 +66,13 @@ class _DeniedOfferDetailsPageState extends State<DeniedOfferDetailsPage> {
                         children: [
                           Align(
                             alignment: Alignment.centerRight,
-                            child: InkWell(
+                            child: GestureDetector(
+                              behavior: HitTestBehavior.opaque,
                               onTap: () => context.pop(),
-                              child: SvgPicture.asset('assets/icons/Cross.svg'),
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 12, bottom: 12),
+                                child: SvgPicture.asset('assets/icons/Cross.svg'),
+                              ),
                             ),
                           ),
                           const Text(

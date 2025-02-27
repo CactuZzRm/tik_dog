@@ -8,7 +8,9 @@ import '../auth_page/bloc/auth_bloc.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
 class AuthLoadingPage extends StatefulWidget {
-  const AuthLoadingPage({super.key});
+  const AuthLoadingPage(this.fromOffers, {super.key});
+
+  final bool? fromOffers;
 
   @override
   State<AuthLoadingPage> createState() => _AuthLoadingPageState();
@@ -28,7 +30,7 @@ class _AuthLoadingPageState extends State<AuthLoadingPage> with WidgetsBindingOb
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      if (context.mounted) {
+      if (context.mounted && !context.read<AuthLoadingCubit>().wasCallBackAlready) {
         context.read<AuthLoadingCubit>().exchangeTempToken();
       }
     }
@@ -100,7 +102,9 @@ class _AuthLoadingPageState extends State<AuthLoadingPage> with WidgetsBindingOb
           context.read<WalletBloc>().add(GetUserData());
           context.goNamed('AuthStatisticPage');
         } else if (state is AuthLoadingNotSuccessLogin) {
-          context.replace('/');
+          widget.fromOffers != null ? context.pop() : context.go('/');
+          // TODO: Протестировать работоспособность pop
+          // context.pop();
         }
       },
       child: BlocBuilder<AuthLoadingCubit, AuthLoadingState>(

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:tik_dog/data/repositories/offers_repository_impl.dart';
+import 'package:tik_dog/pages/accept_denied_offer_details_page/accept_offer_details_page.dart';
 
 import '../../../data/api/models/offer_model.dart';
 
@@ -23,13 +24,14 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
       await fetchOffers(limit: limit, status: status);
       emit(OffersCurrentOffersState(offers: offers));
     });
+
     on<OffersChangeSelectedStatusEvent>((event, emit) async {
       if (event.index != selectedOffersTypeStatus) {
         changeOffersTypeStatus(event.index);
-        final limit = selectedOffersTypeStatus == 0 ? 1 : null;
-        await fetchOffers(limit: limit, status: getOffersStatus);
+        // final limit = selectedOffersTypeStatus == 0 ? 1 : null;
+        // await fetchOffers(limit: limit, status: getOffersStatus);
         emit(OffersCurrentOffersState().copyWith(
-          offers: offers,
+          offers: null,
           selectedOffersStatus: event.index,
         ));
       }
@@ -66,17 +68,6 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
 
   OffersRepositoryImpl offersRepositoryImpl;
   int selectedOffersTypeStatus = 0;
-
-  // final List<String> items = [
-  //   'Item1',
-  //   'Item2',
-  //   'Item3',
-  //   'Item4',
-  //   'Item5',
-  //   'Item6',
-  //   'Item7',
-  //   'Item8',
-  // ];
 
   List<String> items = [
     'Afghanistan',
@@ -284,6 +275,8 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
   String? selectedTextReason;
   int? selectedReasonIndex;
 
+  bool validMail = false;
+
   List<OfferModel> offers = [];
   String? get getOffersStatus => selectedOffersTypeStatus == 0
       ? null
@@ -345,5 +338,11 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
       debugPrint(e.toString());
       throw Exception(e);
     }
+  }
+
+  bool checkMail(String? value) {
+    validMail = value != null && value.isValidEmail();
+    print(validMail);
+    return validMail;
   }
 }

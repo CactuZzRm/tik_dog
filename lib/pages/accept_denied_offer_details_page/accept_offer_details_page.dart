@@ -9,6 +9,14 @@ import '../auth_information_page/auth_information_page.dart';
 import '../offers_page/bloc/offers_bloc.dart';
 import 'components/congratulations_bottom_sheet.dart';
 
+extension EmailValidator on String {
+  bool isValidEmail() {
+    return RegExp(
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(this);
+  }
+}
+
 class AcceptOfferDetailsPage extends StatefulWidget {
   const AcceptOfferDetailsPage({super.key});
 
@@ -35,11 +43,15 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: InkWell(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
                       onTap: () => context.pop(),
-                      child: SvgPicture.asset(
-                        'assets/icons/BackArrow.svg',
-                        color: Theme.of(context).canvasColor,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 12, bottom: 12),
+                        child: SvgPicture.asset(
+                          'assets/icons/BackArrow.svg',
+                          color: Theme.of(context).canvasColor,
+                        ),
                       ),
                     ),
                   ),
@@ -148,7 +160,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                       ),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: TextField(
+                    child: TextFormField(
                       style: const TextStyle(
                         fontSize: 14,
                         height: 1,
@@ -156,6 +168,10 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                       onChanged: (value) => setState(() {
                         email = value;
                       }),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        return context.read<OffersBloc>().checkMail(value) ? null : 'Incorrect mail';
+                      },
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
                           vertical: 17,
@@ -173,7 +189,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                   ),
                   const Spacer(),
                   GradientContainer(
-                    isActive: model.selectedCountry != null && email != '',
+                    isActive: model.selectedCountry != null && email != '' && context.read<OffersBloc>().validMail,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -197,7 +213,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                         );
                       },
                       text: 'Get an offer',
-                      isActive: model.selectedCountry != null && email != '',
+                      isActive: model.selectedCountry != null && email != '' && context.read<OffersBloc>().validMail,
                       backgroundColor: Colors.transparent,
                     ),
                   ),

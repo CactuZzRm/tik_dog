@@ -17,8 +17,6 @@ class OfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(offer.picture);
-
     return GestureDetector(
       onTap: context.watch<OffersBloc>().selectedOffersTypeStatus == 0 ? onTap : () {},
       child: Container(

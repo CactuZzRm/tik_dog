@@ -56,9 +56,11 @@ class _ApiService implements ApiService {
   @override
   Future<ExchangeTempTokenResponse> exchangeTempToken(
     ExchangeTempTokenModel body,
+    CancelToken? cancelToken,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body.toJson());
@@ -69,6 +71,7 @@ class _ApiService implements ApiService {
             '/api/exchange-temp-token',
             queryParameters: queryParameters,
             data: _data,
+            cancelToken: cancelToken,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );

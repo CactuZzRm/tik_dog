@@ -47,7 +47,10 @@ class OfferTypeContainer extends StatelessWidget {
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () => model.add(OffersChangeSelectedStatusEvent(index: index)),
+      onTap: () {
+        model.add(OffersChangeSelectedStatusEvent(index: index));
+        model.add(RefreshOffersEvent());
+      },
       child: GradientContainer(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         needBackground: model.selectedOffersTypeStatus == index,

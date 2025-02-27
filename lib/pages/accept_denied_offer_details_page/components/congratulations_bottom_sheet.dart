@@ -52,10 +52,13 @@ class CongratulationsBottomSheet extends StatelessWidget {
                   ),
                   child: Align(
                     alignment: Alignment.centerRight,
-                    child: InkWell(
+                    child: GestureDetector(
                       onTap: () => context.pop(),
-                      child: SvgPicture.asset(
-                        'assets/icons/Cross.svg',
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 12, bottom: 12),
+                        child: SvgPicture.asset(
+                          'assets/icons/Cross.svg',
+                        ),
                       ),
                     ),
                   ),

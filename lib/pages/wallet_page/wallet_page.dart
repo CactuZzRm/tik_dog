@@ -117,54 +117,7 @@ class WalletPage extends StatelessWidget {
                                 ),
                               ),
                               const Spacer(),
-                              SizedBox(
-                                height: 27.2,
-                                width: 68,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      right: 0 + 27.2 / 2 * 3,
-                                      child: ClipOval(
-                                        child: Image.network(
-                                            height: 27.2,
-                                            width: 27.2,
-                                            fit: BoxFit.cover,
-                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4eGk3MRImCfYxpSG11k0D2ZtWGd_26nOaUQ&s'),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      right: 0 + 27.2 / 2 * 2,
-                                      child: ClipOval(
-                                        child: Image.network(
-                                            height: 27.2,
-                                            width: 27.2,
-                                            fit: BoxFit.cover,
-                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4eGk3MRImCfYxpSG11k0D2ZtWGd_26nOaUQ&s'),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      right: 0 + 27.2 / 2 * 1,
-                                      child: ClipOval(
-                                        child: Image.network(
-                                            height: 27.2,
-                                            width: 27.2,
-                                            fit: BoxFit.cover,
-                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4eGk3MRImCfYxpSG11k0D2ZtWGd_26nOaUQ&s'),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      right: 0,
-                                      child: ClipOval(
-                                        child: Image.network(
-                                            height: 27.2,
-                                            width: 27.2,
-                                            fit: BoxFit.cover,
-                                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4eGk3MRImCfYxpSG11k0D2ZtWGd_26nOaUQ&s'),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                              SizedBox(child: Image.asset('assets/images/SubscribeTikTokImages.png')),
                             ],
                           ),
                         ],
@@ -216,54 +169,7 @@ class WalletPage extends StatelessWidget {
                                   ),
                                 ),
                                 const Spacer(),
-                                SizedBox(
-                                  height: 27.2,
-                                  width: 68,
-                                  child: Stack(
-                                    children: [
-                                      Positioned(
-                                        right: 0 + 27.2 / 2 * 3,
-                                        child: ClipOval(
-                                          child: Image.network(
-                                              height: 27.2,
-                                              width: 27.2,
-                                              fit: BoxFit.cover,
-                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4eGk3MRImCfYxpSG11k0D2ZtWGd_26nOaUQ&s'),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 0 + 27.2 / 2 * 2,
-                                        child: ClipOval(
-                                          child: Image.network(
-                                              height: 27.2,
-                                              width: 27.2,
-                                              fit: BoxFit.cover,
-                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4eGk3MRImCfYxpSG11k0D2ZtWGd_26nOaUQ&s'),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 0 + 27.2 / 2 * 1,
-                                        child: ClipOval(
-                                          child: Image.network(
-                                              height: 27.2,
-                                              width: 27.2,
-                                              fit: BoxFit.cover,
-                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4eGk3MRImCfYxpSG11k0D2ZtWGd_26nOaUQ&s'),
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: 0,
-                                        child: ClipOval(
-                                          child: Image.network(
-                                              height: 27.2,
-                                              width: 27.2,
-                                              fit: BoxFit.cover,
-                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4eGk3MRImCfYxpSG11k0D2ZtWGd_26nOaUQ&s'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                SizedBox(child: Image.asset('assets/images/SubscribeInstagramImages.png')),
                               ],
                             ),
                           ],

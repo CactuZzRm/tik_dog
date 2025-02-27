@@ -60,6 +60,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
           );
       Future.microtask(() => add(GetUserData())).then((value) {
         if (context.mounted) {
+          selectedSymbol =
+              socialNetworkToString == 'tiktok' ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
           socialNetworkToString == 'tiktok'
               ? AdaptiveTheme.of(context).setDark()
               : AdaptiveTheme.of(context).setLight();

@@ -24,7 +24,10 @@ abstract class ApiService {
       @Query('provider') String provider, @Query('referral_key') String? inviteKey);
 
   @POST('/api/exchange-temp-token')
-  Future<ExchangeTempTokenResponse> exchangeTempToken(@Body() ExchangeTempTokenModel body);
+  Future<ExchangeTempTokenResponse> exchangeTempToken(
+    @Body() ExchangeTempTokenModel body,
+    @CancelRequest() CancelToken? cancelToken,
+  );
 
   @GET('/api/user/me')
   Future<UserModel> getUserData();

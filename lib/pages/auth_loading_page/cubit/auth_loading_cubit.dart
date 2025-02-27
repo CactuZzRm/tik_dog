@@ -15,7 +15,9 @@ class AuthLoadingCubit extends Cubit<AuthLoadingState> {
 
   String tempToken = '';
   bool wasUrlAlready = false;
+  bool wasCallBackAlready = false;
   String? inviteKey;
+  CancelToken? _cancelToken;
 
   Future<void> initialUrlAuth(bool isTikTok) async {
     final provider = isTikTok ? 'tiktok' : 'instagram';
@@ -49,23 +51,27 @@ class AuthLoadingCubit extends Cubit<AuthLoadingState> {
   }
 
   Future<void> exchangeTempToken() async {
+    _cancelToken?.cancel('New request init');
+    _cancelToken = CancelToken();
+
     final authRepositoryImpl = getIt<AuthRepositoryImpl>();
     final ExchangeTempTokenModel body = ExchangeTempTokenModel(tempToken: tempToken);
-    wasUrlAlready = false;
 
     try {
+      wasCallBackAlready = true;
+      print('-----\n$wasCallBackAlready\n-----');
       final link = getIt<String>();
-
       await getIt<Dio>().get(link);
       getIt.unregister<String>();
     } catch (e) {
+      wasCallBackAlready = false;
       debugPrint(e.toString());
     }
 
     try {
       await Future.delayed(const Duration(seconds: 5)).then(
         (value) async {
-          await authRepositoryImpl.exhangeTempToken(body).then(
+          await authRepositoryImpl.exhangeTempToken(body, _cancelToken).then(
             (response) {
               final newToken = response.token;
               final user = response.user;
@@ -89,8 +95,12 @@ class AuthLoadingCubit extends Cubit<AuthLoadingState> {
         },
       );
       emit(AuthLoadingSuccessLogin());
+      wasCallBackAlready = false;
+      wasUrlAlready = false;
     } catch (e) {
       emit(AuthLoadingNotSuccessLogin());
+      wasCallBackAlready = false;
+      wasUrlAlready = false;
       debugPrint(e.toString());
       throw Exception(e);
     }

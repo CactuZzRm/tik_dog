@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:tik_dog/data/api/api_service.dart';
 import 'package:tik_dog/data/api/models/exchange_temp_token_model.dart';
 import 'package:tik_dog/data/api/response_models/exchange_temp_token_response.dart';
@@ -19,9 +20,9 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<ExchangeTempTokenResponse> exhangeTempToken(ExchangeTempTokenModel body) async {
+  Future<ExchangeTempTokenResponse> exhangeTempToken(ExchangeTempTokenModel body, CancelToken? cancelToken) async {
     final apiService = getIt<ApiService>();
-    final request = await apiService.exchangeTempToken(body);
+    final request = await apiService.exchangeTempToken(body, cancelToken);
 
     return request;
   }

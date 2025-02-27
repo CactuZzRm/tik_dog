@@ -9,7 +9,6 @@ import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 import 'package:tik_dog/pages/auth_statistic_page/auth_statistic_page.dart';
 import 'package:tik_dog/themes.dart';
 
-import 'data/api/api_service.dart';
 import 'injection_container.dart';
 import 'pages/accept_denied_offer_details_page/accept_offer_details_page.dart';
 import 'pages/accept_denied_offer_details_page/denied_offer_details_page.dart';
@@ -121,6 +120,7 @@ class IsFirstBoolWrapper {
 }
 
 final _router = GoRouter(
+  debugLogDiagnostics: true,
   redirect: (context, state) async {
     final link = state.uri.toString();
 
@@ -136,7 +136,7 @@ final _router = GoRouter(
         context.read<AuthLoadingCubit>().inviteKey = inviteKey;
       }
       return '/';
-    }
+    } else {}
     return null;
   },
   routes: [
@@ -147,7 +147,11 @@ final _router = GoRouter(
     GoRoute(
       path: '/authLoadingPage',
       name: 'AuthLoadingPage',
-      builder: (context, state) => const AuthLoadingPage(),
+      builder: (context, state) {
+        final String? fromOffersStr = state.uri.queryParameters['fromOffers'];
+        final bool? fromOffers = fromOffersStr == null ? null : fromOffersStr == 'true';
+        return AuthLoadingPage(fromOffers);
+      },
     ),
     GoRoute(
       path: '/auth_statistic_page',
