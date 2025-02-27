@@ -65,6 +65,7 @@ class AuthLoadingCubit extends Cubit<AuthLoadingState> {
       getIt.unregister<String>();
     } catch (e) {
       wasCallBackAlready = false;
+      getIt.unregister<String>();
       debugPrint(e.toString());
     }
 
