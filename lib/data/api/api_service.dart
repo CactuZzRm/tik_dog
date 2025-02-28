@@ -6,6 +6,7 @@ import 'package:tik_dog/data/api/response_models/share_friend_link_response.dart
 
 import 'models/accept_offer_model.dart';
 import 'models/denied_offer_model.dart';
+import 'models/group_user_model.dart';
 import 'models/offer_model.dart';
 import 'models/set_key_model.dart';
 import 'models/user_model.dart';
@@ -33,7 +34,7 @@ abstract class ApiService {
   Future<UserModel> getUserData();
 
   @GET('/api/offers')
-  Future<List<OfferModel>> getOffers(@Query('limit') int? limit, @Query('status') String? status);
+  Future<List<OfferModel>?> getOffers(@Query('limit') int? limit, @Query('status') String? status);
 
   @POST('/api/offer/{id}/accept')
   Future<void> acceptOffer(@Path('id') String id, @Body() AcceptOfferModel body);
@@ -55,6 +56,10 @@ abstract class ApiService {
 
   @GET('/api/user/invite')
   Future<ShareFriendLinkResponse> getShareFriendLink();
+
+  // TODO: Запрос на связку пользователей. Не реализован
+  @POST('/api/user/group/force')
+  Future<void> groupUser(@Body() GroupUserBody body);
 
   @GET('/api/user/group')
   Future<GenerateKeyResponse> generateKey();

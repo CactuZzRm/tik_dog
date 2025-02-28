@@ -8,8 +8,8 @@ part of 'get_offers_response.dart';
 
 GetOffersResponse _$GetOffersResponseFromJson(Map<String, dynamic> json) =>
     GetOffersResponse(
-      offers: (json['offers'] as List<dynamic>)
-          .map((e) => OfferModel.fromJson(e as Map<String, dynamic>))
+      offers: (json['offers'] as List<dynamic>?)
+          ?.map((e) => OfferModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

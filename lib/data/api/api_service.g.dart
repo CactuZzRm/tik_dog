@@ -114,7 +114,7 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<OfferModel>> getOffers(int? limit, String? status) async {
+  Future<List<OfferModel>?> getOffers(int? limit, String? status) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'limit': limit,
@@ -134,10 +134,10 @@ class _ApiService implements ApiService {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<List<dynamic>>(_options);
-    late List<OfferModel> _value;
+    late List<OfferModel>? _value;
     try {
-      _value = _result.data!
-          .map(
+      _value = _result.data
+          ?.map(
             (dynamic i) => OfferModel.fromJson(i as Map<String, dynamic>),
           )
           .toList();
@@ -327,6 +327,26 @@ class _ApiService implements ApiService {
       rethrow;
     }
     return _value;
+  }
+
+  @override
+  Future<void> groupUser(GroupUserBody body) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(body.toJson());
+    final _options = _setStreamType<void>(
+      Options(method: 'POST', headers: _headers, extra: _extra)
+          .compose(
+            _dio.options,
+            '/api/user/group/force',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    await _dio.fetch<void>(_options);
   }
 
   @override

@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'dart:math' as math;
 
 import '../../constants.dart';
-import '../auth_page/bloc/auth_bloc.dart';
 import '../auth_statistic_page/auth_statistic_page.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
@@ -15,7 +14,6 @@ class AuthInformationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<AuthBloc>();
     final walletModel = context.read<WalletBloc>();
 
     return Scaffold(

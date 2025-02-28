@@ -7,7 +7,7 @@ class UserRatingModel {
   final String id;
   final String name;
   final String? avatar;
-  final int rank;
+  final double rank;
   final int top;
   final String provider;
 

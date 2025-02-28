@@ -6,7 +6,7 @@ part 'get_offers_response.g.dart';
 
 @JsonSerializable()
 class GetOffersResponse {
-  List<OfferModel> offers;
+  List<OfferModel>? offers;
 
   GetOffersResponse({
     required this.offers,

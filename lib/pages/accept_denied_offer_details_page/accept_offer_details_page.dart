@@ -5,20 +5,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tik_dog/themes.dart';
 
+import '../../constants.dart';
+import '../../data/api/models/offer_model.dart';
 import '../auth_information_page/auth_information_page.dart';
 import '../offers_page/bloc/offers_bloc.dart';
 import 'components/congratulations_bottom_sheet.dart';
 
-extension EmailValidator on String {
-  bool isValidEmail() {
-    return RegExp(
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-        .hasMatch(this);
-  }
-}
-
 class AcceptOfferDetailsPage extends StatefulWidget {
-  const AcceptOfferDetailsPage({super.key});
+  const AcceptOfferDetailsPage({required this.offer, super.key});
+
+  final OfferModel offer;
 
   @override
   State<AcceptOfferDetailsPage> createState() => _AcceptOfferDetailsPageState();
@@ -87,7 +83,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                           ),
                         ],
                       ),
-                      items: model.items
+                      items: countries
                           .map((String item) => DropdownMenuItem<String>(
                                 value: item,
                                 child: Text(
@@ -168,7 +164,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                       onChanged: (value) => setState(() {
                         email = value;
                       }),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      autovalidateMode: AutovalidateMode.always,
                       validator: (value) {
                         return context.read<OffersBloc>().checkMail(value) ? null : 'Incorrect mail';
                       },
@@ -196,7 +192,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                     child: ActionButton(
                       onPressed: () {
                         model.add(AcceptOfferEvent(
-                          id: model.offers[0].id,
+                          id: widget.offer.id,
                           email: email,
                           country: model.selectedCountry!,
                         ));

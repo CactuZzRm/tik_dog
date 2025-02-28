@@ -9,9 +9,10 @@ import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 import 'package:tik_dog/pages/auth_statistic_page/auth_statistic_page.dart';
 import 'package:tik_dog/themes.dart';
 
+import 'data/api/models/offer_model.dart';
 import 'injection_container.dart';
 import 'pages/accept_denied_offer_details_page/accept_offer_details_page.dart';
-import 'pages/accept_denied_offer_details_page/denied_offer_details_page.dart';
+import 'pages/denied_offer_details_page/denied_offer_details_page.dart';
 import 'pages/auth_loading_page/cubit/auth_loading_cubit.dart';
 import 'pages/auth_page/auth_page.dart';
 import 'pages/auth_information_page/auth_information_page.dart';
@@ -207,12 +208,20 @@ final _router = GoRouter(
     GoRoute(
       path: '/accept_offer_details',
       name: 'AcceptOfferDetailsPage',
-      builder: (context, state) => const AcceptOfferDetailsPage(),
+      builder: (context, state) {
+        final offer = state.extra as OfferModel;
+
+        return AcceptOfferDetailsPage(offer: offer);
+      },
     ),
     GoRoute(
       path: '/denied_offer_details',
       name: 'DeniedOfferDetailsPage',
-      builder: (context, state) => const DeniedOfferDetailsPage(),
+      builder: (context, state) {
+        final offer = state.extra as OfferModel;
+
+        return DeniedOfferDetailsPage(offer: offer);
+      },
     ),
     GoRoute(
       path: '/statistic',

@@ -1,9 +1,14 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tik_dog/pages/auth_loading_page/cubit/auth_loading_cubit.dart';
 
+import '../../injection_container.dart';
 import '../auth_page/bloc/auth_bloc.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
@@ -96,29 +101,40 @@ class _AuthLoadingPageState extends State<AuthLoadingPage> with WidgetsBindingOb
       ),
     );
 
-    return BlocListener<AuthLoadingCubit, AuthLoadingState>(
+    return BlocListener<WalletBloc, WalletState>(
       listener: (context, state) {
-        if (state is AuthLoadingSuccessLogin) {
-          context.read<WalletBloc>().add(GetUserData());
-          context.goNamed('AuthStatisticPage');
-        } else if (state is AuthLoadingNotSuccessLogin) {
-          widget.fromOffers != null ? context.pop() : context.go('/');
-          // TODO: Протестировать работоспособность pop
-          // context.pop();
+        if (state is WalletCurrentState) {
+          final walletModel = context.read<WalletBloc>();
+
+          walletModel.add(SaveUserId());
+          walletModel.add(GroupUserById());
         }
       },
-      child: BlocBuilder<AuthLoadingCubit, AuthLoadingState>(
-        builder: (context, state) {
-          if (state is AuthLoadingPageInitial) {
-            return content;
-          } else if (state is AuthLoadingSuccessLogin) {
-            return content;
+      child: BlocListener<AuthLoadingCubit, AuthLoadingState>(
+        listener: (context, state) {
+          if (state is AuthLoadingSuccessLogin) {
+            final walletModel = context.read<WalletBloc>();
+
+            walletModel.add(GetUserData());
+
+            context.goNamed('AuthStatisticPage');
           } else if (state is AuthLoadingNotSuccessLogin) {
-            return content;
-          } else {
-            return content;
+            widget.fromOffers != null ? context.pop() : context.go('/');
           }
         },
+        child: BlocBuilder<AuthLoadingCubit, AuthLoadingState>(
+          builder: (context, state) {
+            if (state is AuthLoadingPageInitial) {
+              return content;
+            } else if (state is AuthLoadingSuccessLogin) {
+              return content;
+            } else if (state is AuthLoadingNotSuccessLogin) {
+              return content;
+            } else {
+              return content;
+            }
+          },
+        ),
       ),
     );
   }
@@ -201,6 +217,7 @@ class _AnimatedHorizontalStepsState extends State<AnimatedHorizontalSteps> with 
 
   @override
   Widget build(BuildContext context) {
+    final Color lightThemeStepColor = const Color.fromRGBO(0, 0, 0, 1);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -208,7 +225,8 @@ class _AnimatedHorizontalStepsState extends State<AnimatedHorizontalSteps> with 
           animation: _animation1,
           builder: (context, child) => Opacity(
             opacity: _controller.value < 0.25 ? _animation1.value : _reversedAnimation1.value,
-            child: SvgPicture.asset('assets/icons/ColoredStep.svg'),
+            child: SvgPicture.asset('assets/icons/ColoredStep.svg',
+                color: AdaptiveTheme.of(context).mode.isLight ? lightThemeStepColor : null),
           ),
         ),
         const SizedBox(width: 8),
@@ -216,7 +234,8 @@ class _AnimatedHorizontalStepsState extends State<AnimatedHorizontalSteps> with 
           animation: _animation2,
           builder: (context, child) => Opacity(
             opacity: _controller.value < 0.5 ? _animation2.value : _reversedAnimation2.value,
-            child: SvgPicture.asset('assets/icons/ColoredStep.svg'),
+            child: SvgPicture.asset('assets/icons/ColoredStep.svg',
+                color: AdaptiveTheme.of(context).mode.isLight ? lightThemeStepColor : null),
           ),
         ),
         const SizedBox(width: 8),
@@ -224,7 +243,8 @@ class _AnimatedHorizontalStepsState extends State<AnimatedHorizontalSteps> with 
           animation: _animation3,
           builder: (context, child) => Opacity(
             opacity: _controller.value < 0.75 ? _animation3.value : _reversedAnimation3.value,
-            child: SvgPicture.asset('assets/icons/ColoredStep.svg'),
+            child: SvgPicture.asset('assets/icons/ColoredStep.svg',
+                color: AdaptiveTheme.of(context).mode.isLight ? lightThemeStepColor : null),
           ),
         ),
       ],

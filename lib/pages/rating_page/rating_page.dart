@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tik_dog/data/api/models/user_rating_model.dart';
 import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 
 import '../../themes.dart';
-import '../friends_page/cubit/friends_cubit.dart';
-import '../wallet_page/bloc/wallet_bloc.dart';
 import 'cubit/rating_cubit.dart';
 
 class RatingPage extends StatelessWidget {
@@ -13,10 +12,6 @@ class RatingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // BlocListener<WalletBloc, WalletState>(listener: (context, state) {
-    //   context.read<RatingCubit>().fetchRating();
-    // });
-
     return BlocBuilder<RatingCubit, RatingState>(
       builder: (context, state) {
         if (state is RatingLoadingState) {
@@ -99,7 +94,11 @@ class UserRating extends StatelessWidget {
                       user.avatar!,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        return const Center(child: Text('error'));
+                        return Container(
+                          color: const Color.fromRGBO(43, 43, 43, 1),
+                          padding: const EdgeInsets.only(top: 8, left: 6, right: 6, bottom: 4),
+                          child: SvgPicture.asset('assets/icons/BIGpie.svg'),
+                        );
                       },
                     )
                   : DecoratedBox(
@@ -196,12 +195,10 @@ class ProfileRating extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<RatingCubit>();
-
     return BlocBuilder<RatingCubit, RatingState>(
       builder: (context, state) {
         if (state is RatingLoadingState) {
-          return const Text('loading user info');
+          return const Center(child: AnimatedHorizontalSteps());
         } else if (state is RatingCurrentState) {
           return Container(
             width: double.infinity,
@@ -221,11 +218,14 @@ class ProfileRating extends StatelessWidget {
                   height: 44,
                   width: 44,
                   child: ClipOval(
-                    child: state.profileRating.avatar != null && state.profileRating.avatar != ''
+                    child: state.profileRating.avatar != null
                         ? Image.network(
                             state.profileRating.avatar!,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => const Center(child: Text('error')),
+                            errorBuilder: (context, error, stackTrace) => Container(
+                              padding: const EdgeInsets.only(top: 8, left: 6, right: 6, bottom: 4),
+                              child: SvgPicture.asset('assets/icons/BIGpie.svg'),
+                            ),
                           )
                         : DecoratedBox(
                             decoration: const BoxDecoration(

@@ -17,11 +17,3 @@ class AuthLoginEvent extends AuthEvent {
 
   AuthLoginEvent({required this.socialNetwork, required this.themeContext});
 }
-
-class GetKeyEvent extends AuthEvent {}
-
-class SetKeyEvent extends AuthEvent {
-  final String key;
-
-  SetKeyEvent({required this.key});
-}

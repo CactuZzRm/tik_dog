@@ -7,7 +7,6 @@ import '../error_page/error_page.dart';
 import 'bloc/offers_bloc.dart';
 import 'components/offer_card.dart';
 import 'components/offers_status_bar.dart';
-import 'components/selected_offer_bottom_sheet.dart';
 
 class OffersPage extends StatelessWidget {
   const OffersPage({super.key});
@@ -38,16 +37,7 @@ class OffersPage extends StatelessWidget {
                       padding: const EdgeInsets.all(0),
                       itemCount: offers.length,
                       itemBuilder: (context, index) {
-                        return OfferCard(
-                          offer: offers![index],
-                          onTap: () => showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            useRootNavigator: true,
-                            builder: (context) => const SelectedOfferBottomSheet(),
-                          ),
-                        );
+                        return OfferCard(offer: offers![index]);
                       },
                     ),
                   )

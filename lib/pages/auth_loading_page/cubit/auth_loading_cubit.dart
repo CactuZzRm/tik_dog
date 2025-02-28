@@ -23,7 +23,7 @@ class AuthLoadingCubit extends Cubit<AuthLoadingState> {
     final provider = isTikTok ? 'tiktok' : 'instagram';
     final url = await getTempToken(provider);
 
-    await launchUrl(Uri.parse(url), mode: LaunchMode.platformDefault).catchError(
+    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication).catchError(
       (error) {
         debugPrint('Url_launcher error: $error');
         throw Exception(error);
@@ -59,7 +59,6 @@ class AuthLoadingCubit extends Cubit<AuthLoadingState> {
 
     try {
       wasCallBackAlready = true;
-      print('-----\n$wasCallBackAlready\n-----');
       final link = getIt<String>();
       await getIt<Dio>().get(link);
       getIt.unregister<String>();
@@ -106,71 +105,4 @@ class AuthLoadingCubit extends Cubit<AuthLoadingState> {
       throw Exception(e);
     }
   }
-
-  // Future<void> authCallBackRequest(String link) async {
-  //   try {
-  //     await getIt<Dio>().get(link);
-  //     emit(AuthLoadingPageCallback());
-  //   } catch (e) {
-  //     debugPrint(e.toString());
-  //   }
-  // }
-
-  // Future<void> getLocalAuth(bool isTikTok) async {
-  //   print('get local auth');
-  //   if (getIt<SharedPreferences>().getString('tiktok_token') != null && isTikTok ||
-  //       getIt<SharedPreferences>().getString('instagram_token') != null && !isTikTok) {
-  //     setToken(isTikTok);
-  //     // return true;
-  //     emit(AuthLoadingPageSuccess());
-  //   }
-  //   // return false;
-  //   emit(AuthLoadingPageCallback());
-  //   // emit(AuthLoadingPageCallback());
-  // }
-
-  // Future<void> getNotLocalAuth(String tempToken, BuildContext context) async {
-  //   print('get non local auth');
-  //   final body = ExchangeTempTokenModel(
-  //     tempToken: tempToken,
-  //   );
-
-  //   try {
-  //     await Future.delayed(const Duration(seconds: 5)).then((value) async {
-  //       if (context.mounted) {
-  //         await context.read<AuthBloc>().exchangeTempToken(body).then((user) {
-  //           if (context.mounted) {
-  //             emit(AuthLoadingPageSuccess());
-  //           }
-  //         });
-  //       }
-  //     });
-  //   } catch (e) {
-  //     if (context.mounted) {
-  //       // context.replace('/');
-  //       context.pop();
-  //     }
-
-  //     debugPrint('ERROR: ${e.toString()}');
-  //     emit(AuthLoadingPageError());
-  //     throw Exception(e);
-  //   }
-  // }
-
-  // void setToken(bool isTikTok) {
-  //   getIt<Dio>().interceptors.add(
-  //         InterceptorsWrapper(
-  //           onRequest: (options, handler) async {
-  //             final token = getIt<SharedPreferences>().getString(isTikTok ? 'tiktok_token' : 'instagram_token');
-  //             if (token != null) {
-  //               options.headers['Authorization'] = 'Bearer $token';
-  //             }
-  //             handler.next(options);
-  //           },
-  //           onResponse: (response, handler) {
-  //             handler.next(response);
-  //           },
-  //         ),
-  //       );
-  // }
 }

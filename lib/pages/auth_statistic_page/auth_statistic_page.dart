@@ -10,6 +10,7 @@ import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 import '../../themes.dart';
 import '../auth_information_page/auth_information_page.dart';
 import '../auth_page/bloc/auth_bloc.dart';
+import '../error_page/error_page.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
 class AuthStatisticPage extends StatelessWidget {
@@ -32,11 +33,7 @@ class AuthStatisticPage extends StatelessWidget {
       child: BlocBuilder<WalletBloc, WalletState>(
         builder: (context, state) {
           if (state is WalletLoadingState) {
-            return const Scaffold(
-              body: Center(
-                child: AnimatedHorizontalSteps(),
-              ),
-            );
+            return const Center(child: AnimatedHorizontalSteps());
           } else if (state is WalletCurrentState) {
             return Screenshot(
               controller: context.read<WalletBloc>().screenshotController,
@@ -137,7 +134,7 @@ class AuthStatisticPage extends StatelessWidget {
               ),
             );
           }
-          return const Center(child: Text('error'));
+          return const Center(child: ErrorPage());
         },
       ),
     );

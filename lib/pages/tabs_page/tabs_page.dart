@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -103,8 +105,6 @@ class _TabsHeaderState extends State<TabsHeader> {
 
   @override
   Widget build(BuildContext context) {
-    // final model = context.read<AuthBloc>();
-
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
         if (state is WalletCurrentState) {
@@ -119,28 +119,15 @@ class _TabsHeaderState extends State<TabsHeader> {
                         height: 70,
                         width: 70,
                         child: ClipOval(
-                          child: state.user.avatar != null && state.user.avatar != ''
+                          child: state.user.avatar != null
                               ? Image.network(
                                   state.user.avatar!,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return const DecoratedBox(
-                                      decoration: BoxDecoration(
-                                        color: Color.fromRGBO(43, 43, 43, 1),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          'Image\nerror',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  },
+                                  errorBuilder: (context, error, stackTrace) => Container(
+                                    color: const Color.fromRGBO(43, 43, 43, 1),
+                                    padding: const EdgeInsets.only(top: 8, left: 6, right: 6, bottom: 4),
+                                    child: SvgPicture.asset('assets/icons/BIGpie.svg'),
+                                  ),
                                 )
                               : DecoratedBox(
                                   decoration: const BoxDecoration(
@@ -285,7 +272,7 @@ class _TabsHeaderState extends State<TabsHeader> {
             ),
           );
         }
-        return const Center(child: Text('Загрузка'));
+        return const Center(child: Text('Loading profile data...'));
       },
     );
   }

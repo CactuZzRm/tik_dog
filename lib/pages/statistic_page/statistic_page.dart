@@ -5,10 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:tik_dog/constants.dart';
+import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 
 import '../../themes.dart';
 import '../auth_information_page/auth_information_page.dart';
-import '../auth_page/bloc/auth_bloc.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
 class StatisticPage extends StatelessWidget {
@@ -20,13 +20,15 @@ class StatisticPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final walletModel = context.read<WalletBloc>();
 
-    return BlocBuilder<WalletBloc, WalletState>(
-      builder: (context, state) {
-        if (state is WalletCurrentState) {
-          return Screenshot(
-            controller: context.read<WalletBloc>().screenshotController,
-            child: Scaffold(
-              body: Stack(
+    return Screenshot(
+      controller: context.read<WalletBloc>().screenshotController,
+      child: Scaffold(
+        body: BlocBuilder<WalletBloc, WalletState>(
+          builder: (context, state) {
+            if (state is WalletLoadingState) {
+              return const Center(child: AnimatedHorizontalSteps());
+            } else if (state is WalletCurrentState) {
+              return Stack(
                 children: [
                   ...[
                     if (AdaptiveTheme.of(context).mode.isDark)
@@ -118,12 +120,13 @@ class StatisticPage extends StatelessWidget {
                     ),
                   ]
                 ],
-              ),
-            ),
-          );
-        }
-        return const Center(child: Text('error'));
-      },
+              );
+            } else {
+              return const Center(child: AnimatedHorizontalSteps());
+            }
+          },
+        ),
+      ),
     );
   }
 }

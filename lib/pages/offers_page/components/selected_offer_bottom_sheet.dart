@@ -7,11 +7,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../constants.dart';
+import '../../../data/api/models/offer_model.dart';
 import '../../auth_information_page/auth_information_page.dart';
 import '../bloc/offers_bloc.dart';
 
 class SelectedOfferBottomSheet extends StatelessWidget {
+  final OfferModel offer;
   const SelectedOfferBottomSheet({
+    required this.offer,
     super.key,
   });
 
@@ -106,7 +109,7 @@ class SelectedOfferBottomSheet extends StatelessWidget {
                 ),
                 const SizedBox(height: 51),
                 Text(
-                  '\$${model.offers[0].formattedPrice}',
+                  '\$${offer.formattedPrice}',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: const Color.fromRGBO(42, 255, 173, 1),
                         fontSize: 60,
@@ -130,7 +133,7 @@ class SelectedOfferBottomSheet extends StatelessWidget {
                   ),
                   child: ActionButton(
                     onPressed: () {
-                      context.pushNamed('AcceptOfferDetailsPage');
+                      context.pushNamed('AcceptOfferDetailsPage', extra: offer);
                       context.pop();
                     },
                     text: 'Accept',
@@ -139,18 +142,19 @@ class SelectedOfferBottomSheet extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 ActionButton(
-                  onPressed: () async {
-                    try {
-                      await model.fetchDeniedOfferReasons().then((value) {
-                        if (context.mounted) {
-                          context.pop();
-                          context.pushNamed('DeniedOfferDetailsPage');
-                        }
-                      });
-                    } catch (e) {
-                      debugPrint(e.toString());
-                      throw Exception(e);
-                    }
+                  onPressed: () {
+                    context.pop();
+                    context.pushNamed('DeniedOfferDetailsPage', extra: offer);
+                    // try {
+                    //   await model.fetchDeniedOfferReasons().then((value) {
+                    //     if (context.mounted) {
+
+                    //     }
+                    //   });
+                    // } catch (e) {
+                    //   debugPrint(e.toString());
+                    //   throw Exception(e);
+                    // }
                   },
                   text: 'Not now',
                   backgroundColor: Theme.of(context).cardColor,

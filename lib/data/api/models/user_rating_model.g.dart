@@ -11,7 +11,7 @@ UserRatingModel _$UserRatingModelFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       name: json['name'] as String,
       avatar: json['avatar'] as String?,
-      rank: (json['rank'] as num).toInt(),
+      rank: (json['rank'] as num).toDouble(),
       top: (json['top'] as num).toInt(),
       provider: json['provider'] as String,
     );

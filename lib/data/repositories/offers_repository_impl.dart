@@ -8,7 +8,7 @@ import '../api/models/offer_model.dart';
 
 class OffersRepositoryImpl extends OffersRepository {
   @override
-  Future<List<OfferModel>> getOffers({int? limit, required String? status}) async {
+  Future<List<OfferModel>?> getOffers({int? limit, required String? status}) async {
     final apiService = getIt<ApiService>();
     final request = await apiService.getOffers(limit, status);
 

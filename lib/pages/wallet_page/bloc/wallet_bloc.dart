@@ -10,7 +10,9 @@ import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tik_dog/constants.dart';
 import 'package:tik_dog/data/repositories/auth_repository_impl.dart';
+import 'package:tik_dog/data/repositories/wallet_repository_impl.dart';
 
+import '../../../data/api/models/group_user_model.dart';
 import '../../../data/api/models/user_model.dart';
 import '../../../injection_container.dart';
 
@@ -27,9 +29,32 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     // on<ChangeTokenEvent>((event, emit) {
     //   changeToken(event.socialNetwork);
     // });
+    on<GroupUserById>((event, emit) async {
+      if (user.userGroupId == null) return;
+
+      final walletRepositoryImpl = getIt<WalletRepositoryImpl>();
+
+      final tiktokId = getIt<SharedPreferences>().getString('tiktok_id');
+      final instagramId = getIt<SharedPreferences>().getString('instagram_id');
+
+      if (tiktokId != null && !isTikTokSelect) {
+        final body = GroupUserBody(userId: tiktokId);
+        await walletRepositoryImpl.groupUser(body);
+      } else if (instagramId != null && isTikTokSelect) {
+        final body = GroupUserBody(userId: instagramId);
+        await walletRepositoryImpl.groupUser(body);
+      }
+    });
     on<GetUserData>((event, emit) async {
       await getUserData();
       emit(WalletCurrentState(user: user));
+    });
+    on<SaveUserId>((event, emit) async {
+      if (isTikTokSelect) {
+        await getIt<SharedPreferences>().setString('tiktok_id', user.id);
+      } else {
+        await getIt<SharedPreferences>().setString('instagram_id', user.id);
+      }
     });
     screenshotController = ScreenshotController();
   }
@@ -69,9 +94,6 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       });
       return true;
     } else {
-      print(getIt<SharedPreferences>().getString('tiktok_token'));
-      print(getIt<SharedPreferences>().getString('instagram_token'));
-      print('not found');
       return false;
     }
   }

@@ -8,6 +8,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:tik_dog/data/repositories/auth_repository_impl.dart';
 import 'package:tik_dog/data/repositories/friends_repository_impl.dart';
 import 'package:tik_dog/data/repositories/offers_repository_impl.dart';
+import 'package:tik_dog/data/repositories/wallet_repository_impl.dart';
 import 'package:tik_dog/main.dart';
 
 import 'data/api/api_service.dart';
@@ -47,6 +48,7 @@ void setup() {
   getIt.registerSingleton<OffersRepositoryImpl>(OffersRepositoryImpl());
   getIt.registerSingleton<FriendsRepositoryImpl>(FriendsRepositoryImpl());
   getIt.registerSingleton<RatingRepositoryImpl>(RatingRepositoryImpl());
+  getIt.registerSingleton<WalletRepositoryImpl>(WalletRepositoryImpl());
 
   // BLoC's
   getIt.registerFactory<AuthBloc>(() => AuthBloc(authRepositoryImpl: getIt<AuthRepositoryImpl>()));

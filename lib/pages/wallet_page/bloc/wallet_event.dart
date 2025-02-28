@@ -15,3 +15,7 @@ class ChangeTokenEvent extends WalletEvent {
 }
 
 class GetUserData extends WalletEvent {}
+
+class SaveUserId extends WalletEvent {}
+
+class GroupUserById extends WalletEvent {}

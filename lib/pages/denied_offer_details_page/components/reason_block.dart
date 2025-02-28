@@ -1,6 +1,7 @@
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tik_dog/pages/denied_offer_details_page/cubit/denied_offer_details_cubit.dart';
 
 import '../../../themes.dart';
 import '../../offers_page/bloc/offers_bloc.dart';
@@ -8,14 +9,15 @@ import '../../offers_page/bloc/offers_bloc.dart';
 class ReasonBlock extends StatelessWidget {
   final String text;
   final int index;
-  const ReasonBlock({super.key, required this.text, required this.index});
+  final int? selectedReasonIndex;
+  const ReasonBlock({super.key, required this.text, required this.index, required this.selectedReasonIndex});
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<OffersBloc>();
+    final model = context.read<DeniedOfferDetailsCubit>();
 
     return InkWell(
-      onTap: () => model.add(SelectCountReasonEvent(index: index)),
+      onTap: () => model.selectReasonByIndex(index),
       child: Column(
         children: [
           Row(
@@ -33,14 +35,14 @@ class ReasonBlock extends StatelessWidget {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: index == model.selectedReasonIndex
+                    color: index == selectedReasonIndex
                         ? AdaptiveTheme.of(context).mode.isDark
                             ? const Color.fromRGBO(255, 29, 101, 1)
                             : const Color.fromRGBO(181, 61, 173, 1)
                         : const Color.fromRGBO(128, 128, 128, 1),
                   ),
                 ),
-                child: index == model.selectedReasonIndex
+                child: index == selectedReasonIndex
                     ? Container(
                         width: 14,
                         height: 14,
@@ -55,7 +57,7 @@ class ReasonBlock extends StatelessWidget {
               ),
             ],
           ),
-          if (model.selectedReasonIndex != null && model.selectedReasonIndex == index) ...[
+          if (selectedReasonIndex != null && selectedReasonIndex == index) ...[
             const SizedBox(height: 16),
             const ReasonTextField(
               hintText: 'Are you ready to promote sellers in your region?: yes/no',
@@ -76,13 +78,13 @@ class ReasonTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<OffersBloc>();
+    final model = context.read<DeniedOfferDetailsCubit>();
 
     return TextField(
       minLines: 2,
       maxLines: 2,
       style: const TextStyle(fontSize: 15, height: 1.22),
-      onChanged: (value) => model.add(EditTextReasonEvent(textReason: value)),
+      onChanged: (value) => model.editTextReason(value),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.only(
           top: 18,
