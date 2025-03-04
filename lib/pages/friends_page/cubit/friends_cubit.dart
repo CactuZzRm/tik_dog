@@ -14,6 +14,10 @@ class FriendsCubit extends Cubit<FriendsState> {
 
   CancelToken cancelToken = CancelToken();
 
+  void makeInit() {
+    emit(FriendsInitial());
+  }
+
   Future<void> fetchFriends() async {
     final friendsRepositoryImpl = getIt<FriendsRepositoryImpl>();
 

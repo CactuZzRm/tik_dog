@@ -10,9 +10,7 @@ import '../error_page/error_page.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
 class AuthPage extends StatelessWidget {
-  const AuthPage({
-    super.key,
-  });
+  const AuthPage({super.key});
 
   @override
   Widget build(BuildContext context) {

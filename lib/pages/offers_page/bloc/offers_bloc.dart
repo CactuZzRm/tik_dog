@@ -113,4 +113,8 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
     validMail = value != null && value.isValidEmail();
     return validMail;
   }
+
+  void makeInit() {
+    emit(OffersInitial());
+  }
 }

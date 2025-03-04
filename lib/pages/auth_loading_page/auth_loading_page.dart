@@ -6,9 +6,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tik_dog/pages/auth_loading_page/cubit/auth_loading_cubit.dart';
+import 'package:tik_dog/pages/rating_page/cubit/rating_cubit.dart';
 
 import '../../constants.dart';
 import '../auth_page/bloc/auth_bloc.dart';
+import '../friends_page/cubit/friends_cubit.dart';
+import '../offers_page/bloc/offers_bloc.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
 class AuthLoadingPage extends StatefulWidget {
@@ -111,7 +114,11 @@ class _AuthLoadingPageState extends State<AuthLoadingPage> with WidgetsBindingOb
           selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
           context.read<WalletBloc>().isTikTok = isTikTok;
 
-          context.goNamed('AuthStatisticPage');
+          context.read<OffersBloc>().makeInit();
+          context.read<RatingCubit>().makeInit();
+          context.read<FriendsCubit>().makeInit();
+
+          context.pushReplacementNamed('AuthStatisticPage');
         } else if (state is AuthLoadingNotSuccessLogin) {
           widget.fromOffers != null ? context.pop() : context.go('/');
         }

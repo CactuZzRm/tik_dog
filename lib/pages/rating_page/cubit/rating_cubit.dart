@@ -13,6 +13,10 @@ class RatingCubit extends Cubit<RatingState> {
 
   CancelToken cancelToken = CancelToken();
 
+  void makeInit() {
+    emit(RatingInitial());
+  }
+
   Future<void> fetchRating() async {
     cancelToken.cancel('--- CANCEL fetch rating REQUEST ---');
     cancelToken = CancelToken();
