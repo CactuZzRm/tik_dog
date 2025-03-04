@@ -9,7 +9,11 @@ class OffersInitEvent extends OffersEvent {
   OffersInitEvent({this.status});
 }
 
-class RefreshOffersEvent extends OffersEvent {}
+class RefreshOffersEvent extends OffersEvent {
+  final int? index;
+
+  RefreshOffersEvent({this.index});
+}
 
 class OffersChangeSelectedStatusEvent extends OffersEvent {
   final int index;
@@ -25,29 +29,16 @@ class AcceptOfferEvent extends OffersEvent {
   AcceptOfferEvent({required this.id, required this.email, required this.country});
 }
 
-// class DeniedOfferEvent extends OffersEvent {
-//   final String id;
-//   final String reason;
-
-//   DeniedOfferEvent({required this.id, required this.reason});
-// }
-
 class SelectCountryEvent extends OffersEvent {
   final String country;
 
   SelectCountryEvent({required this.country});
 }
 
-// class EditTextReasonEvent extends OffersEvent {
-//   final String textReason;
+class EditEMailTextEvent extends OffersEvent {
+  final String text;
 
-//   EditTextReasonEvent({required this.textReason});
-// }
-
-// class SelectCountReasonEvent extends OffersEvent {
-//   final int index;
-
-//   SelectCountReasonEvent({required this.index});
-// }
+  EditEMailTextEvent({required this.text});
+}
 
 class RemoveSelectedValuesEvent extends OffersEvent {}

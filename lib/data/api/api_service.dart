@@ -31,10 +31,14 @@ abstract class ApiService {
   );
 
   @GET('/api/user/me')
-  Future<UserModel> getUserData();
+  Future<UserModel> getUserData(@CancelRequest() CancelToken? cancelToken);
 
   @GET('/api/offers')
-  Future<List<OfferModel>?> getOffers(@Query('limit') int? limit, @Query('status') String? status);
+  Future<List<OfferModel>?> getOffers(
+    @Query('limit') int? limit,
+    @Query('status') String? status,
+    @CancelRequest() CancelToken? cancelToken,
+  );
 
   @POST('/api/offer/{id}/accept')
   Future<void> acceptOffer(@Path('id') String id, @Body() AcceptOfferModel body);
@@ -46,18 +50,17 @@ abstract class ApiService {
   Future<List<String>> fetchDeniedOfferReasons();
 
   @GET('/api/user/referrals')
-  Future<List<UserModel>> fetchFriends();
+  Future<List<UserModel>> fetchFriends(@CancelRequest() CancelToken? cancelToken);
 
   @GET('/api/user/ranks')
-  Future<List<UserRatingModel>> fetchRating();
+  Future<List<UserRatingModel>> fetchRating(@CancelRequest() CancelToken? cancelToken);
 
   @GET('/api/user/rank')
-  Future<UserRatingModel> fetchProfileRating();
+  Future<UserRatingModel> fetchProfileRating(@CancelRequest() CancelToken? cancelToken);
 
   @GET('/api/user/invite')
   Future<ShareFriendLinkResponse> getShareFriendLink();
 
-  // TODO: Запрос на связку пользователей. Не реализован
   @POST('/api/user/group/force')
   Future<void> groupUser(@Body() GroupUserBody body);
 

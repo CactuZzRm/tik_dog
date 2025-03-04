@@ -86,193 +86,211 @@ class BottomNavBar extends StatelessWidget {
   }
 }
 
-class TabsHeader extends StatefulWidget {
+class TabsHeader extends StatelessWidget {
   final int currentIndex;
-  final String? imageUrl;
 
-  const TabsHeader({
+  TabsHeader({
     super.key,
     required this.currentIndex,
-    this.imageUrl,
   });
 
-  @override
-  State<TabsHeader> createState() => _TabsHeaderState();
-}
-
-class _TabsHeaderState extends State<TabsHeader> {
   final List<String> headerTitle = ['Offers', 'Top Creators', 'Invite friends', 'Wallet'];
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
-        if (state is WalletCurrentState) {
-          final name = state.user.name;
+        final ratingCubitState = context.watch<RatingCubit>().state;
+        final friendsCubitState = context.watch<FriendsCubit>().state;
+        final walletModel = context.read<WalletBloc>();
 
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                widget.currentIndex == 3
-                    ? SizedBox(
-                        height: 70,
-                        width: 70,
-                        child: ClipOval(
-                          child: state.user.avatar != null
-                              ? Image.network(
-                                  state.user.avatar!,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) => Container(
-                                    color: const Color.fromRGBO(43, 43, 43, 1),
-                                    padding: const EdgeInsets.only(top: 8, left: 6, right: 6, bottom: 4),
-                                    child: SvgPicture.asset('assets/icons/BIGpie.svg'),
-                                  ),
-                                )
-                              : DecoratedBox(
-                                  decoration: const BoxDecoration(
-                                    color: Color.fromRGBO(43, 43, 43, 1),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      name[0] + name[1],
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              currentIndex == 3
+                  ? BlocBuilder<WalletBloc, WalletState>(
+                      builder: (context, state) {
+                        if (state is WalletCurrentState) {
+                          return SizedBox(
+                            height: 70,
+                            width: 70,
+                            child: ClipOval(
+                              child: state.user.avatar != null
+                                  ? Image.network(
+                                      state.user.avatar!,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) => Container(
+                                        color: const Color.fromRGBO(43, 43, 43, 1),
+                                        padding: const EdgeInsets.only(top: 8, left: 6, right: 6, bottom: 4),
+                                        child: SvgPicture.asset('assets/icons/BIGpie.svg'),
+                                      ),
+                                    )
+                                  : DecoratedBox(
+                                      decoration: const BoxDecoration(
+                                        color: Color.fromRGBO(43, 43, 43, 1),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          state.user.name[0] + state.user.name[1],
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ),
-                        ),
-                      )
-                    : Text(
-                        headerTitle[widget.currentIndex],
-                        style: const TextStyle(
-                          fontSize: 27,
-                          fontWeight: FontWeight.bold,
-                          height: 1.27,
-                        ),
+                            ),
+                          );
+                        } else {
+                          return Container(
+                            height: 70,
+                            width: 70,
+                            padding: const EdgeInsets.only(top: 8, left: 6, right: 6, bottom: 4),
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(43, 43, 43, 1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: SvgPicture.asset('assets/icons/BIGpie.svg'),
+                          );
+                        }
+                      },
+                    )
+                  : Text(
+                      (currentIndex == 1 &&
+                                  ratingCubitState is RatingCurrentState &&
+                                  ratingCubitState.rating.isEmpty) ||
+                              (currentIndex == 2 &&
+                                  friendsCubitState is FriendsCurrentState &&
+                                  friendsCubitState.friends.isEmpty)
+                          ? ''
+                          : headerTitle[currentIndex],
+                      style: const TextStyle(
+                        fontSize: 27,
+                        fontWeight: FontWeight.bold,
+                        height: 1.27,
                       ),
-                const Spacer(),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).extension<CustomThemeData>()!.tabsHeaderSocialNetworkBackgroundColor!,
-                    borderRadius: BorderRadius.circular(145),
-                    border: Border.all(
-                      color: Theme.of(context).extension<CustomThemeData>()!.tabsHeaderSocialNetworkBorderColor!,
                     ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          if (context.read<WalletBloc>().changeTokenFromCache(SocialNetworks.tiktok, context) ==
-                              false) {
-                            context.read<AuthBloc>().add(
-                                  AuthLoginEvent(
-                                    socialNetwork: SocialNetworks.tiktok,
-                                    themeContext: context,
-                                  ),
-                                );
-                            context.pushNamed('AuthLoadingPage');
-                          } else {
-                            try {
-                              context.read<RatingCubit>().fetchRating();
-                            } catch (e) {
-                              debugPrint(e.toString());
-                            }
-                            try {
-                              context.read<FriendsCubit>().fetchFriends();
-                            } catch (e) {
-                              debugPrint(e.toString());
-                            }
-                            try {
-                              context.read<OffersBloc>().add(RefreshOffersEvent());
-                            } catch (e) {
-                              debugPrint(e.toString());
-                            }
-                          }
-                        },
-                        child: GradientContainer(
-                          padding: const EdgeInsets.all(9),
-                          needBackground: state.user.provider == 'tiktok',
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: SvgPicture.asset(
-                            'assets/icons/TikTokLogo.svg',
-                            width: 13,
-                            height: 13,
-                            color: state.user.provider == 'tiktok'
-                                ? Colors.white
-                                : Theme.of(context)
-                                    .extension<CustomThemeData>()!
-                                    .tabsHeaderSocialNetworkUnselectedIconColor!,
-                          ),
+              const Spacer(),
+              BlocBuilder<WalletBloc, WalletState>(
+                builder: (context, state) {
+                  if (state is WalletCurrentState) {
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 2),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).extension<CustomThemeData>()!.tabsHeaderSocialNetworkBackgroundColor!,
+                        borderRadius: BorderRadius.circular(145),
+                        border: Border.all(
+                          color: Theme.of(context).extension<CustomThemeData>()!.tabsHeaderSocialNetworkBorderColor!,
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      GestureDetector(
-                        behavior: HitTestBehavior.opaque,
-                        onTap: () {
-                          if (context.read<WalletBloc>().changeTokenFromCache(SocialNetworks.instagram, context) ==
-                              false) {
-                            context.read<AuthBloc>().add(
-                                  AuthLoginEvent(
-                                    socialNetwork: SocialNetworks.instagram,
-                                    themeContext: context,
-                                  ),
-                                );
-                            context.pushNamed('AuthLoadingPage', queryParameters: {'fromOffers': 'true'});
-                          } else {
-                            try {
-                              context.read<RatingCubit>().fetchRating();
-                            } catch (e) {
-                              debugPrint(e.toString());
-                            }
-                            try {
-                              context.read<FriendsCubit>().fetchFriends();
-                            } catch (e) {
-                              debugPrint(e.toString());
-                            }
-                            try {
-                              context.read<OffersBloc>().add(OffersChangeSelectedStatusEvent(index: 0));
-                            } catch (e) {
-                              debugPrint(e.toString());
-                            }
-                          }
-                        },
-                        child: GradientContainer(
-                          padding: const EdgeInsets.all(9),
-                          needBackground: state.user.provider == 'instagrambasic',
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: !walletModel.isTikTok
+                                ? () {
+                                    if (walletModel.changeTokenFromCache(SocialNetworks.tiktok, context) == false) {
+                                      context.read<AuthBloc>().add(
+                                            AuthLoginEvent(
+                                              socialNetwork: SocialNetworks.tiktok,
+                                              themeContext: context,
+                                            ),
+                                          );
+                                      context.pushNamed('AuthLoadingPage');
+                                    } else {
+                                      context.read<OffersBloc>().add(RefreshOffersEvent());
+                                      try {
+                                        context.read<RatingCubit>().fetchRating();
+                                      } catch (e) {
+                                        debugPrint(e.toString());
+                                      }
+                                      try {
+                                        context.read<FriendsCubit>().fetchFriends();
+                                      } catch (e) {
+                                        debugPrint(e.toString());
+                                      }
+                                    }
+                                  }
+                                : null,
+                            child: GradientContainer(
+                              padding: const EdgeInsets.all(9),
+                              needBackground: walletModel.isTikTok,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: SvgPicture.asset(
+                                'assets/icons/TikTokLogo.svg',
+                                width: 13,
+                                height: 13,
+                                color: walletModel.isTikTok
+                                    ? Colors.white
+                                    : Theme.of(context)
+                                        .extension<CustomThemeData>()!
+                                        .tabsHeaderSocialNetworkUnselectedIconColor!,
+                              ),
+                            ),
                           ),
-                          child: SvgPicture.asset(
-                            'assets/icons/InstagramLogo.svg',
-                            width: 13,
-                            height: 13,
-                            color: state.user.provider == 'instagrambasic'
-                                ? Colors.white
-                                : Theme.of(context)
-                                    .extension<CustomThemeData>()!
-                                    .tabsHeaderSocialNetworkUnselectedIconColor!,
+                          const SizedBox(width: 8),
+                          GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: walletModel.isTikTok
+                                ? () {
+                                    if (walletModel.changeTokenFromCache(SocialNetworks.instagram, context) == false) {
+                                      context.read<AuthBloc>().add(
+                                            AuthLoginEvent(
+                                              socialNetwork: SocialNetworks.instagram,
+                                              themeContext: context,
+                                            ),
+                                          );
+                                      context.pushNamed('AuthLoadingPage', queryParameters: {'fromOffers': 'true'});
+                                    } else {
+                                      context.read<OffersBloc>().add(RefreshOffersEvent());
+                                      try {
+                                        context.read<RatingCubit>().fetchRating();
+                                      } catch (e) {
+                                        debugPrint(e.toString());
+                                      }
+                                      try {
+                                        context.read<FriendsCubit>().fetchFriends();
+                                      } catch (e) {
+                                        debugPrint(e.toString());
+                                      }
+                                    }
+                                  }
+                                : null,
+                            child: GradientContainer(
+                              padding: const EdgeInsets.all(9),
+                              needBackground: !walletModel.isTikTok,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: SvgPicture.asset(
+                                'assets/icons/InstagramLogo.svg',
+                                width: 13,
+                                height: 13,
+                                color: !walletModel.isTikTok
+                                    ? Colors.white
+                                    : Theme.of(context)
+                                        .extension<CustomThemeData>()!
+                                        .tabsHeaderSocialNetworkUnselectedIconColor!,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        }
-        return const Center(child: Text('Loading profile data...'));
+                    );
+                  } else {
+                    return const SizedBox();
+                  }
+                },
+              ),
+            ],
+          ),
+        );
       },
     );
   }

@@ -3,23 +3,17 @@
 import 'dart:io';
 
 import 'package:adaptive_theme/adaptive_theme.dart';
-import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tik_dog/constants.dart';
-import 'package:tik_dog/data/api/models/group_user_model.dart';
-import 'package:tik_dog/data/repositories/wallet_repository_impl.dart';
-import 'package:tik_dog/pages/wallet_page/bloc/wallet_bloc.dart';
 import 'dart:math' as math;
 
 import '../../injection_container.dart';
 import '../../themes.dart';
 import '../auth_information_page/auth_information_page.dart';
-import '../auth_page/bloc/auth_bloc.dart';
 import '../tabs_page/tabs_page.dart';
 
 class WalletPage extends StatelessWidget {
@@ -50,7 +44,7 @@ class WalletPage extends StatelessWidget {
           ),
         Column(
           children: [
-            const TabsHeader(
+            TabsHeader(
               currentIndex: 3,
             ),
             Expanded(
@@ -267,6 +261,7 @@ class WalletPage extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                     logOut();
+                                    AdaptiveTheme.of(context).setDark();
                                     context.go('/');
                                   },
                                 ),
@@ -322,6 +317,7 @@ class WalletPage extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                     logOut();
+                                    AdaptiveTheme.of(context).setDark();
                                     context.go('/');
                                   },
                                 ),

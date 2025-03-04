@@ -56,6 +56,11 @@ class StatisticPage extends StatelessWidget {
                       StatisticContainer(title: 'Subscribers', value: state.user.numberOfFollowers.toString()),
                       const SizedBox(height: 4),
                       StatisticContainer(title: 'Videos', value: state.user.numberOfMedia.toString()),
+                      if (state.user.provider != 'tiktok') ...[
+                        const SizedBox(height: 4),
+                        StatisticContainer(title: 'Photos', value: state.user.numberOfMedia.toString()),
+                      ] else
+                        const SizedBox(height: 39 + 16),
                       const SizedBox(height: 45),
                       const StatisticDetails(),
                       const Spacer(),
@@ -99,7 +104,7 @@ class StatisticPage extends StatelessWidget {
                       child: Text('🔥', style: TextStyle(fontSize: 64)),
                     ),
                     const Positioned(
-                      top: 183,
+                      top: 222,
                       right: 5,
                       child: Text('🔥', style: TextStyle(fontSize: 32)),
                     ),

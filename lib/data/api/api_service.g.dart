@@ -87,9 +87,10 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<UserModel> getUserData() async {
+  Future<UserModel> getUserData(CancelToken? cancelToken) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<UserModel>(
@@ -99,6 +100,7 @@ class _ApiService implements ApiService {
             '/api/user/me',
             queryParameters: queryParameters,
             data: _data,
+            cancelToken: cancelToken,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
@@ -114,7 +116,11 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<OfferModel>?> getOffers(int? limit, String? status) async {
+  Future<List<OfferModel>?> getOffers(
+    int? limit,
+    String? status,
+    CancelToken? cancelToken,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'limit': limit,
@@ -130,6 +136,7 @@ class _ApiService implements ApiService {
             '/api/offers',
             queryParameters: queryParameters,
             data: _data,
+            cancelToken: cancelToken,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
@@ -216,9 +223,10 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<UserModel>> fetchFriends() async {
+  Future<List<UserModel>> fetchFriends(CancelToken? cancelToken) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<UserModel>>(
@@ -228,6 +236,7 @@ class _ApiService implements ApiService {
             '/api/user/referrals',
             queryParameters: queryParameters,
             data: _data,
+            cancelToken: cancelToken,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
@@ -245,9 +254,10 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<List<UserRatingModel>> fetchRating() async {
+  Future<List<UserRatingModel>> fetchRating(CancelToken? cancelToken) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<List<UserRatingModel>>(
@@ -257,6 +267,7 @@ class _ApiService implements ApiService {
             '/api/user/ranks',
             queryParameters: queryParameters,
             data: _data,
+            cancelToken: cancelToken,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
@@ -276,9 +287,10 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<UserRatingModel> fetchProfileRating() async {
+  Future<UserRatingModel> fetchProfileRating(CancelToken? cancelToken) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<UserRatingModel>(
@@ -288,6 +300,7 @@ class _ApiService implements ApiService {
             '/api/user/rank',
             queryParameters: queryParameters,
             data: _data,
+            cancelToken: cancelToken,
           )
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );

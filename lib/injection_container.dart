@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:get_it/get_it.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tik_dog/data/repositories/auth_repository_impl.dart';
 import 'package:tik_dog/data/repositories/friends_repository_impl.dart';
 import 'package:tik_dog/data/repositories/offers_repository_impl.dart';
@@ -18,7 +19,7 @@ import 'pages/offers_page/bloc/offers_bloc.dart';
 
 final getIt = GetIt.instance;
 
-void setup() {
+void setup() async {
   final dio = Dio();
   final appLinks = AppLinks();
 
@@ -40,6 +41,7 @@ void setup() {
 
   getIt.registerSingleton<Dio>(dio);
   getIt.registerSingleton<ApiService>(ApiService(getIt<Dio>()));
+  getIt.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
 
   getIt.registerSingleton<IsFirstBoolWrapper>(IsFirstBoolWrapper(true, false));
 

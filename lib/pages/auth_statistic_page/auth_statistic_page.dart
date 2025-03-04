@@ -28,6 +28,11 @@ class AuthStatisticPage extends StatelessWidget {
           final isTikTok = context.read<AuthBloc>().isTikTok;
           isTikTok ? AdaptiveTheme.of(context).setDark() : AdaptiveTheme.of(context).setLight();
           selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
+
+          final walletModel = context.read<WalletBloc>();
+
+          walletModel.add(SaveUserId());
+          walletModel.add(GroupUserById());
         }
       },
       child: BlocBuilder<WalletBloc, WalletState>(
@@ -66,6 +71,11 @@ class AuthStatisticPage extends StatelessWidget {
                         StatisticContainer(title: 'Subscribers', value: state.user.numberOfFollowers.toString()),
                         const SizedBox(height: 4),
                         StatisticContainer(title: 'Videos', value: state.user.numberOfMedia.toString()),
+                        if (state.user.provider != 'tiktok') ...[
+                          const SizedBox(height: 4),
+                          StatisticContainer(title: 'Photos', value: state.user.numberOfMedia.toString()),
+                        ] else
+                          const SizedBox(height: 39 + 16),
                         const SizedBox(height: 45),
                         const StatisticDetails(),
                         const Spacer(),
@@ -109,7 +119,7 @@ class AuthStatisticPage extends StatelessWidget {
                         child: Text('🔥', style: TextStyle(fontSize: 64)),
                       ),
                       const Positioned(
-                        top: 183,
+                        top: 222,
                         right: 5,
                         child: Text('🔥', style: TextStyle(fontSize: 32)),
                       ),

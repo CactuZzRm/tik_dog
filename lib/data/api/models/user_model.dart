@@ -23,6 +23,10 @@ class UserModel {
   final String? userGroupId;
   final int rank;
   final String provider;
+  @JsonKey(name: 'total_sum')
+  final int totalSum;
+  @JsonKey(name: 'offer_price')
+  final int offerPrice;
 
   UserModel({
     required this.numberOfLikes,
@@ -37,6 +41,8 @@ class UserModel {
     required this.userGroupId,
     required this.rank,
     required this.provider,
+    required this.totalSum,
+    required this.offerPrice,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);

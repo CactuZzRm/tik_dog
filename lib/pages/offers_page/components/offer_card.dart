@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../data/api/models/offer_model.dart';
+import '../../wallet_page/bloc/wallet_bloc.dart';
 import '../bloc/offers_bloc.dart';
 import 'selected_offer_bottom_sheet.dart';
 
@@ -14,6 +15,8 @@ class OfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final offerPriceFromWalletModel = context.read<WalletBloc>().user.offerPrice;
+
     return GestureDetector(
       onTap: context.watch<OffersBloc>().selectedOffersTypeStatus == 0
           ? () => showModalBottomSheet(
@@ -24,6 +27,7 @@ class OfferCard extends StatelessWidget {
                 builder: (context) => SelectedOfferBottomSheet(offer: offer),
               )
           : () {},
+      behavior: HitTestBehavior.opaque,
       child: Container(
         margin: const EdgeInsets.only(left: 16, right: 16, bottom: 20),
         child: Column(
@@ -68,7 +72,7 @@ class OfferCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(36),
                     ),
                     child: Text(
-                      '\$${offer.formattedPrice}',
+                      '\$$offerPriceFromWalletModel',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontSize: 24,
                             color: const Color.fromRGBO(42, 255, 173, 1),

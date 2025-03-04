@@ -41,7 +41,6 @@ class CustomThemeData extends ThemeExtension<CustomThemeData> {
 
   @override
   ThemeExtension<CustomThemeData> copyWith() {
-    //TODO: Добаработать метод
     throw UnimplementedError();
   }
 
@@ -148,8 +147,6 @@ final tiktokTheme = ThemeData(
       offersAcceptGradientFirstColor: const Color.fromRGBO(28, 28, 30, 1),
       offersAcceptGradientSecondColor: const Color.fromRGBO(0, 0, 0, 0),
       offersAcceptCountrySelectColor: const Color.fromRGBO(23, 23, 23, 1),
-      //TODO: Решить с блюром
-      // offerDeniedReasonSelectBackgroundColor: const Color.fromRGBO(28, 28, 30, 0.9),
       offerDeniedReasonSelectBackgroundColor: const Color.fromRGBO(28, 28, 30, 0.6),
       offerDeniedReasonScaffoldBackgroundColor: const Color.fromRGBO(0, 0, 0, 1),
       offerDeniedReasonTextFieldHintColor: const Color.fromRGBO(255, 255, 255, 37),

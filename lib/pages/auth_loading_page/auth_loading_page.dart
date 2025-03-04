@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tik_dog/pages/auth_loading_page/cubit/auth_loading_cubit.dart';
 
-import '../../injection_container.dart';
+import '../../constants.dart';
 import '../auth_page/bloc/auth_bloc.dart';
 import '../wallet_page/bloc/wallet_bloc.dart';
 
@@ -101,40 +100,34 @@ class _AuthLoadingPageState extends State<AuthLoadingPage> with WidgetsBindingOb
       ),
     );
 
-    return BlocListener<WalletBloc, WalletState>(
+    return BlocListener<AuthLoadingCubit, AuthLoadingState>(
       listener: (context, state) {
-        if (state is WalletCurrentState) {
+        if (state is AuthLoadingSuccessLogin) {
           final walletModel = context.read<WalletBloc>();
+          final isTikTok = context.read<AuthBloc>().isTikTok;
 
-          walletModel.add(SaveUserId());
-          walletModel.add(GroupUserById());
+          walletModel.add(GetUserData());
+
+          selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
+          context.read<WalletBloc>().isTikTok = isTikTok;
+
+          context.goNamed('AuthStatisticPage');
+        } else if (state is AuthLoadingNotSuccessLogin) {
+          widget.fromOffers != null ? context.pop() : context.go('/');
         }
       },
-      child: BlocListener<AuthLoadingCubit, AuthLoadingState>(
-        listener: (context, state) {
-          if (state is AuthLoadingSuccessLogin) {
-            final walletModel = context.read<WalletBloc>();
-
-            walletModel.add(GetUserData());
-
-            context.goNamed('AuthStatisticPage');
+      child: BlocBuilder<AuthLoadingCubit, AuthLoadingState>(
+        builder: (context, state) {
+          if (state is AuthLoadingPageInitial) {
+            return content;
+          } else if (state is AuthLoadingSuccessLogin) {
+            return content;
           } else if (state is AuthLoadingNotSuccessLogin) {
-            widget.fromOffers != null ? context.pop() : context.go('/');
+            return content;
+          } else {
+            return content;
           }
         },
-        child: BlocBuilder<AuthLoadingCubit, AuthLoadingState>(
-          builder: (context, state) {
-            if (state is AuthLoadingPageInitial) {
-              return content;
-            } else if (state is AuthLoadingSuccessLogin) {
-              return content;
-            } else if (state is AuthLoadingNotSuccessLogin) {
-              return content;
-            } else {
-              return content;
-            }
-          },
-        ),
       ),
     );
   }

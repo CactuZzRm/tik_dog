@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:tik_dog/data/api/response_models/share_friend_link_response.dart';
 
 import '../../domain/repositories/friends_repository.dart';
@@ -7,9 +8,9 @@ import '../api/models/user_model.dart';
 
 class FriendsRepositoryImpl extends FriendsRepository {
   @override
-  Future<List<UserModel>> fetchFriends() async {
+  Future<List<UserModel>> fetchFriends({CancelToken? cancelToken}) async {
     final apiService = getIt<ApiService>();
-    final request = await apiService.fetchFriends();
+    final request = await apiService.fetchFriends(cancelToken);
 
     return request;
   }

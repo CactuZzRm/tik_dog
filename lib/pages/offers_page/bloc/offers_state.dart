@@ -5,6 +5,8 @@ sealed class OffersState {}
 
 final class OffersInitial extends OffersState {}
 
+final class OffersLoadingState extends OffersState {}
+
 final class OffersCurrentOffersState extends OffersState {
   int? selectedOffersStatus = 0;
   List<OfferModel>? offers = [];

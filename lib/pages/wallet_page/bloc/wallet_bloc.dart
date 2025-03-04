@@ -26,11 +26,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       final user = event.userModel;
       emit(WalletCurrentState(user: user));
     });
-    // on<ChangeTokenEvent>((event, emit) {
-    //   changeToken(event.socialNetwork);
-    // });
     on<GroupUserById>((event, emit) async {
-      if (user.userGroupId == null) return;
+      if (user.userGroupId != null) return;
 
       final walletRepositoryImpl = getIt<WalletRepositoryImpl>();
 
@@ -46,6 +43,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
       }
     });
     on<GetUserData>((event, emit) async {
+      if (event.needChangeSocialNetwork) isTikTok = !isTikTok;
       await getUserData();
       emit(WalletCurrentState(user: user));
     });
@@ -62,7 +60,11 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   late UserModel user;
   late final ScreenshotController screenshotController;
 
+  late bool isTikTok;
+
   bool get isTikTokSelect => user.provider == 'tiktok' ? true : false;
+
+  CancelToken cancelToken = CancelToken();
 
   bool changeTokenFromCache(SocialNetworks socialNetwork, BuildContext context) {
     final socialNetworkToString = socialNetwork.name;
@@ -83,7 +85,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
               },
             ),
           );
-      Future.microtask(() => add(GetUserData())).then((value) {
+      Future.microtask(() => add(GetUserData(needChangeSocialNetwork: true))).then((value) {
         if (context.mounted) {
           selectedSymbol =
               socialNetworkToString == 'tiktok' ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
@@ -99,10 +101,13 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
   }
 
   Future<void> getUserData() async {
+    cancelToken.cancel('--- CANCEL fetch me REQUEST ---');
+    cancelToken = CancelToken();
+
     final authRepositoryImpl = getIt<AuthRepositoryImpl>();
 
     try {
-      await authRepositoryImpl.getUserData().then((response) {
+      await authRepositoryImpl.getUserData(cancelToken: cancelToken).then((response) {
         user = response;
       });
     } catch (e) {
@@ -126,55 +131,3 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     }
   }
 }
-
-// class SocialNetworkChangeEvent extends AuthEvent {
-//   final BuildContext themeContext;
-//   final bool isTikTok;
-
-//   SocialNetworkChangeEvent({required this.themeContext, required this.isTikTok});
-// }
-
-//  on<SocialNetworkChangeEvent>((event, emit) async {
-//       final selectedSocialNetwork = event.isTikTok ? 'tiktok' : 'instagram';
-
-//       if (event.isTikTok == true && getIt<SharedPreferences>().getString('tiktok_token') != null) {
-//         final newToken = getIt<SharedPreferences>().getString('tiktok_token');
-//         getIt<Dio>().interceptors.add(
-//               InterceptorsWrapper(
-//                 onRequest: (options, handler) async {
-//                   if (newToken != null) {
-//                     options.headers['Authorization'] = 'Bearer $newToken';
-//                   }
-//                   handler.next(options);
-//                 },
-//                 onResponse: (response, handler) {
-//                   handler.next(response);
-//                 },
-//               ),
-//             );
-//         isTikTok = event.isTikTok;
-//         isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
-//         selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
-//       } else if (event.isTikTok == false && getIt<SharedPreferences>().getString('instagram_token') != null) {
-//         final newToken = getIt<SharedPreferences>().getString('instagram_token');
-//         getIt<Dio>().interceptors.add(
-//               InterceptorsWrapper(
-//                 onRequest: (options, handler) async {
-//                   if (newToken != null) {
-//                     options.headers['Authorization'] = 'Bearer $newToken';
-//                   }
-//                   handler.next(options);
-//                 },
-//                 onResponse: (response, handler) {
-//                   handler.next(response);
-//                 },
-//               ),
-//             );
-//         isTikTok = event.isTikTok;
-//         isTikTok ? AdaptiveTheme.of(event.themeContext).setDark() : AdaptiveTheme.of(event.themeContext).setLight();
-//         selectedSymbol = isTikTok ? 'assets/images/TikTokSymbol' : 'assets/images/InstagramSymbol';
-//       } else {
-//         isTikTok = event.isTikTok;
-//         await getTempToken(selectedSocialNetwork);
-//       }
-//     });

@@ -19,6 +19,8 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       userGroupId: json['user_group_id'] as String?,
       rank: (json['rank'] as num).toInt(),
       provider: json['provider'] as String,
+      totalSum: (json['total_sum'] as num).toInt(),
+      offerPrice: (json['offer_price'] as num).toInt(),
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -34,4 +36,6 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'user_group_id': instance.userGroupId,
       'rank': instance.rank,
       'provider': instance.provider,
+      'total_sum': instance.totalSum,
+      'offer_price': instance.offerPrice,
     };

@@ -13,26 +13,28 @@ class OffersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<OffersBloc, OffersState>(
-      builder: (context, state) {
-        final model = context.watch<OffersBloc>();
+    return ColoredBox(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: Column(
+        children: [
+          const SizedBox(height: 22),
+          const OffersStatusBar(),
+          const SizedBox(height: 28),
+          BlocBuilder<OffersBloc, OffersState>(
+            builder: (context, state) {
+              final model = context.watch<OffersBloc>();
 
-        if (state is OffersInitial) {
-          model.add(OffersInitEvent(status: null));
-          return const Center(child: AnimatedHorizontalSteps());
-        } else if (state is OffersCurrentOffersState) {
-          List<OfferModel>? offers;
-          offers = state.offers;
+              if (state is OffersInitial) {
+                model.add(OffersInitEvent(status: null));
+                return const Expanded(child: Center(child: AnimatedHorizontalSteps()));
+              } else if (state is OffersLoadingState) {
+                return const Expanded(child: Center(child: AnimatedHorizontalSteps()));
+              } else if (state is OffersCurrentOffersState) {
+                List<OfferModel>? offers;
+                offers = state.offers;
 
-          return ColoredBox(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: Column(
-              children: [
-                const SizedBox(height: 22),
-                const OffersStatusBar(),
-                const SizedBox(height: 28),
-                if (offers != null && offers.isNotEmpty)
-                  Expanded(
+                if (offers != null && offers.isNotEmpty) {
+                  return Expanded(
                     child: ListView.builder(
                       padding: const EdgeInsets.all(0),
                       itemCount: offers.length,
@@ -40,9 +42,9 @@ class OffersPage extends StatelessWidget {
                         return OfferCard(offer: offers![index]);
                       },
                     ),
-                  )
-                else if (offers != null && offers.isEmpty)
-                  Expanded(
+                  );
+                } else if (offers != null && offers.isEmpty && model.selectedOffersTypeStatus != 2) {
+                  return Expanded(
                     child: Container(
                       padding: const EdgeInsets.only(left: 16, right: 28),
                       width: double.infinity,
@@ -56,17 +58,16 @@ class OffersPage extends StatelessWidget {
                             ),
                       ),
                     ),
-                  )
-                else
-                  const Expanded(
-                    child: Center(child: AnimatedHorizontalSteps()),
-                  ),
-              ],
-            ),
-          );
-        }
-        return const ErrorPage();
-      },
+                  );
+                } else {
+                  return const SizedBox();
+                }
+              }
+              return const ErrorPage();
+            },
+          ),
+        ],
+      ),
     );
   }
 }

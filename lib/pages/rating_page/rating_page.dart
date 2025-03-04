@@ -12,38 +12,43 @@ class RatingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RatingCubit, RatingState>(
-      builder: (context, state) {
-        if (state is RatingLoadingState) {
-          context.read<RatingCubit>().fetchRating();
-          return const Center(child: AnimatedHorizontalSteps());
-        } else if (state is RatingCurrentState) {
-          return state.rating.isNotEmpty
-              ? Column(
-                  children: [
-                    const SizedBox(height: 23),
-                    const ProfileRating(),
-                    const SizedBox(height: 34),
-                    const TopRatingTitle(),
-                    const SizedBox(height: 26),
-                    Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(0),
-                        itemCount: state.rating.length,
-                        itemBuilder: (context, index) => UserRating(
-                          user: state.rating[index],
-                          rating: index,
-                          descFontSize: 13,
+    return BlocListener<RatingCubit, RatingState>(
+      listener: (context, state) {},
+      child: BlocBuilder<RatingCubit, RatingState>(
+        builder: (context, state) {
+          if (state is RatingInitial) {
+            context.read<RatingCubit>().fetchRating();
+            return const Center(child: AnimatedHorizontalSteps());
+          } else if (state is RatingLoadingState) {
+            return const Center(child: AnimatedHorizontalSteps());
+          } else if (state is RatingCurrentState) {
+            return state.rating.isNotEmpty
+                ? Column(
+                    children: [
+                      const SizedBox(height: 23),
+                      const ProfileRating(),
+                      const SizedBox(height: 34),
+                      const TopRatingTitle(),
+                      const SizedBox(height: 26),
+                      Expanded(
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(0),
+                          itemCount: state.rating.length,
+                          itemBuilder: (context, index) => UserRating(
+                            user: state.rating[index],
+                            rating: index,
+                            descFontSize: 13,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                )
-              : const EmptyCreators();
-        } else {
-          return const Center(child: Text('error'));
-        }
-      },
+                    ],
+                  )
+                : const EmptyCreators();
+          } else {
+            return const Center(child: Text('error'));
+          }
+        },
+      ),
     );
   }
 }
@@ -109,10 +114,10 @@ class UserRating extends StatelessWidget {
                         child: Text(
                           user.name[0] + user.name[1],
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(fontSize: 15, fontWeight: FontWeight.w500, color: Colors.white),
                         ),
                       ),
                     ),

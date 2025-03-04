@@ -81,6 +81,7 @@ class AuthPage extends StatelessWidget {
             text: 'Continue with Instagram',
             iconSource: 'assets/icons/InstagramLogo.svg',
             onPressed: () {
+              context.read<WalletBloc>().isTikTok = false;
               model.add(AuthLoginEvent(themeContext: context, socialNetwork: SocialNetworks.instagram));
             },
           ),
@@ -89,6 +90,7 @@ class AuthPage extends StatelessWidget {
             text: 'Continue with TikTok',
             iconSource: 'assets/icons/TikTokLogo.svg',
             onPressed: () {
+              context.read<WalletBloc>().isTikTok = true;
               model.add(AuthLoginEvent(themeContext: context, socialNetwork: SocialNetworks.tiktok));
             },
           ),

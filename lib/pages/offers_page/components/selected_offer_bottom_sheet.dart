@@ -9,7 +9,7 @@ import 'package:go_router/go_router.dart';
 import '../../../constants.dart';
 import '../../../data/api/models/offer_model.dart';
 import '../../auth_information_page/auth_information_page.dart';
-import '../bloc/offers_bloc.dart';
+import '../../wallet_page/bloc/wallet_bloc.dart';
 
 class SelectedOfferBottomSheet extends StatelessWidget {
   final OfferModel offer;
@@ -20,7 +20,7 @@ class SelectedOfferBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<OffersBloc>();
+    final offerPriceFromWalletModel = context.read<WalletBloc>().user.offerPrice;
 
     return Stack(
       children: [
@@ -109,7 +109,7 @@ class SelectedOfferBottomSheet extends StatelessWidget {
                 ),
                 const SizedBox(height: 51),
                 Text(
-                  '\$${offer.formattedPrice}',
+                  '\$$offerPriceFromWalletModel',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: const Color.fromRGBO(42, 255, 173, 1),
                         fontSize: 60,

@@ -14,7 +14,11 @@ class ChangeTokenEvent extends WalletEvent {
   ChangeTokenEvent({required this.socialNetwork});
 }
 
-class GetUserData extends WalletEvent {}
+class GetUserData extends WalletEvent {
+  final bool needChangeSocialNetwork;
+
+  GetUserData({this.needChangeSocialNetwork = false});
+}
 
 class SaveUserId extends WalletEvent {}
 

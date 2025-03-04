@@ -49,7 +49,7 @@ class OfferTypeContainer extends StatelessWidget {
       behavior: HitTestBehavior.opaque,
       onTap: () {
         model.add(OffersChangeSelectedStatusEvent(index: index));
-        model.add(RefreshOffersEvent());
+        model.add(RefreshOffersEvent(index: index));
       },
       child: GradientContainer(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),

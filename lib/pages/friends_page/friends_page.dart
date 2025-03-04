@@ -22,6 +22,8 @@ class FriendsPage extends StatelessWidget {
         if (state is FriendsInitial) {
           context.read<FriendsCubit>().fetchFriends();
           return const Center(child: Center(child: AnimatedHorizontalSteps()));
+        } else if (state is FriendsLoadingState) {
+          return const Center(child: Center(child: AnimatedHorizontalSteps()));
         } else if (state is FriendsCurrentState) {
           final friends = state.friends;
           final model = context.read<FriendsCubit>();

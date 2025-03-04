@@ -16,6 +16,21 @@ class AuthInformationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final walletModel = context.read<WalletBloc>();
 
+    String formatNumber(int number) {
+      if (number < 1000) {
+        return number.toString();
+      } else if (number < 1000000) {
+        final result = number / 1000;
+        return '${result.toStringAsFixed(1)}k';
+      } else if (number < 1000000000) {
+        final result = number / 1000000;
+        return '${result.toStringAsFixed(1)}kk';
+      } else {
+        final result = number / 1000000000;
+        return '${result.toStringAsFixed(1)}b';
+      }
+    }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -91,7 +106,7 @@ class AuthInformationPage extends StatelessWidget {
                             left: 3,
                             top: 2,
                             child: Text(
-                              '\$15k',
+                              '\$${formatNumber(walletModel.user.totalSum)}',
                               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     color: const Color.fromRGBO(254, 44, 85, 1),
                                     fontSize: 85,
@@ -103,7 +118,7 @@ class AuthInformationPage extends StatelessWidget {
                             bottom: 2,
                             right: 3,
                             child: Text(
-                              '\$15k',
+                              '\$${formatNumber(walletModel.user.totalSum)}',
                               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     color: const Color.fromRGBO(4, 211, 237, 1),
                                     fontSize: 85,
@@ -112,7 +127,7 @@ class AuthInformationPage extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            '\$15k',
+                            '\$${formatNumber(walletModel.user.totalSum)}',
                             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                   color: const Color.fromRGBO(255, 255, 255, 1),
                                   fontSize: 85,
@@ -122,7 +137,7 @@ class AuthInformationPage extends StatelessWidget {
                         ],
                       )
                     : GradientedText(
-                        text: '\$15k',
+                        text: '\$${formatNumber(walletModel.user.totalSum)}',
                         textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               fontSize: 85,
                               fontWeight: FontWeight.bold,

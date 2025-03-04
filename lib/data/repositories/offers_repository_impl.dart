@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:tik_dog/data/api/models/accept_offer_model.dart';
 import 'package:tik_dog/domain/repositories/offers_repository.dart';
 
@@ -8,9 +9,9 @@ import '../api/models/offer_model.dart';
 
 class OffersRepositoryImpl extends OffersRepository {
   @override
-  Future<List<OfferModel>?> getOffers({int? limit, required String? status}) async {
+  Future<List<OfferModel>?> getOffers({int? limit, required String? status, CancelToken? cancelToken}) async {
     final apiService = getIt<ApiService>();
-    final request = await apiService.getOffers(limit, status);
+    final request = await apiService.getOffers(limit, status, cancelToken);
 
     return request;
   }

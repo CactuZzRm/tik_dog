@@ -1,7 +1,9 @@
+import 'package:dio/dio.dart';
+
 import '../../data/api/models/offer_model.dart';
 
 abstract class OffersRepository {
-  Future<List<OfferModel>?> getOffers({int? limit, required String? status});
+  Future<List<OfferModel>?> getOffers({int? limit, required String? status, CancelToken? cancelToken});
 
   Future<void> acceptOffer({
     required String id,

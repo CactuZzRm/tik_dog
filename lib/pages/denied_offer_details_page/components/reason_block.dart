@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tik_dog/pages/denied_offer_details_page/cubit/denied_offer_details_cubit.dart';
 
 import '../../../themes.dart';
-import '../../offers_page/bloc/offers_bloc.dart';
 
 class ReasonBlock extends StatelessWidget {
   final String text;
