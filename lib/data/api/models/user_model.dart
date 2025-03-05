@@ -9,6 +9,10 @@ class UserModel {
   final String? avatar;
   @JsonKey(name: 'number_of_media')
   final int numberOfMedia;
+  @JsonKey(name: 'number_of_image_media')
+  final int numberOfImageMedia;
+  @JsonKey(name: 'number_of_video_media')
+  final int numberOfVideoMedia;
   @JsonKey(name: 'number_of_followers')
   final int numberOfFollowers;
   @JsonKey(name: 'number_of_media_views')
@@ -36,6 +40,8 @@ class UserModel {
     required this.name,
     required this.avatar,
     required this.numberOfMedia,
+    required this.numberOfImageMedia,
+    required this.numberOfVideoMedia,
     required this.numberOfFollowers,
     required this.numberOfMediaViews,
     required this.userGroupId,

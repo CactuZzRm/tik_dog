@@ -70,10 +70,10 @@ class AuthStatisticPage extends StatelessWidget {
                         SizedBox(height: 26 + MediaQuery.of(context).padding.top),
                         StatisticContainer(title: 'Subscribers', value: state.user.numberOfFollowers.toString()),
                         const SizedBox(height: 4),
-                        StatisticContainer(title: 'Videos', value: state.user.numberOfMedia.toString()),
+                        StatisticContainer(title: 'Videos', value: state.user.numberOfVideoMedia.toString()),
                         if (state.user.provider != 'tiktok') ...[
                           const SizedBox(height: 4),
-                          StatisticContainer(title: 'Photos', value: state.user.numberOfMedia.toString()),
+                          StatisticContainer(title: 'Photos', value: state.user.numberOfImageMedia.toString()),
                         ] else
                           const SizedBox(height: 39 + 16),
                         const SizedBox(height: 45),

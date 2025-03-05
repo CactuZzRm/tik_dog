@@ -29,7 +29,7 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<OffersBloc>();
+    final model = context.watch<OffersBloc>();
 
     return WillPopScope(
       onWillPop: () async {
@@ -204,9 +204,9 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                         ),
                         onChanged: (value) => setState(() {
                           email = value;
-                          model.add(EditEMailTextEvent(text: value));
+                          model.needError = false;
                         }),
-                        forceErrorText: !model.validMail && email != '' ? 'Incorrect mail' : null,
+                        forceErrorText: !model.validMail && model.needError ? 'Incorrect mail' : null,
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.symmetric(
                             vertical: 17,
@@ -224,31 +224,36 @@ class _AcceptOfferDetailsPageState extends State<AcceptOfferDetailsPage> {
                     ),
                     const Spacer(),
                     GradientContainer(
-                      isActive: model.selectedCountry != null && email != '' && context.read<OffersBloc>().validMail,
+                      isActive: model.selectedCountry != null,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: ActionButton(
                         onPressed: () {
-                          model.add(AcceptOfferEvent(
-                            id: widget.offer.id,
-                            email: email,
-                            country: model.selectedCountry!,
-                          ));
-                          model.add(RemoveSelectedValuesEvent());
-                          model.add(OffersChangeSelectedStatusEvent(index: 1));
-                          showModalBottomSheet(
-                            context: context,
-                            isScrollControlled: true,
-                            backgroundColor: Colors.transparent,
-                            useRootNavigator: true,
-                            builder: (context) => CongratulationsBottomSheet(
+                          model.add(EditEMailTextEvent(text: email));
+                          if (model.checkValidMail(email) && email != '') {
+                            model.add(AcceptOfferEvent(
+                              id: widget.offer.id,
                               email: email,
-                            ),
-                          );
+                              country: model.selectedCountry!,
+                            ));
+                            model.add(RemoveSelectedValuesEvent());
+                            model.add(OffersChangeSelectedStatusEvent(index: 1));
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              useRootNavigator: true,
+                              builder: (context) => CongratulationsBottomSheet(
+                                email: email,
+                              ),
+                            );
+                          } else {
+                            model.needError = true;
+                          }
                         },
                         text: 'Get an offer',
-                        isActive: model.selectedCountry != null && email != '' && context.read<OffersBloc>().validMail,
+                        isActive: model.selectedCountry != null,
                         backgroundColor: Colors.transparent,
                       ),
                     ),

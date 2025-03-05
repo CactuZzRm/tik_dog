@@ -47,12 +47,15 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
     });
     on<RemoveSelectedValuesEvent>((event, emit) {
       selectedCountry = null;
-
+      needError = false;
       selectedReasonIndex = null;
+      validMail = false;
       emit((state as OffersCurrentOffersState).copyWith());
     });
-    on<EditEMailTextEvent>((event, emit) {
-      checkMail(event.text);
+    on<EditEMailTextEvent>((event, emit) async {
+      validMail = checkValidMail(event.text);
+      needError = !validMail;
+      emit((state as OffersCurrentOffersState).copyWith());
     });
   }
 
@@ -66,6 +69,7 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
   int? selectedReasonIndex;
 
   bool validMail = false;
+  bool needError = false;
 
   CancelToken cancelToken = CancelToken();
 
@@ -109,8 +113,9 @@ class OffersBloc extends Bloc<OffersEvent, OffersState> {
     }
   }
 
-  bool checkMail(String? value) {
+  bool checkValidMail(String? value) {
     validMail = value != null && value.isValidEmail();
+    needError = validMail;
     return validMail;
   }
 
