@@ -12,6 +12,7 @@ if (keyPropertiesFile.exists()) {
 }
 
 android {
+    compileSdkVersion 33
     namespace = "com.example.tik_dog"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "28.0.13004108"
