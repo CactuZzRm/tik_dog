@@ -65,6 +65,14 @@ class _MyAppState extends State<MyApp> {
 
     checkInitialUri();
     _initDeepLinkListener();
+
+    //Remove this method to stop OneSignal Debugging
+    OneSignal.Debug.setLogLevel(OSLogLevel.info);
+
+    OneSignal.initialize('bb4b550b-9cc6-401c-9ec4-cce5045c4467');
+
+    // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+    OneSignal.Notifications.requestPermission(true);
   }
 
   void _initDeepLinkListener() async {
@@ -84,14 +92,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    //Remove this method to stop OneSignal Debugging
-    OneSignal.Debug.setLogLevel(OSLogLevel.debug);
-
-    OneSignal.initialize('bb4b550b-9cc6-401c-9ec4-cce5045c4467');
-
-    // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
-    OneSignal.Notifications.requestPermission(true);
-
     return AdaptiveTheme(
       debugShowFloatingThemeButton: true,
       dark: tiktokTheme,
