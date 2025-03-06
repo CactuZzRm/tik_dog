@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:tik_dog/pages/auth_loading_page/auth_loading_page.dart';
 import 'package:tik_dog/pages/auth_statistic_page/auth_statistic_page.dart';
 import 'package:tik_dog/themes.dart';
@@ -83,6 +84,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    //Remove this method to stop OneSignal Debugging
+    OneSignal.Debug.setLogLevel(OSLogLevel.debug);
+
+    OneSignal.initialize('bb4b550b-9cc6-401c-9ec4-cce5045c4467');
+
+    // The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+    OneSignal.Notifications.requestPermission(true);
+
     return AdaptiveTheme(
       debugShowFloatingThemeButton: true,
       dark: tiktokTheme,
