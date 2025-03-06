@@ -23,9 +23,9 @@ class WalletPage extends StatelessWidget {
     if (getIt<SharedPreferences>().getString('tiktok_token') != null) {
       getIt<SharedPreferences>().remove('tiktok_token');
     }
-    if (getIt<SharedPreferences>().getString('instagram_token') != null) {
-      getIt<SharedPreferences>().remove('instagram_token');
-    }
+    // if (getIt<SharedPreferences>().getString('instagram_token') != null) {
+    //   getIt<SharedPreferences>().remove('instagram_token');
+    // }
   }
 
   @override

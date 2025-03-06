@@ -11,6 +11,14 @@ class DeniedOfferDetailsCubit extends Cubit<DeniedOfferDetailsState> {
 
   List<String>? reasons;
 
+  final List<String> reasonHints = [
+    'Are you ready to promote sellers in your region?: yes/no',
+    'Pls tell us more',
+    'Ready to receive an offer that includes payment: yes/no',
+    'Your desired price is:',
+    'Pls tell us more',
+  ];
+
   void selectReasonByIndex(int index) {
     emit((state as DeniedOfferDetailsCurrent).copyWith(selectedReasonIndex: index));
   }

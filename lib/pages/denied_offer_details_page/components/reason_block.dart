@@ -14,6 +14,7 @@ class ReasonBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = context.read<DeniedOfferDetailsCubit>();
+    final reasonHints = context.read<DeniedOfferDetailsCubit>().reasonHints;
 
     return InkWell(
       onTap: () => model.selectReasonByIndex(index),
@@ -58,8 +59,8 @@ class ReasonBlock extends StatelessWidget {
           ),
           if (selectedReasonIndex != null && selectedReasonIndex == index) ...[
             const SizedBox(height: 16),
-            const ReasonTextField(
-              hintText: 'Are you ready to promote sellers in your region?: yes/no',
+            ReasonTextField(
+              hintText: reasonHints[index],
             ),
           ],
         ],

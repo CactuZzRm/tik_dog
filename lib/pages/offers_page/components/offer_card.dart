@@ -18,7 +18,7 @@ class OfferCard extends StatelessWidget {
     final offerPriceFromWalletModel = context.read<WalletBloc>().user.offerPrice;
 
     return GestureDetector(
-      onTap: context.watch<OffersBloc>().selectedOffersTypeStatus == 0
+      onTap: context.watch<OffersBloc>().selectedOffersTypeStatus != 0
           ? () => showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,

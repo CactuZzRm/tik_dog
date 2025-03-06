@@ -21,13 +21,13 @@ class AuthInformationPage extends StatelessWidget {
         return number.toString();
       } else if (number < 1000000) {
         final result = number / 1000;
-        return '${result.toStringAsFixed(1)}k';
+        return '${result.toStringAsFixed(0)}k';
       } else if (number < 1000000000) {
         final result = number / 1000000;
-        return '${result.toStringAsFixed(1)}kk';
+        return '${result.toStringAsFixed(0)}kk';
       } else {
         final result = number / 1000000000;
-        return '${result.toStringAsFixed(1)}b';
+        return '${result.toStringAsFixed(0)}b';
       }
     }
 
@@ -100,42 +100,7 @@ class AuthInformationPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 49),
                 AdaptiveTheme.of(context).mode.isDark
-                    ? Stack(
-                        children: [
-                          Positioned(
-                            left: 3,
-                            top: 2,
-                            child: Text(
-                              '\$${formatNumber(walletModel.user.totalSum)}',
-                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: const Color.fromRGBO(254, 44, 85, 1),
-                                    fontSize: 85,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: 2,
-                            right: 3,
-                            child: Text(
-                              '\$${formatNumber(walletModel.user.totalSum)}',
-                              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: const Color.fromRGBO(4, 211, 237, 1),
-                                    fontSize: 85,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                            ),
-                          ),
-                          Text(
-                            '\$${formatNumber(walletModel.user.totalSum)}',
-                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                  color: const Color.fromRGBO(255, 255, 255, 1),
-                                  fontSize: 85,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                          ),
-                        ],
-                      )
+                    ? TripleText(value: '\$${formatNumber(walletModel.user.totalSum)}')
                     : GradientedText(
                         text: '\$${formatNumber(walletModel.user.totalSum)}',
                         textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -269,41 +234,43 @@ class TripleText extends StatelessWidget {
 
   final String value;
 
+  // '\$${formatNumber(walletModel.user.totalSum)}',
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Text(
           value,
-          style: const TextStyle(
-            color: Color.fromRGBO(4, 211, 237, 1),
-            fontSize: 53,
-            height: 1,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: const Color.fromRGBO(4, 211, 237, 1),
+                fontSize: 85,
+                height: 1,
+                fontWeight: FontWeight.bold,
+              ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 3, top: 2),
           child: Text(
             value,
-            style: const TextStyle(
-              color: Color.fromRGBO(254, 44, 85, 1),
-              fontSize: 53,
-              height: 1,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: const Color.fromRGBO(254, 44, 85, 1),
+                  fontSize: 85,
+                  height: 1,
+                  fontWeight: FontWeight.bold,
+                ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.only(left: 2),
           child: Text(
             value,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 53,
-              height: 1,
-              fontWeight: FontWeight.bold,
-            ),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Colors.white,
+                  fontSize: 85,
+                  height: 1,
+                  fontWeight: FontWeight.bold,
+                ),
           ),
         ),
       ],
