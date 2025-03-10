@@ -128,6 +128,7 @@ final _router = GoRouter(
   debugLogDiagnostics: true,
   redirect: (context, state) async {
     final link = state.uri.toString();
+    print(link);
 
     if (link.contains('callback')) {
       getIt.registerSingleton<String>(link);
@@ -141,7 +142,9 @@ final _router = GoRouter(
         context.read<AuthLoadingCubit>().inviteKey = inviteKey;
       }
       return '/';
-    } else {}
+    } else if (link.contains('app.bigpie.ai') && (!(link.contains('callback')) || !(link.contains('invite')))) {
+      return '/';
+    }
     return null;
   },
   routes: [
