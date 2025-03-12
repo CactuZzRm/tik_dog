@@ -1,6 +1,18 @@
-# Do not detect
-*.cc -linguist-detectable
-*.cpp -linguist-detectable
+# Включаем только Dart, Swift и Kotlin
+*.dart linguist-detectable=true
+*.swift linguist-detectable=true
+*.kt linguist-detectable=true
 
-# Detect
-*.dart linguist-detectable
+# Исключаем все остальные файлы
+* linguist-detectable=false
+
+# Дополнительно исключаем типичные файлы, чтобы они не мешали
+/build/** linguist-detectable=false
+/pubspec.lock linguist-detectable=false
+*.g.dart linguist-detectable=false
+*.yaml linguist-detectable=false
+*.json linguist-detectable=false
+*.md linguist-detectable=false
+*.lock linguist-detectable=false
+*.xcconfig linguist-detectable=false
+*.plist linguist-detectable=false
