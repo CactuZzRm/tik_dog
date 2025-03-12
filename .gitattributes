@@ -1,26 +1,7 @@
-# Включаем только нужные языки
-*.dart linguist-detectable=true
-*.swift linguist-detectable=true
-*.kt linguist-detectable=true
-
 # Отключаем анализ для всех остальных файлов
-* linguist-detectable=false
+* linguist-vendored
 
-# Явно исключаем языки, которые сейчас отображаются
-*.c linguist-detectable=false
-*.h linguist-detectable=false
-*.cmake linguist-detectable=false
-*.cpp linguist-detectable=false
-*.rb linguist-detectable=false
-
-# Исключаем типичные служебные файлы и папки
-/build/** linguist-detectable=false
-/pubspec.lock linguist-detectable=false
-*.g.dart linguist-detectable=false
-*.yaml linguist-detectable=false
-*.json linguist-detectable=false
-*.md linguist-detectable=false
-*.lock linguist-detectable=false
-*.xcconfig linguist-detectable=false
-*.plist linguist-detectable=false
-CMakeLists.txt linguist-detectable=false
+# Включаем только нужные языки
+*.dart linguist-vendored=false
+*.swift linguist-vendored=false
+*.kt linguist-vendored=false
