@@ -1,0 +1,7 @@
+# Отключаем анализ для всех остальных файлов
+* linguist-vendored
+
+# Включаем только нужные языки
+*.dart linguist-vendored=false
+*.swift linguist-vendored=false
+*.kt linguist-vendored=false
