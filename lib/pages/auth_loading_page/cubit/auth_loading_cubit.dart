@@ -23,7 +23,7 @@ class AuthLoadingCubit extends Cubit<AuthLoadingState> {
     final provider = isTikTok ? 'tiktok' : 'instagram';
     final url = await getTempToken(provider);
 
-    await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication).catchError(
+    await launchUrl(Uri.parse(url), mode: LaunchMode.inAppBrowserView).catchError(
       (error) {
         debugPrint('Url_launcher error: $error');
         throw Exception(error);
